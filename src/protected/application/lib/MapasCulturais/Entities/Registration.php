@@ -116,6 +116,13 @@ class Registration extends \MapasCulturais\Entity
      * @ORM\Column(name="consolidated_result", type="string", length=255, nullable=true)
      */
     protected $consolidatedResult = self::STATUS_DRAFT;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="preliminary_result", type="string", length=255, nullable=true)
+     */
+    protected $preliminaryResult = self::STATUS_DRAFT;
     
     /*
      * @var array
@@ -248,7 +255,8 @@ class Registration extends \MapasCulturais\Entity
         if ($ac_on) $app->disableAccessControl();
         
         $this->consolidatedResult = $result;
-        
+        $this->preliminaryResult = $result;
+
         $this->save($flush);
         
         if($ac_on) $app->enableAccessControl(); 
@@ -1168,6 +1176,7 @@ class Registration extends \MapasCulturais\Entity
     }
 
     function saveEvaluation(RegistrationEvaluation $evaluation, array $data, $evaluation_status = null){
+        
         $evaluation->evaluationData = $data;
 
         if(!is_null($evaluation_status)){
