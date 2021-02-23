@@ -138,9 +138,9 @@
     module.controller('TechnicalEvaluationMethodFormController', ['$scope', '$rootScope', '$timeout', 'TechnicalEvaluationMethodService', function ($scope, $rootScope, $timeout, TechnicalEvaluationMethodService) {
             var labels = MapasCulturais.gettext.technicalEvaluationMethod;
             MapasCulturais.evaluationConfiguration.criteria = MapasCulturais.evaluationConfiguration.criteria.map(function(e){
-                e.min = parseInt(e.min);
-                e.max = parseInt(e.max);
-                e.weight = parseInt(e.weight);
+                e.min = parseFloat(e.min);
+                e.max = parseFloat(e.max);
+                e.weight = parseFloat(e.weight);
                 return e;
             });
             
@@ -158,7 +158,7 @@
                 enableViability: MapasCulturais.evaluationConfiguration.enableViability || false,
                 empty: true
             };
-
+  
             if(MapasCulturais.evaluation){
                 $scope.evaluation =  MapasCulturais.evaluation.evaluationData;
                 $scope.data.empty = false;
@@ -192,7 +192,7 @@
 
             $scope.max = function(){
                 var total = 0;
-
+                
                 for(var i in $scope.data.criteria){
                     var cri = $scope.data.criteria[i];
                     total += cri.max * cri.weight;

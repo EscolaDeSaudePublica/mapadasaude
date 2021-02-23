@@ -3,10 +3,12 @@ use MapasCulturais\i;
 $plugin = $app->plugins['EvaluationMethodTechnical'];
 
 $params = ['registration' => $entity, 'opportunity' => $opportunity];
+
 ?>
 <?php $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
 <div ng-controller="TechnicalEvaluationMethodFormController" class="technical-evaluation-form">
     <?php $this->applyTemplateHook('evaluationForm.technical', 'begin', $params); ?>
+    
     <section ng-repeat="section in ::data.sections">
         <table>
             <tr>
@@ -16,11 +18,14 @@ $params = ['registration' => $entity, 'opportunity' => $opportunity];
             </tr>
             <tr ng-repeat="cri in ::data.criteria" ng-if="cri.sid == section.id">
                 <td><label for="{{cri.id}}">{{cri.title}}:</label></td>
-                <td><input id="{{cri.id}}" name="data[{{cri.id}}]" type="number" step="<?php echo $plugin->step ?>" min="{{cri.min}}" max="{{cri.max}}" ng-model="evaluation[cri.id]" class="hltip" title="Configurações: min: {{cri.min}}<br>max: {{cri.max}}<br>peso: {{cri.weight}}"></td>
+                <td><input id="{{cri.id}}" name="data[{{cri.id}}]" type="number" step="<?php echo $plugin->step ?>" min="{{cri.min}}" max="{{cri.max}}" ng-model="evaluation[cri.id]" class="hltip" title="Configurações: min: {{cri.min}}<br>max: {{cri.max}}<br>peso: {{cri.weight}}">
+                </td>
             </tr>
             <tr class="subtotal">
                 <td><?php i::_e('Subtotal')?></td>
-                <td>{{subtotalSection(section)}}</td>
+                <td>
+                {{subtotalSection(section) == 'NaN' ? MapasCulturais.Messages.error('Suas notas estão acima do valor de avaliação') : subtotalSection(section)}}
+                </td>
             </tr>
         </table>
     </section>

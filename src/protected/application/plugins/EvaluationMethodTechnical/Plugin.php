@@ -100,6 +100,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
         $app = App::i();
 
         $app->hook('evaluationsReport(technical).sections', function(Entities\Opportunity $opportunity, &$sections){
+           
             $i = 0;
             $get_next_color = function($last = false) use(&$i){
                 $colors = [
@@ -247,6 +248,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
     }
 
     public function _getConsolidatedResult(\MapasCulturais\Entities\Registration $registration) {
+
         $app = App::i();
         $status = [ \MapasCulturais\Entities\RegistrationEvaluation::STATUS_EVALUATED,
             \MapasCulturais\Entities\RegistrationEvaluation::STATUS_SENT
@@ -274,19 +276,18 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
     }
 
     public function getEvaluationResult(Entities\RegistrationEvaluation $evaluation) {
-        $total = 0;
-
+        $total = 0.00;
         $cfg = $evaluation->getEvaluationMethodConfiguration();
         foreach($cfg->criteria as $cri){
             $key = $cri->id;
+            //dump($key);
             if(!isset($evaluation->evaluationData->$key)){
                 return null;
             } else {
-                $val = $evaluation->evaluationData->$key;
-                $total += is_numeric($val) ? $cri->weight * $val : 0;
+                $val = floatval($evaluation->evaluationData->$key);
+                $total += is_numeric($val) ? floatval($cri->weight) * floatval($val) : 0;
             }
         }
-
         return $total;
     }
 
