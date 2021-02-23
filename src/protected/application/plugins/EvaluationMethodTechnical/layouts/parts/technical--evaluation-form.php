@@ -24,7 +24,7 @@ $params = ['registration' => $entity, 'opportunity' => $opportunity];
             <tr class="subtotal">
                 <td><?php i::_e('Subtotal')?></td>
                 <td>
-                {{subtotalSection(section) == 'NaN' ? MapasCulturais.Messages.error('Suas notas estão acima do valor de avaliação') : subtotalSection(section)}}
+                {{subtotalSection(section) == 'NaN' ? '---' : subtotalSection(section)}}
                 </td>
             </tr>
         </table>
@@ -50,7 +50,7 @@ $params = ['registration' => $entity, 'opportunity' => $opportunity];
     </label>
     <hr>
     <div class='total'>
-        <?php i::_e('Pontuação Total'); ?>: <strong>{{total(total)}}</strong><br>
+        <?php i::_e('Pontuação Total'); ?>: <strong>{{total(total) == 'NaN' ? '---' : total(total)}}</strong><br>
         <?php i::_e('Pontuação Máxima'); ?>: <strong>{{max(total)}}</strong>
     </div>
     <?php $this->applyTemplateHook('evaluationForm.technical', 'end', $params); ?>
