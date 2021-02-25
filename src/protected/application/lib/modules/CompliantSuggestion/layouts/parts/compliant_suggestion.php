@@ -16,12 +16,12 @@ if($this->controller->action === 'create')
     <?php if($compliantUrl) { ?>
         <a class="btn btn-warning" target="_blank" href="<?php echo $compliantUrl?>"> <?php i::_e('Denunciar'); ?> </a>
     <?php } else { ?>
-        <button ng-show="!data.showForm" ng-click="data.showForm = 'compliant'" class="button-form-compliant-suggestion compliant btn-warning"><?php i::_e('Denunciar'); ?></button>
+        <!-- <button ng-show="!data.showForm" ng-click="data.showForm = 'compliant'" class="button-form-compliant-suggestion compliant btn-warning"><?php i::_e('Denunciar'); ?></button> -->
     <?php } ?>
 <?php endif;?>
 
 <?php if(isset($suggestion)): ?>
-    <button ng-show="!data.showForm" ng-click="data.showForm = 'suggestion'" class="button-form-compliant-suggestion suggestion btn-success"><?php i::_e('Contato'); ?></button>
+    <!-- <button ng-show="!data.showForm" ng-click="data.showForm = 'suggestion'" class="button-form-compliant-suggestion suggestion btn-success"><?php i::_e('Contato'); ?></button> -->
 <?php endif;?>
 </div>
 
