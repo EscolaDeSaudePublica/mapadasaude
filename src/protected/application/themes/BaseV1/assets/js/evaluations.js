@@ -56,7 +56,9 @@ $(function(){
             var url = MapasCulturais.createUrl('registration', 'saveEvaluation', [MapasCulturais.registration.id]);
             $.post(url, data, function(r){
                 MapasCulturais.Messages.success(labels.saveMessage);
-            });
+            }).fail(function(rs) {
+                MapasCulturais.Messages.error(rs.responseJSON.message);
+            });;
         },1000);
 
     });
