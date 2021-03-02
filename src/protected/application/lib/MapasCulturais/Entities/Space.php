@@ -34,6 +34,8 @@ class Space extends \MapasCulturais\Entity
         Traits\EntityArchive,
         Traits\EntityRevision,
         Traits\EntityOpportunities;
+        
+    protected $__enableMagicGetterHook = true;
 
     /**
      * @var integer
