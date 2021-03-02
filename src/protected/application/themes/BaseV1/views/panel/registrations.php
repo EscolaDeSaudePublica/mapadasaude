@@ -16,8 +16,16 @@ $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
     <?php $this->applyTemplateHook('panel-header','after'); ?>
 
     <ul class="abas clearfix clear">
-            <li class="active"><a href="#ativos" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Rascunhos");?></a></li>
-            <li><a href="#enviadas" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Enviadas");?></a></li>
+            <li class="active">
+                <a href="#enviadas" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Enviadas");?></a>
+            </li>
+            <li>
+                <a href="#ativos" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Rascunhos");?></a>
+            </li>
+            <li>
+                <a href="#recurso" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Recurso");?></a>
+            </li>
+            
     </ul>
     <div id="ativos">
         <?php foreach($drafts as $registration): ?>
@@ -35,6 +43,14 @@ $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
         <?php if(!$sent): ?>
             <div class="alert info"><?php \MapasCulturais\i::_e("Você não enviou nenhuma inscrição.");?></div>
         <?php endif; ?>
+    </div>
+
+    <div id="recurso">
+        <div class="alert primary">
+            <h2>
+            <?php \MapasCulturais\i::_e("Todos os recursos.");?>
+            </h2>
+        </div>
     </div>
     <!-- #lixeira-->
 </div>
