@@ -5,7 +5,7 @@
     ?>
 <div class="opportunity-claim-box">
     <!-- <input class="button-form-opportunity-claim btn-primary" ng-click="form[<?php echo $registration->id?>] = !form[<?php echo $registration->id?>]" type="button" name="opportunity-claim" value="<?php i::esc_attr_e('Ir para página de recurso'); ?>"> -->
-    <a href="<?php echo $app->createUrl('painel/inscricoes/#tab=enviadas'); ?>" class="btn btn-primary">
+    <a id="btn-recurso" class="btn btn-primary">
         Ir para página de recurso.
     </a>
 

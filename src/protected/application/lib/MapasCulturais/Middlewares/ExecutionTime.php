@@ -51,7 +51,8 @@ class ExecutionTime extends \Slim\Middleware{
 
         $execution_time = number_format($time_end - $this->time_start, 4);
         $mem = memory_get_usage(true) / 1024 / 1024;
-        $log_string = '(' . $app->request->getMethod() . ') ' . $app->request->getResourceUri() . ' - executed in -' . $execution_time . ' seconds. (MEM: ' . $mem . 'MB)';
+        $log_string = "";
+        // $log_string = '(' . $app->request->getMethod() . ') ' . $app->request->getResourceUri() . ' - executed in -' . $execution_time . ' seconds. (MEM: ' . $mem . 'MB)';
         
         if($this->print){
             $append = $this->html_comment ?
@@ -63,7 +64,7 @@ class ExecutionTime extends \Slim\Middleware{
             $res->body($body);
         }
 
-        $app->log->info($log_string);
+        //$app->log->info($log_string);
         $app->log->info('=========================================================================');
 
     }
