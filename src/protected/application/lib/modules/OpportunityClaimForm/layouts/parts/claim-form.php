@@ -2,10 +2,10 @@
     use MapasCulturais\i;
     $app = \MapasCulturais\App::i();
     $user = $app->user;
+    $baseUrl = $app->_config['base.url'];
     ?>
 <div class="opportunity-claim-box">
-    <!-- <input class="button-form-opportunity-claim btn-primary" ng-click="form[<?php echo $registration->id?>] = !form[<?php echo $registration->id?>]" type="button" name="opportunity-claim" value="<?php i::esc_attr_e('Ir para página de recurso'); ?>"> -->
-    <a id="btn-recurso" class="btn btn-primary">
+    <a class="btn btn-primary" href=" <?php echo $baseUrl.'/painel/inscricoes/?id='.$registration->id.'#'.$registration->id;?>">
         Ir para página de recurso.
     </a>
 
