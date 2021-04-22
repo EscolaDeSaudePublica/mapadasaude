@@ -1,5 +1,4 @@
 <?php
-
     $groups = $entities->getGroupRelationsAgent();
 
     if(is_array($groups) && count($groups) > 0): ?>
