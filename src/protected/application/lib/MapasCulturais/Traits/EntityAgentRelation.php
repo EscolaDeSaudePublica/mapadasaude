@@ -105,7 +105,8 @@ trait EntityAgentRelation {
                     $groups[] = array(
                         'group'   => $groupEntitie->group,
                         'entitie' => $entitie->name,
-                        'url'     => $entitie->singleUrl
+                        'url'     => $entitie->singleUrl,
+                        'object_type'=> $groupEntitie->owner
                     );
                 }
             }
