@@ -26,7 +26,8 @@
         "psy/psysh": "@stable",
         "sinergi/browser-detector": "*",
         "acelaya/doctrine-enum-type": "^2.3",
-        "hacklab/bank-account-validator": "1.1.0"
+        "hacklab/bank-account-validator": "1.1.0",
+        "dompdf/dompdf": "0.8.6"
     },
     "require-dev": {
     },

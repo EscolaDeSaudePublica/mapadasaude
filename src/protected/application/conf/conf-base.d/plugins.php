@@ -9,5 +9,8 @@ return [
         'LocationStateCity' => [
             'namespace' => 'LocationStateCity'
         ],
+        'PDFReport' => [
+            'namespace' => 'PDFReport'
+        ],
     ]
 ];
