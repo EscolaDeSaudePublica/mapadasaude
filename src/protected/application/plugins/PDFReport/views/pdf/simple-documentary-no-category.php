@@ -4,9 +4,9 @@ $sub = $app->view->jsObject['subscribers'];
 $nameOpportunity = $sub[0]->opportunity->name;
 $opp = $app->view->jsObject['opp'];
 ?>
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
-            <tr style="background-color: #009353; color:white">
+            <tr style="background-color: #009353; color:black">
                 <th>Classificação</th> 
                 <th class="space-tbody-15">Inscrição</th>
                 <th>Nome</th>

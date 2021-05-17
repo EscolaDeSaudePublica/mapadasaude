@@ -18,7 +18,7 @@
     <br>
     <table class="table table-striped table-bordered">
         <thead>
-            <tr style="background-color: #009353; color:white">
+            <tr style="background: #c3c3c3 !important; color:black">
                 <th>Inscrição</th>
                 <th>Nome</th>
                 <th>Categoria</th>
@@ -30,10 +30,10 @@
             <?php foreach ($sub as $key => $value) {
                 $agent = $app->repo('Agent')->find($value->owner->id); ?>
             <tr>
-                <th><?php echo $value->number; ?></th>
+                <td class="text-center"><?php echo $value->number; ?></td>
                 <td><?php echo $agent->name; ?></td>
                 <td><?php echo $value->category; ?></td>
-                <td><?php echo $value->sentTimestamp->format('d/m/Y'); ?></td>
+                <td><?php ($value->sentTimestamp == null) ? "" : printf($value->sentTimestamp->format('d/m/Y')); ?></td>
                 <td><?php
                     $status = '';
                         switch ($value->status) {

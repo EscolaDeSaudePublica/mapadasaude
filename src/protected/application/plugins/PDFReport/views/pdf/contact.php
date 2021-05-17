@@ -17,12 +17,12 @@
         </tr>
     </table>
     <br>
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
-            <tr style="background-color: #009353; color:white">
-                <th>Inscrição</th>
-                <th>Nome</th>
-                <th>E-mail</th>
+            <tr style="background-color: #009353;">
+                <th class="td-classificacao" style="width:20%;border: 1px solid #716e6e; ">Inscrição</th>
+                <th class="td-classificacao" style="width:40%; border: 1px solid #716e6e;">Nome</th>
+                <th class="td-classificacao" style="width:40%; border: 1px solid #716e6e;">E-mail</th>
             </tr>
         </thead>
         <tbody>
@@ -31,10 +31,10 @@
                 //$agent = $app->repo('Agent')->find($value->owner->id); 
         ?>
         <tr>
-            <td>
+            <td class="td-classificacao" >
                 <?php echo $value->number; ?>
             </td>
-            <td>
+            <td class="td-classificacao " >
                 <?php echo $value->owner->name; ?>
             </td>
             <td>

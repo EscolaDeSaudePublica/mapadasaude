@@ -5,7 +5,11 @@
     $opp = $app->view->jsObject['opp'];
     $claimDisabled = $app->view->jsObject['claimDisabled'];
 ?>
-
+<script>
+$(document).ready(function () {
+    window.print();
+});
+</script>
 <div class="container">
     <?php include_once('header.php'); ?>
     <table width="100%">
