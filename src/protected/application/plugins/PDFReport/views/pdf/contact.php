@@ -4,8 +4,9 @@
     $nameOpportunity = $contact[0]->opportunity->name;
 ?>
 
+<?php include_once('header.php'); ?>
 <div class="container">
-    <?php include_once('header.php'); ?>
+
     <table width="100%">
         <tr class="text-center">
             <td>

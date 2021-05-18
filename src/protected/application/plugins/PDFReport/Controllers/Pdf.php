@@ -4,20 +4,20 @@ namespace PDFReport\Controllers;
 use DateTime;
 use \MapasCulturais\App;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Mpdf\Mpdf as MPDF;
 
 class Pdf extends \MapasCulturais\Controller{
 
     function POST_gerarPdf() {
-        $domPdf = new Dompdf(array('enable_remote' => true));
-        // dump($this->postData);
-        // dump($domPdf);
+        $options = new Options();
+        $options->setIsRemoteEnabled(true);
+        $options->setIsHtml5ParserEnabled(true);
+        $domPdf = new Dompdf($options);
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         $app = App::i();
-        if($this->postData['selectRel'] != 1) {
-            
-        }
+        
         $regs       = "";
         $title      = "";
         $opp        = "";
@@ -33,6 +33,11 @@ class Pdf extends \MapasCulturais\Controller{
                 $regs = $this->oportunityRegistrationAproved($this->postData['idopportunityReport'], 'ALL');
                 $title      = 'Relatório de inscritos na oportunidade';
                 $template   = 'pdf/subscribers';
+                //SE VAZIO, É POR QUE NÃO TEM INSCRITO
+                if(empty($regs['regs'])){
+                    $_SESSION['error'] = "Ops! Não tem inscrito nessa oportunidade.";
+                    $app->redirect($app->createUrl('oportunidade/'.$this->postData['idopportunityReport']), 401);
+                }
                 break;
             case 2:
                 //BUSCANDO TODOS OS REGISTROS
@@ -171,16 +176,16 @@ class Pdf extends \MapasCulturais\Controller{
         $app->view->jsObject['subscribers'] = $regs['regs'];
         $app->view->jsObject['title'] = $title;
         $app->view->jsObject['claimDisabled'] = $claimDisabled;
-        $app->render($template); 
-        // $content = $app->view->fetch($template);
+        //$app->render($template); 
+        $content = $app->view->fetch($template);
         
-        // $domPdf->loadHtml($content);
-        // $domPdf->setPaper('A4', 'portrait');
-        // $domPdf->render();
-        // // Output the generated PDF to Browser
-        // //$domPdf->stream();
-        // $domPdf->stream("relatorio.pdf", array("Attachment" => false));
-        // exit(0);
+        $domPdf->loadHtml($content);
+        $domPdf->setPaper('A4', 'portrait');
+        $domPdf->render();
+        // Output the generated PDF to Browser
+        //$domPdf->stream();
+        $domPdf->stream("relatorio.pdf", array("Attachment" => false));
+        exit(0);
     }
 
     /**

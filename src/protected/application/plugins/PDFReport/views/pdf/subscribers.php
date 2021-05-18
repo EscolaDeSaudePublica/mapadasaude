@@ -8,17 +8,14 @@
     <table width="100%">
         <tr class="text-center">
             <td>
-                <h4><?php echo $app->view->jsObject['title']; ?></h4>
+              <br>
             </td>
-        </tr>
-        <tr class="text-center">
-            <td><?php echo $nameOpportunity; ?></td>
         </tr>
     </table>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
-            <tr style="background: #c3c3c3 !important; color:black">
+            <tr class ="cert-background" style="background: #009353 !important; color:black">
                 <th>Inscrição</th>
                 <th>Nome</th>
                 <th>Categoria</th>

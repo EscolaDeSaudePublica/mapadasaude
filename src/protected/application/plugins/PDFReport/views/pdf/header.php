@@ -136,22 +136,36 @@ table th[class*="col-"] {
 .border-title {
   border: 1px solid #716e6e;
 }
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
 </style>
 <script>
 $(document).ready(function () {
-    window.print();
+    //window.print();
 });
 </script>
+<div class="container">
 <table width="100%" >
     <thead>
+    <tr class="text-center">
+            <td>
+              <img src="<?php $app->view->asset('img/logo_escola_estado.png') ?>" style="width: 400px;"/>
+            <?php  ?>
+            </td>
+        </tr>
         <tr class="text-center">
             <td>
-                <img src="https://servicos.esp.ce.gov.br/eventos/2017/eve022017cenic/images/logo_espce.png" alt=""
-                    style="width: 200px">
+                <h4><?php echo $app->view->jsObject['title']; ?></h4>
             </td>
-            <td>
-                <img src="https://coronavirus.ceara.gov.br/wp-content/uploads/2020/03/logo_espce_gov-2.png" alt="" style="width: 200px">
-            </td>
+        </tr>
+        <tr class="text-center">
+            <td><?php echo $nameOpportunity; ?></td>
         </tr>
     </thead>
 </table>
+<br>
+</div>
