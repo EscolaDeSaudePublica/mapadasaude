@@ -14,6 +14,7 @@ class Pdf extends \MapasCulturais\Controller{
         $options->setIsRemoteEnabled(true);
         $options->setIsHtml5ParserEnabled(true);
         $domPdf = new Dompdf($options);
+       
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         $app = App::i();
@@ -184,6 +185,7 @@ class Pdf extends \MapasCulturais\Controller{
         $domPdf->render();
         // Output the generated PDF to Browser
         //$domPdf->stream();
+       
         $domPdf->stream("relatorio.pdf", array("Attachment" => false));
         exit(0);
     }

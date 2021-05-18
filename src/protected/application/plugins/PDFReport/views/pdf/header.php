@@ -148,13 +148,11 @@ $(document).ready(function () {
     //window.print();
 });
 </script>
-<div class="container">
 <table width="100%" >
     <thead>
     <tr class="text-center">
             <td>
-              <img src="<?php $app->view->asset('img/logo_escola_estado.png') ?>" style="width: 400px;"/>
-            <?php  ?>
+              <img src="https://mapadasaude.dev.org.br/assets/img/logo_escola_estado.png"/ width="400px">
             </td>
         </tr>
         <tr class="text-center">
@@ -167,5 +165,3 @@ $(document).ready(function () {
         </tr>
     </thead>
 </table>
-<br>
-</div>

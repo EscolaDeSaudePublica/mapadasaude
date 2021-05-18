@@ -5,13 +5,7 @@
 ?>
 <div class="container">
     <?php include_once('header.php'); ?>
-    <table width="100%">
-        <tr class="text-center">
-            <td>
-              <br>
-            </td>
-        </tr>
-    </table>
+</table>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
