@@ -10,17 +10,6 @@
 
 <div class="container">
     <?php include_once('header.php'); ?>
-    <table width="100%">
-        <tr class="text-center">
-            <td class="fontArial">
-                <h4><?php echo $app->view->jsObject['title']; ?></h4>
-            </td>
-        </tr>
-        <tr class="text-center fontArial">
-            <td style="margin-left:2px;"><?php echo $nameOpportunity; ?></td>
-        </tr>
-    </table>
-    <br>
     <?php 
         //REDIRECIONA PARA OPORTUNIDADE CASO NÃO HAJA CATEGORIA        
         $type = $opp->evaluationMethodConfiguration->type->id;
@@ -66,6 +55,4 @@
     ?>
 
 </div>
-<?php 
-    //die;
-?>
+<?php include_once('footer.php'); ?>

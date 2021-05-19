@@ -3,16 +3,9 @@
     $sub = $app->view->jsObject['subscribers'];
     $nameOpportunity = $sub[0]->opportunity->name;
 ?>
+
 <div class="container">
     <?php include_once('header.php'); ?>
-    <table width="100%">
-        <tr class="text-center">
-            <td>
-              <br>
-            </td>
-        </tr>
-    </table>
-    <br>
     <table class="table table-striped table-bordered">
         <thead>
             <tr class ="cert-background" style="background: #009353 !important; color:black">
@@ -60,6 +53,4 @@
         </tbody>
     </table>
 </div>
-<?php 
-    //die;
-    ?>
+<?php include_once('footer.php'); ?>
