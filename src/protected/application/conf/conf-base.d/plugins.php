@@ -12,5 +12,8 @@ return [
         'PDFReport' => [
             'namespace' => 'PDFReport'
         ],
+        'Tiebreaker' => [
+            'namespace' => 'Tiebreaker'
+        ],
     ]
 ];
