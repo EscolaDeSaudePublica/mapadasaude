@@ -9,7 +9,9 @@ class Plugin extends \MapasCulturais\Plugin {
 
         // add hooks
         $app = App::i();
-        $app->hook('template(opportunity.<<create|edit>>.tabs-content-tiebreaker):begin', function(){
+        $app->hook('template(opportunity.<<create|edit>>.tabs-content-tiebreaker):begin', function() use($app){
+            $app->view->enqueueScript('app', 'tiebreaker', 'js/ng.tiebreaker.js',['entity.module.opportunity']);
+            $app->view->jsObject['angularAppDependencies'][] = 'ng.tiebreaker';
             $this->part('form-tiebreaker');
         });
     }
