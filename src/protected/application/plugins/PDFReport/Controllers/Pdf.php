@@ -44,7 +44,7 @@ class Pdf extends \MapasCulturais\Controller{
                 //BUSCANDO TODOS OS REGISTROS
                 $regs = $this->oportunityRegistrationAproved($this->postData['idopportunityReport'], 10);
                 if(empty($regs['regs'])){
-                    $_SESSION['error'] = "Ops! A oportunidade deve está publicada.";
+                    $_SESSION['error'] = "Ops! A oportunidade deve estar publicada.";
                     $app->redirect($app->createUrl('oportunidade/'.$this->postData['idopportunityReport']), 401);
                 }
                 $verifyResource = $this->verifyResource($this->postData['idopportunityReport']);
@@ -95,7 +95,7 @@ class Pdf extends \MapasCulturais\Controller{
                 if($period) {
                     $regs = $this->oportunityRegistrationAproved($this->postData['idopportunityReport'], 10);
                     if(empty($regs['regs'])){
-                        $_SESSION['error'] = "Ops! Para gerar o relatório definitivo a oportunidade deve está publicada.";
+                        $_SESSION['error'] = "Ops! Para gerar o relatório definitivo a oportunidade deve estar publicada.";
                         $app->redirect($app->createUrl('oportunidade/'.$this->postData['idopportunityReport']), 401);
                     }
                     
