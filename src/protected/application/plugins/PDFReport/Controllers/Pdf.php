@@ -14,6 +14,7 @@ class Pdf extends \MapasCulturais\Controller{
         $options->setIsRemoteEnabled(true);
         $options->setIsHtml5ParserEnabled(true);
         $domPdf = new Dompdf($options);
+       
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         $app = App::i();
