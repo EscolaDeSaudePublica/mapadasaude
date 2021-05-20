@@ -169,12 +169,11 @@
     });
 </script>
 
-<div class="container">
-    <table width="100%" >
+<table width="100%" >
         <thead>
             <tr class="text-center">
                 <td>
-                    <img src="https://mapadasaude.dev.org.br/assets/img/logo_escola_estado.png" style="width: 400px;"/>
+                    <img src="assets/img/logo_escola_estado.png" style="width: 400px;"/>
                 </td>
             </tr>
             <tr class="text-center">
@@ -187,4 +186,3 @@
             </tr>
         </thead>
     </table>
-</div>
