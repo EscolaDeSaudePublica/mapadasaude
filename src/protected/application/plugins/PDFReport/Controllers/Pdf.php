@@ -27,9 +27,11 @@ class Pdf extends \MapasCulturais\Controller{
         $claimDisabled = null;
         switch ($this->postData['selectRel']) {
             case 0:
-                $regs = $this->oportunityRegistrationAproved($this->postData['idopportunityReport'], 'ALL');
-                $title      = 'Relatório de inscritos na oportunidade';
-                $template   = 'pdf/teste';
+                // $regs = $this->oportunityRegistrationAproved($this->postData['idopportunityReport'], 'ALL');
+                // $title      = 'Relatório de inscritos na oportunidade';
+                // $template   = 'pdf/teste';
+                $_SESSION['error'] = "Ops! Selecione uma opção";
+                $app->redirect($app->createUrl('oportunidade/'.$this->postData['idopportunityReport']), 401);
                 break;
             case 1:
                 $regs = $this->oportunityRegistrationAproved($this->postData['idopportunityReport'], 'ALL');
@@ -178,16 +180,16 @@ class Pdf extends \MapasCulturais\Controller{
         $app->view->jsObject['subscribers'] = $regs['regs'];
         $app->view->jsObject['title'] = $title;
         $app->view->jsObject['claimDisabled'] = $claimDisabled;
-        //$app->render($template); 
-        $content = $app->view->fetch($template);
+        $app->render($template); 
+        // $content = $app->view->fetch($template);
         
-        $domPdf->loadHtml($content);
-        $domPdf->setPaper('A4', 'portrait');
-        $domPdf->render();
-        // Output the generated PDF to Browser
-        //$domPdf->stream();
-        $domPdf->stream("relatorio.pdf", array("Attachment" => false));
-        exit(0);
+        // $domPdf->loadHtml($content);
+        // $domPdf->setPaper('A4', 'portrait');
+        // $domPdf->render();
+        // // Output the generated PDF to Browser
+        // //$domPdf->stream();
+        // $domPdf->stream("relatorio.pdf", array("Attachment" => false));
+        // exit(0);
     }
 
     /**
