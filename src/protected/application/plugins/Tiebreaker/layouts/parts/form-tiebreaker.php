@@ -12,11 +12,19 @@
 </p>
 <div class="panel panel-default" ng-controller="TiebreakerController">
   <div class="panel-heading">Critério de desempate</div>
+  <span>{{list}}</span>
   <div class="panel-body">
-    <ul class="list-group" ui-sortable="sortableOptions" ng-model="items">
-        <li class="list-group-item" ng-repeat="item in items" class="attachment-list-item project-edit-mode attachment-list-item-type-date ui-sortable-handle" style="cursor: pointer;">
-        <i class="fa fa-arrows-alt"></i> {{ item }}</li> 
+    <ul ui-sortable="sortableOptions" class="list-group" ng-model="items">
+        <li class="list-group-item" ng-repeat="item in items" style="cursor: pointer;">
+        <i class="fa fa-arrows-alt"></i> {{ item.text }}</li> 
     </ul>
+    <div class="footer">
+      <div class="footer-button">
+          <button type="button" class="btn btn-primary" style="margin-top: 5px;" ng-click="confirm()">
+            <i class="fa fa-check"></i> Confirmar
+          </button>
+      </div>
+    </div>
   </div>
 </div>
 </p>

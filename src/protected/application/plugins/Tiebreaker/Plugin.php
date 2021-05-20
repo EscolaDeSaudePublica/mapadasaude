@@ -19,6 +19,6 @@ class Plugin extends \MapasCulturais\Plugin {
     public function register() {
         // register metadata, taxonomies
         $app = App::i();
-        $app->registerController('desempate', 'Tiebreaker\Controllers\Tiebreaker');
+        $app->registerController('desempate', 'Tiebreaker\Controllers\Desempate');
     }
 }
