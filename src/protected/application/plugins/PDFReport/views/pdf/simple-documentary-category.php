@@ -8,14 +8,14 @@
 <div class="container">
     <?php 
     foreach ($opp->registrationCategories as $keyCat => $nameCat) :?>
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered">
             <thead>
                 <tr class="activeTr">
                     <th colspan="3">
                         <?php echo $nameCat; ?>
                     </th>
                 </tr>
-                <tr style="background-color: #009353; color:white">
+                <tr style="background-color: #009353; color:black">
                     <th>Classificação</th>
                     <th class="space-tbody-15">Inscrição</th>
                     <th>Nome</th>

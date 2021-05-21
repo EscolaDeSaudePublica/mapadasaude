@@ -5,20 +5,8 @@
     $opp = $app->view->jsObject['opp'];
     $claimDisabled = $app->view->jsObject['claimDisabled'];
 ?>
-
 <div class="container">
     <?php include_once('header.php'); ?>
-    <table width="100%">
-        <tr class="text-center">
-            <td>
-                <h4><?php echo $app->view->jsObject['title']; ?></h4>
-            </td>
-        </tr>
-        <tr class="text-center">
-            <td><?php echo $nameOpportunity; ?></td>
-        </tr>
-    </table>
-    <br>
     <?php 
         //REDIRECIONA PARA OPORTUNIDADE CASO NÃO HAJA CATEGORIA        
         $type = $opp->evaluationMethodConfiguration->type->id;
@@ -37,6 +25,4 @@
         }
     ?>
 </div>
-<?php 
-   // die;
-    ?>
+<?php include_once('footer.php'); ?>
