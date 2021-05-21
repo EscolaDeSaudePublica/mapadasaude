@@ -12,16 +12,16 @@
         $type = $opp->evaluationMethodConfiguration->type->id;
         //QUANDO NÃO TIVER RECURSO OU ESTIVER DESABILITADO
         if($opp->registrationCategories == "" &&  $type == 'technical'){
-            include_once('preliminary/technical-no-category.php');
+            include_once('technical-no-category.php');
         }elseif($opp->registrationCategories == "" &&  $type == 'simple'|| $type == 'documentary'){
-            include_once('preliminary/simple-documentary-no-category.php');
+            include_once('simple-documentary-no-category.php');
         }
 
         if($opp->registrationCategories !== "" &&  $type == 'technical'){
             $preliminary = true;
             include_once('technical-category.php');
         }elseif($opp->registrationCategories !== "" &&  $type == 'simple'|| $type == 'documentary'){
-            include_once('preliminary/simple-documentary-category.php');
+            include_once('simple-documentary-category.php');
         }
     ?>
 </div>
