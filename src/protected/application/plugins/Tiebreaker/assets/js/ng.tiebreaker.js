@@ -19,6 +19,17 @@
                 
                 console.log('TiebreakerService');
                
+            },
+            sendOrder: function (postData) {
+                return $http.post(MapasCulturais.baseURL+'desempate/create', postData).
+                        success(function (data, status) {
+                            console.log(data)
+                            console.log(status)
+                        }).
+                        error(function (error, status) {
+                            console.log(error)
+                            console.log(status)
+                        });
             }
         }
     }]);
@@ -58,29 +69,35 @@
 
         $scope.confirm = function() {
             console.log($scope.items);
-            var order = [0];
-            for (var index in $scope.items) {
-                var pos = $scope.items[index].id;
-
-                console.log('Index = '+index+' Items = '+$scope.items[index].id);
-                
-                // $scope.items[index].i = index;
-                // var item = $scope.items[index].id;
-                // console.log({item})
-                // console.log($scope.items[index].i+' = '+$scope.items[index].id);
-                $scope.order.push({order: pos})
-            }
-            var dataConfirm = [];
+           
             
-            for (let index = 0; index < $scope.order.length; index++) {
-                console.log($scope.order[index].order);
-                dataConfirm.concat({
-                    'id' : $scope.order[index].order
-                })
-                // dataConfirm.push({ 'id' : $scope.order[index].order})
-            }
-            console.log(dataConfirm);
-            $http.post(MapasCulturais.baseURL+'desempate/create', dataConfirm);
+            // console.log(dataConfirm);
+            var logEntry = $scope.items.map(function(i){
+                return i.id;
+            }).join(', ');
+            //var string = 'hello, world, test, test2, rummy, words';
+            var arr = logEntry.split(', '); // split string on comma space
+            console.log( arr );
+            console.log( typeof(arr) );
+            console.log( arr.length );
+            var dataConfirm = [];
+            // for (let index = 0; index < $scope.items.length; index++) {
+            //     console.log($scope.items[index].id);
+            //     dataConfirm[index] = $scope.items[index].id
+            // }
+            console.log($scope.items[0].id);
+            var arrdata = {
+                'primeiro'  : $scope.items[0].id,
+                'segundo'   : $scope.items[1].id,
+                'terceiro'  : $scope.items[2].id,
+                'quarto'    : $scope.items[3].id
+            };
+            console.log( typeof(arrdata) )
+            console.log( arrdata )
+            TiebreakerService.sendOrder(arrdata).then(function(response){
+                console.log(response);
+            })
+            //$http.post(MapasCulturais.baseURL+'desempate/create', postData);
         }
         // $scope.update = function(e, ui) {
         //     var logEntry = tmpList.map(function(i){
