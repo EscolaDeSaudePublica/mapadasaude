@@ -50,11 +50,11 @@
             {id: 3, text: "Tiver a maior idade, considerando ano, mês e dia"}, 
             {id: 4, text: "Tiver exercido a função de jurado"}
         ];
-        console.log(typeof($scope.items));
+        //console.log(typeof($scope.items));
         // $scope.items.sort(function (a, b) {
         //     return a.id > b.id;
         // });
-        console.log($scope.items);
+        //console.log($scope.items);
         $scope.sortableOptions = {
             
             update: function(e, ui) {
@@ -68,7 +68,7 @@
         $scope.order = [];
 
         $scope.confirm = function() {
-            console.log($scope.items);
+            //console.log($scope.items);
            
             
             // console.log(dataConfirm);
@@ -77,43 +77,33 @@
             }).join(', ');
             //var string = 'hello, world, test, test2, rummy, words';
             var arr = logEntry.split(', '); // split string on comma space
-            console.log( arr );
-            console.log( typeof(arr) );
-            console.log( arr.length );
+            // console.log( arr );
+            // console.log( typeof(arr) );
+            // console.log( arr.length );
             var dataConfirm = [];
             // for (let index = 0; index < $scope.items.length; index++) {
             //     console.log($scope.items[index].id);
             //     dataConfirm[index] = $scope.items[index].id
             // }
-            console.log($scope.items[0].id);
+            // console.log($scope.items[0].id);
             var arrdata = {
-                'primeiro'  : $scope.items[0].id,
-                'segundo'   : $scope.items[1].id,
-                'terceiro'  : $scope.items[2].id,
-                'quarto'    : $scope.items[3].id
+                'first'  : $scope.items[0].id,
+                'second'   : $scope.items[1].id,
+                'third'  : $scope.items[2].id,
+                'room'    : $scope.items[3].id,
+                'owner'    : MapasCulturais.entity.id
             };
-            console.log( typeof(arrdata) )
-            console.log( arrdata )
+            // console.log( typeof(arrdata) )
+            // console.log( arrdata )
             TiebreakerService.sendOrder(arrdata).then(function(response){
-                console.log(response);
+                // console.log(response);
+                new PNotify({
+                    icon: 'fa fa-check',
+                    text: response.data.message,
+                    type: response.data.type
+                });
             })
             //$http.post(MapasCulturais.baseURL+'desempate/create', postData);
         }
-        // $scope.update = function(e, ui) {
-        //     var logEntry = tmpList.map(function(i){
-        //       return i.value;
-        //     }).join(', ');
-        //     $scope.sortingLog.push('Update: ' + logEntry);
-        //   };
-        // $scope.stop = function(e, ui) {
-        // // this callback has the changed model
-        //     console.log(tmpList);
-        //     var logEntry = tmpList.map(function(i){
-        //         return i.value;
-        //     }).join(', ');
-        
-        // $scope.sortingLog.push('Stop: ' + logEntry);
-       
-        // };
     }]);
 })(angular);

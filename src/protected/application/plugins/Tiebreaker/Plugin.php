@@ -13,6 +13,10 @@ class Plugin extends \MapasCulturais\Plugin {
             $app->view->jsObject['angularAppDependencies'][] = 'ng.tiebreaker';
             $this->part('form-tiebreaker');
         });
+
+        $app->hook('GET(opportunity.setStatusNotPublish)', function() use($app) {
+            $this->json(['message' => 'deu certo']);
+        });
     }
 
     public function register() {
