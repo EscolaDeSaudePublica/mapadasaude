@@ -9,12 +9,15 @@
     <i class="fa fa-file-o" aria-hidden="true"></i>
 </a> -->
 <?php 
+
 ?>
 <div>
     <hr>
     <form action="<?php echo $app->createUrl('pdf/gerarPdf'); ?>" method="POST" target="TargetWindow">
     <label class="label">Filtrar Relatório</label>
-        <select name="selectRel" id="selectRel" class="" style="margin-left: 10px;">
+        
+        <div id="divSelectTiebreaker" ng-controller="PdfReportController">
+            <select name="selectRel" id="selectRel" class="" style="margin-left: 10px;" ng-model="filterReport" ng-change="changeFilterReport()">
             <option value="0">--Selecione--</option>
             <option value="1">Relação de Inscritos</option>
             <?php if($resource): ?>
@@ -22,15 +25,29 @@
             <?php endif; ?>
             <option value="3">Resultados definitivos</option>
             <option value="4">Relação de contatos</option>
-        </select>
+            </select>
+            <span>{{filterReport}}</span>
+                <div id="orderTiebreaker" class="hide-select">
+                    <span>Ordem de desempate: </span> <br />
+                </div>
+                <select name="" id="selectTiebreaker" class="form-control show-select" ng-model="alter" ng-change="change()">
+                    <option value="0">--Selecione--</option>
+                    <option ng-repeat="opt in options" value="{{opt.value}}">
+                        {{opt.label}}
+                </select>
+                <span>{{alter}}</span>
+        </div>
+        </div>
         <input type="hidden" id="idopportunityReport" name="idopportunityReport">
         <button type="submit">Gerar Relatório <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
     </form>
+
 </div>
 <div>
 
     <?php 
         $entity = $this->controller->requestedEntity;
+        $entity->id;
         $url = $app->createUrl('oportunidade/'.$entity->id);
         if(isset($_SESSION['error']))
         {
