@@ -26,11 +26,10 @@
             <option value="3">Resultados definitivos</option>
             <option value="4">Relação de contatos</option>
             </select>
-            <span>{{filterReport}}</span>
                 <div id="orderTiebreaker" class="hide-select">
-                    <span>Ordem de desempate: </span> <br />
+                    <label>Ordem de desempate: </label> <br />
                 </div>
-                <select name="" id="selectTiebreaker" class="form-control show-select" ng-model="alter" ng-change="change()">
+                <select name="" id="selectTiebreaker" class="form-control hide-select" ng-model="alter" ng-change="change()">
                     <option value="0">--Selecione--</option>
                     <option ng-repeat="opt in options" value="{{opt.value}}">
                         {{opt.label}}

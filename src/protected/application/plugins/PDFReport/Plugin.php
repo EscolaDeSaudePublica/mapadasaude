@@ -49,39 +49,42 @@ class Plugin extends \MapasCulturais\Plugin {
             $opMeta->owner = $op;
             $app->em->flush();
             $opMeta->save(true);
+            $this->json(['message' => 'Sucesso'],200);
         });
 
         $app->hook('GET(opportunity.orderTiebreaker)', function() use ($app) {
             $params = $app->router()->getCurrentRoute()->getParams();
             $idOp = $params['args'][2];
-            // $dql =  "SELECT om, cm 
-            // FROM MapasCulturais\Entities\OpportunityMeta om
-            // JOIN \Saude\Entities\CategoryMeta cm 
-            // LEFT JOIN om.value = cm.owner where om.owner = {$idOp} and om.key = 'tiebreaker' and  ORDER BY om.id asc";
 
-            $dql = "SELECT om.key, om.value
+            $dql = "SELECT om.id, om.key, om.value
             FROM MapasCulturais\Entities\OpportunityMeta om
             WHERE om.owner = {$idOp}
             AND om.key = 'tiebreaker' ORDER BY om.id asc";
             $query = $app->em->createQuery($dql);
             $tiebreaker = $query->getResult();
-            dump($tiebreaker);
             $nameTiebreaker = [];
             foreach ($tiebreaker as $key => $tiebreakers) {
-                //dump($tiebreakers['value']);
                 $id = $tiebreakers['value'];
                 $dql = "SELECT cm.value
                 FROM \Saude\Entities\CategoryMeta cm
                 WHERE cm.owner = {$id} AND cm.key = 'criterio_desempate' ORDER BY cm.id asc";
                 $query = $app->em->createQuery($dql);
                 $nameTie = $query->getResult();
-                //dump($nameTie[0]['value']);
-                array_push($nameTiebreaker, $nameTie[0]['value']);
+                
+                array_push($nameTiebreaker, ['id' => $tiebreakers['id'], 'name' => $nameTie[0]['value']]);
             }
-            // dump($nameTiebreaker);
-            // dump(json_encode($nameTiebreaker));
             $this->json($nameTiebreaker);
         });
+
+        $app->hook('POST(opportunity.deleteMetaOpportunity)', function() use ($app) {
+              $app->disableAccessControl();
+            $opMeta = $app->repo('OpportunityMeta')->find($this->postData['id']);
+
+            $opMeta->delete();
+            $this->save();
+            $app->em->flush();
+        });
+       
     }
 
     public function register() {

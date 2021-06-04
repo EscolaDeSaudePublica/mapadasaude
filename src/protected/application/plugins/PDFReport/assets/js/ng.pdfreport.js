@@ -29,7 +29,7 @@
                     id: data,
                     opportunity: MapasCulturais.entity.id
                 }
-                $http.post(MapasCulturais.baseURL+'opportunity/createTiebreaker', postData);
+                return $http.post(MapasCulturais.baseURL+'opportunity/createTiebreaker', postData);
             },
             getOrderTiebreaker: function(id) {
                 return $http.get(MapasCulturais.baseURL+'opportunity/orderTiebreaker/'+id);
@@ -42,25 +42,25 @@
         $scope.alter = "";
         $scope.filterReport = "";
         $scope.divOptions = false;
+        //BUSCA TODOS OS ITENS DE DESEMPATE PARA PREENCHER AS OPÇÕES DO SELECT
         PdfReportService.getTiebreaker().then(function(response){
-            console.log(response);
             var opt = response.data;
             opt.forEach(element => {
-                //console.log(element);
                 $scope.options.push({value: element.owner, label: element.value})
             });
         });
 
         $scope.change = function() {
-            console.log('change');
-            console.log($scope.alter);
-            PdfReportService.createTiebreaker($scope.alter);
-           
+            //CRIANDO A OPÇÃO EM ORDEM NO BANCO DA TABELA OPPORTUNITY META
+            PdfReportService.createTiebreaker($scope.alter).then(function(response){ 
+                if(response.status == 200) {
+                    jQuery("#orderTiebreaker span").remove();
+                    $scope.showOrderTiebreaker();
+                }
+            });
         }
 
         $scope.changeFilterReport = function() { 
-            console.log('changeFilterReport');
-            console.log($scope.filterReport);
             if($scope.filterReport == 3){
               document.getElementById("orderTiebreaker").setAttribute("class", "show-select");
               document.getElementById("selectTiebreaker").setAttribute("class", "show-select");
@@ -69,20 +69,42 @@
                 document.getElementById("selectTiebreaker").setAttribute("class", "hide-select");
             }
         }
-
-        PdfReportService.getOrderTiebreaker(MapasCulturais.entity.id).then(function(response){
-            // if(response.data.length > 0) {
-            //     $scope.addOptionOrder();
-            // }
-            response.data.forEach(element => {
-                $scope.addOptionOrder(element);
+        //MOSTRANDO A DIV COM AS OPÇÕES ESCOLHIDO PARA O DESEMPATE
+        $scope.showOrderTiebreaker = function() {
+            PdfReportService.getOrderTiebreaker(MapasCulturais.entity.id).then(function(response){
+                if(response.data.length > 0) {
+                    $scope.divOptions = true;
+                    jQuery("#orderTiebreaker").removeClass('hide-select');
+                    jQuery("#orderTiebreaker").addClass('show-select');
+                }
+                response.data.forEach(element => {
+                    $scope.addOptionOrder(element.id, element.name);
+                });
             });
-        });
+        }
 
-        $scope.addOptionOrder = function(text) {
-            document.getElementById("orderTiebreaker").append(
-            '<span class="badge_default margin-bottom-5">'+text+' <a href="#" class="closeCategoryProfessional" onclick="deleteSpecialty(teste)"><i class="fa fa-close"></i></a></span><br />');
+        $scope.showOrderTiebreaker();
+        //adicionando os itens escolhido no select na página
+        $scope.addOptionOrder = function(id, text) {
+            var divtoappend=angular.element( document.querySelector('#orderTiebreaker'));
+            divtoappend.append('<span id="spanTextOrder_'+id+'" class="badge_default margin-bottom-5">'+text+' <a href="#/tab=inscritos" class="closeCategoryProfessional" onclick="deleteTiebreaker('+id+')"><i class="fa fa-close"></i></a></span>');
         }
     }]);
 
 })(angular);
+//DELETA OPÇÃO DE ESCOLHA 
+function deleteTiebreaker(id) {
+    $("#spanTextOrder_"+id).remove();
+    var postData = {
+        id: id
+    }
+    $.ajax({
+        type: "POST",
+        url: MapasCulturais.baseURL+'opportunity/deleteMetaOpportunity',
+        data: postData,
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+        }
+    });
+}
