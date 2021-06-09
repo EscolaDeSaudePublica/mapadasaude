@@ -1,15 +1,41 @@
 <?php 
     $this->layout = 'nolayout'; 
     $sub = $app->view->jsObject['subscribers'];
-    $nameOpportunity = $sub[0]->opportunity->name;
+    $nameOpportunity = $sub[0]['nameopportunity'];
     $opp = $app->view->jsObject['opp'];
     $verifyResource = $this->verifyResource($this->postData['idopportunityReport']);
     $claimDisabled = $app->view->jsObject['claimDisabled'];
    
 ?>
-
+<style>
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.text-center {
+    text-align: center;
+}
+</style>
 <div class="container">
-    <?php include_once('header.php'); ?>
+    <table width="100%" >
+        <thead>
+            <tr class="text-center">
+                <td>
+                    <img src="https://mapadasaude.dev.org.br/assets/img/logo_escola_estado.png" style="width: 400px;"/>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <h4 style="margin-top: 15px;"><?php echo $app->view->jsObject['title']; ?></h4>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td><h5 style="margin-top: 10px;"><?php echo $nameOpportunity; ?></h5></td>
+            </tr>
+        </thead>
+    </table>
     <?php 
         //REDIRECIONA PARA OPORTUNIDADE CASO NÃO HAJA CATEGORIA        
         $type = $opp->evaluationMethodConfiguration->type->id;
@@ -53,6 +79,5 @@
         // }
 
     ?>
-
 </div>
-<?php include_once('footer.php'); ?>
+<?php //include_once('footer.php'); ?>

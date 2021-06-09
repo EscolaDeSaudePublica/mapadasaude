@@ -6,7 +6,8 @@ use \MapasCulturais\App;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Mpdf\Mpdf as MPDF;
-
+use \PDFReport\Entities\PdfEntity;
+require_once PLUGINS_PATH . '/PDFReport/Entities/PdfEntity.php';
 class Pdf extends \MapasCulturais\Controller{
 
     function POST_gerarPdf() {
@@ -60,6 +61,14 @@ class Pdf extends \MapasCulturais\Controller{
             case 3:
                 //ESSE CASE, VERIFICA SE OS RECURSOS E A OPORTUNIDADE
                 $id = $this->postData['idopportunityReport'];
+                
+                $order = PdfEntity::getOrderTiebreaker($id);
+                
+                $all = PdfEntity::getDefinitive($id);
+                $registration = $app->repo('Registration')->findBy([
+                    'opportunity' => $id
+                ]);
+               
                 //RETORNANDO O PERIDO DE RECURSO
                 $dqlOpMeta = "SELECT op FROM 
                 MapasCulturais\Entities\OpportunityMeta op
@@ -177,16 +186,16 @@ class Pdf extends \MapasCulturais\Controller{
         $app->view->jsObject['subscribers'] = $regs['regs'];
         $app->view->jsObject['title'] = $title;
         $app->view->jsObject['claimDisabled'] = $claimDisabled;
-        $app->render($template); 
-        // $content = $app->view->fetch($template);
+        //$app->render($template); 
+        $content = $app->view->fetch($template);
         
-        // $domPdf->loadHtml($content);
-        // $domPdf->setPaper('A4', 'portrait');
-        // $domPdf->render();
-        // // Output the generated PDF to Browser
-        // //$domPdf->stream();
-        // $domPdf->stream("relatorio.pdf", array("Attachment" => false));
-        // exit(0);
+        $domPdf->loadHtml($content);
+        $domPdf->setPaper('A4', 'portrait');
+        $domPdf->render();
+        // Output the generated PDF to Browser
+        //$domPdf->stream();
+        $domPdf->stream("relatorio.pdf", array("Attachment" => false));
+        exit(0);
     }
 
     /**
@@ -201,13 +210,21 @@ class Pdf extends \MapasCulturais\Controller{
         $opp = $app->repo('Opportunity')->find($idopportunity);
         
         if($status == 10) {
-            $dql = "SELECT r
-                    FROM 
-                    MapasCulturais\Entities\Registration r
-                    WHERE r.opportunity = {$idopportunity}
-                    AND r.status = 10 ORDER BY r.consolidatedResult DESC";
-            $query = $app->em->createQuery($dql);
-            $regs = $query->getResult();
+            $dql = $app->em->getConnection()->fetchAll("select distinct r.id, r.number, r.category, r.consolidated_result, r.agent_id, a.name as nome, 
+            a.birthdate, a.age, a.major60, op.published_registrations as publicacao, op.name as nameopportunity
+            FROM registration r 
+            INNER JOIN agent a 
+                ON r.agent_id = a.id
+            INNER JOIN agent_meta am
+                ON r.agent_id = am.object_id
+            INNER JOIN opportunity op
+                ON r.opportunity_id = op.id
+                WHERE r.opportunity_id = {$idopportunity} AND r.status = 10 and op.published_registrations = FALSE
+            order by r.category asc , r.consolidated_result desc, a.birthdate asc;
+            ");
+            //$query = $app->em->createQuery($dql);
+            //$regs = $query->getResult();
+            $regs = $dql;
         }else{
             $regs = $app->repo('Registration')->findBy(
                 [

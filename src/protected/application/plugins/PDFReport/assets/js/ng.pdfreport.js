@@ -42,6 +42,7 @@
         $scope.alter = "";
         $scope.filterReport = "";
         $scope.divOptions = false;
+        $scope.idOpportunity = MapasCulturais.entity.id;
         //BUSCA TODOS OS ITENS DE DESEMPATE PARA PREENCHER AS OPÇÕES DO SELECT
         PdfReportService.getTiebreaker().then(function(response){
             var opt = response.data;
@@ -74,8 +75,8 @@
             PdfReportService.getOrderTiebreaker(MapasCulturais.entity.id).then(function(response){
                 if(response.data.length > 0) {
                     $scope.divOptions = true;
-                    jQuery("#orderTiebreaker").removeClass('hide-select');
-                    jQuery("#orderTiebreaker").addClass('show-select');
+                    // jQuery("#orderTiebreaker").removeClass('hide-select');
+                    // jQuery("#orderTiebreaker").addClass('show-select');
                 }
                 response.data.forEach(element => {
                     $scope.addOptionOrder(element.id, element.name);

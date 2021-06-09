@@ -18,26 +18,27 @@
         
         <div id="divSelectTiebreaker" ng-controller="PdfReportController">
             <select name="selectRel" id="selectRel" class="" style="margin-left: 10px;" ng-model="filterReport" ng-change="changeFilterReport()">
-            <option value="0">--Selecione--</option>
+            <option value="" disabled selected> -- Selecione -- </option>
             <option value="1">Relação de Inscritos</option>
             <?php if($resource): ?>
                 <option value="2">Resultados preliminares</option>
             <?php endif; ?>
             <option value="3">Resultados definitivos</option>
             <option value="4">Relação de contatos</option>
+            
             </select>
                 <div id="orderTiebreaker" class="hide-select">
                     <label>Ordem de desempate: </label> <br />
                 </div>
                 <select name="" id="selectTiebreaker" class="form-control hide-select" ng-model="alter" ng-change="change()">
-                    <option value="0">--Selecione--</option>
+                    <option value="" disabled selected> -- Escolha seu critério de desempate -- </option>
                     <option ng-repeat="opt in options" value="{{opt.value}}">
                         {{opt.label}}
                 </select>
-                <span>{{alter}}</span>
+                <input type="text" ng-model="idOpportunity" id="idopportunityReport" name="idopportunityReport">
         </div>
         </div>
-        <input type="hidden" id="idopportunityReport" name="idopportunityReport">
+       
         <button type="submit">Gerar Relatório <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
     </form>
 

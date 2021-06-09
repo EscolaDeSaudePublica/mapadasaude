@@ -3,6 +3,7 @@ namespace PDFReport;
 
 use MapasCulturais\App;
 use MapasCulturais\Entities\OpportunityMeta;
+use DateTime;
 
 class Plugin extends \MapasCulturais\Plugin {
     public function _init() {
@@ -83,6 +84,29 @@ class Plugin extends \MapasCulturais\Plugin {
             $opMeta->delete();
             $this->save();
             $app->em->flush();
+        });
+
+        $app->hook('POST(agent.birthData)', function() use($app) {
+            ini_set('display_errors', 1);
+            error_reporting(E_ALL);
+            $id = $this->postData['id'];
+            $birth = $this->postData['birthDate'];
+            $age = $this->postData['age'];
+            $major = 0;
+            if($this->postData['age'] > 60){
+                $major = 1;
+            }
+            dump($major);
+            // die;
+            // $dql = "UPDATE MapasCulturais\Entities\Agent a 
+            // SET a.major60 = {$age} , a.birthDate = '{$birth}' WHERE a.id = {$id}";
+            $bri = $app->em->getConnection()->fetchAll("UPDATE agent SET birthDate = '{$birth}', major60 = {$major} , age = {$age} WHERE id = {$id}");
+            dump($bri);
+            // dump($dql);
+            // die;
+            // $query      = $app->em->createQuery($dql);
+            // $upStatus   = $query->getResult();
+            // dump($upStatus);
         });
        
     }
