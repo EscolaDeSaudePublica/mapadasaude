@@ -261,6 +261,26 @@ class Agent extends \MapasCulturais\Entity
      */
     protected $subsite;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="age", type="integer", nullable=false)
+     */
+    protected $age;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="birthDate", type="datetime", nullable=false)
+     */
+    protected $birthDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="major60", type="integer", nullable=false)
+     */
+    protected $major60;
 
     /**
      * Constructor
