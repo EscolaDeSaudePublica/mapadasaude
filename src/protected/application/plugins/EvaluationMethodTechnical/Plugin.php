@@ -98,7 +98,10 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
 
     public function _init() {
         $app = App::i();
-
+        
+        $app->hook('POST(opportunity.saveCriteria)', function(){
+            dump($this->postData);
+        });
         $app->hook('evaluationsReport(technical).sections', function(Entities\Opportunity $opportunity, &$sections){
            
             $i = 0;
