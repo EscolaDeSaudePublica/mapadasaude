@@ -5,11 +5,14 @@ use MapasCulturais\i;
     <h4><?php i::_e('Critérios') ?></h4>
     <p><?php i::_e('Configure abaixo os critérios de avaliação técnica') ?>
     <section id="{{section.id}}" ng-repeat="section in data.sections">
+
         <header>
             <input ng-model="section.name" placeholder="<?php i::_e('informe o nome da seção') ?>" class="section-name edit" ng-change="save({sections: data.sections})" ng-model-options='{ debounce: data.debounce }'>
             <button ng-if="section.name.trim().length > 0" ng-click="deleteSection(section)" class="btn btn-danger delete alignright"><?php i::_e('Remover seção') ?></button>
             <button ng-if="section.name.trim().length == 0" ng-click="deleteSection(section)" class="btn btn-default delete alignright"><?php i::_e('Cancelar') ?></button>
-
+            <br />
+            <input type="checkbox" name="markBox" ng-click="checkCriteria(section.id)"> <span style="color: green;">Usar para critério de desempate</span>
+            <span>{{section.id}}</span>
         </header>
 
         <table>

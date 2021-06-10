@@ -12,7 +12,7 @@
                 return result;
             };
         }]);
-
+        
     module.factory('TechnicalEvaluationMethodService', ['$http', '$rootScope', function ($http, $rootScope) {
             return {
                 serviceProperty: null,
@@ -22,6 +22,13 @@
                 patchEvaluationMethodConfiguration: function (entity) {
                     entity = JSON.parse(angular.toJson(entity));
                     return $http.patch(this.getEvaluationMethodConfigurationUrl(), entity);
+                },
+                saveCriteriaOpportunity: function (criteria) {
+                    var postData = {
+                        criteria: criteria,
+                        id: MapasCulturais.entity.id
+                    }
+                    return $http.post(MapasCulturais.baseURL+'opportunity/saveCriteria', postData);
                 }
             };
         }]);
@@ -132,6 +139,14 @@
                 $scope.data.criteria.splice(index,1);
 
                 $scope.save();
+            }
+
+            $scope.checkCriteria = function(criterion){
+                console.log(criterion)
+                console.log(MapasCulturais.entity.id)
+                TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion).then(function(response){
+                    console.log({response})
+                })
             }
         }]);
 
