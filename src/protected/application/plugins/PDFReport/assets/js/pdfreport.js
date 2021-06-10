@@ -1,7 +1,9 @@
 $(function () {
+    //$("#idopportunityReport").val(MapasCulturais.entity.id);
+});
+$(document).ready(function () {
     $("#idopportunityReport").val(MapasCulturais.entity.id);
 });
-
 // $(document).ready(function() {
 //     $("#divSelectTiebreaker").hide();
 //     $("#selectRel").change(function (e) { 

@@ -52,6 +52,7 @@
         });
 
         $scope.change = function() {
+            console.log($scope.alter)
             //CRIANDO A OPÇÃO EM ORDEM NO BANCO DA TABELA OPPORTUNITY META
             PdfReportService.createTiebreaker($scope.alter).then(function(response){ 
                 if(response.status == 200) {

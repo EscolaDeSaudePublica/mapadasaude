@@ -61,13 +61,11 @@ class Pdf extends \MapasCulturais\Controller{
             case 3:
                 //ESSE CASE, VERIFICA SE OS RECURSOS E A OPORTUNIDADE
                 $id = $this->postData['idopportunityReport'];
-                
+                dump($id);
+                die;
                 $order = PdfEntity::getOrderTiebreaker($id);
                 
                 $all = PdfEntity::getDefinitive($id);
-                $registration = $app->repo('Registration')->findBy([
-                    'opportunity' => $id
-                ]);
                
                 //RETORNANDO O PERIDO DE RECURSO
                 $dqlOpMeta = "SELECT op FROM 
@@ -219,7 +217,7 @@ class Pdf extends \MapasCulturais\Controller{
                 ON r.agent_id = am.object_id
             INNER JOIN opportunity op
                 ON r.opportunity_id = op.id
-                WHERE r.opportunity_id = {$idopportunity} AND r.status = 10 and op.published_registrations = FALSE
+                WHERE r.opportunity_id = {$idopportunity} AND r.status = 10 and op.published_registrations = true
             order by r.category asc , r.consolidated_result desc, a.birthdate asc;
             ");
             //$query = $app->em->createQuery($dql);
