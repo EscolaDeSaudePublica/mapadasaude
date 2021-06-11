@@ -1,10 +1,13 @@
 <?php
 
 namespace EvaluationMethodTechnical;
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 use MapasCulturais\i;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
+use MapasCulturais\Entities\EvaluationMethodConfigurationMeta;
+use MapasCulturais\Entities\EvaluationMethodConfiguration;
 
 class Plugin extends \MapasCulturais\EvaluationMethod {
     function __construct(array $config = []) {
@@ -99,9 +102,26 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
     public function _init() {
         $app = App::i();
         
-        $app->hook('POST(opportunity.saveCriteria)', function(){
+        $app->hook('POST(opportunity.saveCriteria)', function() use($app){
             dump($this->postData);
+            $owner = $app->repo('EvaluationMethodConfiguration')->findby([
+                'opportunity' => $this->postData['id']
+            ]);
+            //dump($owner);
+            //die;
+            $jsonValue = json_encode($this->postData['criteria']);
+            //dump($jsonValue);
+            $evaluationMeta = new EvaluationMethodConfigurationMeta;
+            $evaluationMeta->key = 'moment';
+            $evaluationMeta->value = $jsonValue;
+            $evaluationMeta->owner = $owner[0];
+            $app->em->persist($evaluationMeta);
+            $app->em->flush();
+            dump($evaluationMeta);
+            die;
+            
         });
+
         $app->hook('evaluationsReport(technical).sections', function(Entities\Opportunity $opportunity, &$sections){
            
             $i = 0;

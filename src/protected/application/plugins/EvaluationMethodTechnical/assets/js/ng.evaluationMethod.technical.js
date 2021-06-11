@@ -141,12 +141,14 @@
                 $scope.save();
             }
 
-            $scope.checkCriteria = function(criterion){
+            $scope.checkCriteria = function(criterion, event){
                 console.log(criterion)
-                console.log(MapasCulturais.entity.id)
-                TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion).then(function(response){
-                    console.log({response})
-                })
+                console.log(event.currentTarget.checked)
+                if(event.currentTarget.checked) {
+                    TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion).then(function(response){
+                        console.log({response})
+                    })
+                }
             }
         }]);
 
