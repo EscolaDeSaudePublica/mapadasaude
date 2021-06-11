@@ -109,18 +109,23 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             ]);
             //dump($owner);
             //die;
-            $jsonValue = json_encode($this->postData['criteria']);
+
             //dump($jsonValue);
             $evaluationMeta = new EvaluationMethodConfigurationMeta;
             $evaluationMeta->key = 'moment';
-            $evaluationMeta->value = $jsonValue;
+            $evaluationMeta->value = $this->postData['criteria'];
             $evaluationMeta->owner = $owner[0];
             $app->em->persist($evaluationMeta);
             $app->em->flush();
-            dump($evaluationMeta);
-            die;
+            // dump($evaluationMeta);
+            // die;
             
         });
+
+        $app->hook('POST(opportunity.delete)', function() use($app){
+            dump($this->postData);
+        });
+
 
         $app->hook('evaluationsReport(technical).sections', function(Entities\Opportunity $opportunity, &$sections){
            

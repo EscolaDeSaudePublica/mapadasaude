@@ -109,6 +109,24 @@ class Plugin extends \MapasCulturais\Plugin {
             // dump($upStatus);
         });
        
+        $app->hook('GET(opportunity.getCriteria)', function() use($app) {
+            $params = $app->router()->getCurrentRoute()->getParams();
+            dump($params);
+            $idOp = $params['args'][2];
+            $criteria = $app->repo('EvaluationMethodConfigurationMeta')->findBy([
+                'owner' => $idOp
+            ]);
+            //dump($criteria);
+            $cri = json_decode($criteria[0]->value);
+            //dump($cri);
+            foreach ($criteria as $key => $value) {
+                //dump($criteria[$key]);
+                if($criteria[$key]->key == 'moment') {
+                    dump($value->value);
+                }
+            }
+            //$this->json($criteria);
+        });
     }
 
     public function register() {

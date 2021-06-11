@@ -39,19 +39,8 @@ $entity = $this->controller->requestedEntity;
                     <label>Ordem de desempate: </label> <br />
                 </div>
                 <div id="infoMomentOpportunity">
-                    <div style="margin-left: 5px; margin-bottom: 5px; border: 1px solid #c3c3c3; border-radius: 5px; padding-left: 5px;">
-                        <span>Agora escolha o momento:</span>
-                        <p>
-                            <ul style="list-style-type: none; margin: 0; padding: 0;">
-                                <li> 
-                                    <input type="radio" name="moment" id="" checked> 
-                                        <span  style="color: #676363;"> Coffee</span>
-                                </li>
-                                <li><input type="radio" name="moment" id=""> <span  style="color: #676363;"> Tea</span> </li>
-                                <li><input type="radio" name="moment" id=""><span  style="color: #676363;"> Milk</span> </li>
-                            </ul>
-                        </p>
-                    </div>
+                    <span class="label"><?php \MapasCulturais\i::_e("Município");?>:</span> 
+                    <input type="text" class="js-example-basic-single" name="state[]" multiple="multiple"/>
                 </div>
         </div>
         </div>

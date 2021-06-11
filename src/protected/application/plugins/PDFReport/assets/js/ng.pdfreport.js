@@ -33,6 +33,9 @@
             },
             getOrderTiebreaker: function(id) {
                 return $http.get(MapasCulturais.baseURL+'opportunity/orderTiebreaker/'+id);
+            },
+            getCriteria: function(opportunity) {
+                return $http.get(MapasCulturais.baseURL+'opportunity/getCriteria/'+opportunity);
             }
         }
     }]);
@@ -91,6 +94,24 @@
             var divtoappend=angular.element( document.querySelector('#orderTiebreaker'));
             divtoappend.append('<span id="spanTextOrder_'+id+'" class="badge_default margin-bottom-5">'+text+' <a href="#/tab=inscritos" class="closeCategoryProfessional" onclick="deleteTiebreaker('+id+')"><i class="fa fa-close"></i></a></span>');
         }
+
+        $scope.getCriteria = function() {
+            PdfReportService.getCriteria(MapasCulturais.entity.id).then(function(response){
+                console.log(response.data);
+                var dataCriteria = [];
+                var options = response.data;
+                console.log(options)
+                $.each(options, function (indexInArray, value) { 
+                    dataCriteria.push({id: value.id, text: value.value});
+                });
+                console.log({dataCriteria})
+                $('.js-example-basic-single').select2({
+                    data: dataCriteria
+                });
+            });
+        }
+
+        $scope.getCriteria();
     }]);
 
 })(angular);
@@ -110,3 +131,6 @@ function deleteTiebreaker(id) {
         }
     });
 }
+$(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});

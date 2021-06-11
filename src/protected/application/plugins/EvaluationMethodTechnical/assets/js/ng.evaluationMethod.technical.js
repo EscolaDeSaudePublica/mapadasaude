@@ -23,12 +23,17 @@
                     entity = JSON.parse(angular.toJson(entity));
                     return $http.patch(this.getEvaluationMethodConfigurationUrl(), entity);
                 },
-                saveCriteriaOpportunity: function (criteria) {
+                saveCriteriaOpportunity: function (criteria, check) {
                     var postData = {
                         criteria: criteria,
                         id: MapasCulturais.entity.id
                     }
-                    return $http.post(MapasCulturais.baseURL+'opportunity/saveCriteria', postData);
+                    if(check) {                       
+                        return $http.post(MapasCulturais.baseURL+'opportunity/saveCriteria', postData);
+                    }else{
+                        return $http.post(MapasCulturais.baseURL+'opportunity/delete', postData);
+                    }
+                   
                 }
             };
         }]);
@@ -37,6 +42,8 @@
             $scope.editbox = EditBox;
 
             var labels = MapasCulturais.gettext.technicalEvaluationMethod;
+            //OPÇÃO QUE FORAM ESCOLHIDO PARA CRITÉRIO DE DESEMPATE
+            $scope.optionCriteria = [];
             
             if(MapasCulturais.evaluationConfiguration && MapasCulturais.evaluationConfiguration.criteria){
                 MapasCulturais.evaluationConfiguration.criteria = MapasCulturais.evaluationConfiguration.criteria.map(function(e){
@@ -46,7 +53,7 @@
                     return e;
                 });
             }
-            
+            console.log(MapasCulturais.evaluationConfiguration.criteria);
             $scope.data = {
                 sections: MapasCulturais.evaluationConfiguration.sections || [],
                 criteria: MapasCulturais.evaluationConfiguration.criteria || [],
@@ -144,11 +151,10 @@
             $scope.checkCriteria = function(criterion, event){
                 console.log(criterion)
                 console.log(event.currentTarget.checked)
-                if(event.currentTarget.checked) {
-                    TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion).then(function(response){
-                        console.log({response})
-                    })
-                }
+                var check = event.currentTarget.checked;
+                TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion, check).then(function(response){
+                    console.log({response})
+                })
             }
         }]);
 
