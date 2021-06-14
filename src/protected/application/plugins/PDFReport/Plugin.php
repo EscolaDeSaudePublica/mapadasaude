@@ -119,13 +119,31 @@ class Plugin extends \MapasCulturais\Plugin {
             //dump($criteria);
             $cri = json_decode($criteria[0]->value);
             //dump($cri);
+            $options = [];
+            $item = '';
             foreach ($criteria as $key => $value) {
                 //dump($criteria[$key]);
                 if($criteria[$key]->key == 'moment') {
-                    dump($value->value);
+                    //dump($value->value);
+                    $item = $value->value;
+                    //array_push($item, $value->value);
                 }
+                
+                if($item == $cri[$key]->sid) {
+                    //dump($cri[$key]->title);
+                    array_push($options, ['id' => $cri[$key]->id, 'text' => $cri[$key]->title]);
+                }
+                // foreach ($cri as $keycri => $valuecri) {
+                    
+                //     if($item == $valuecri->sid){
+                //         dump($valuecri->sid);
+                //     }
+                // }
+                // if($item == $criteria[$key]->key)
             }
-            //$this->json($criteria);
+            
+            //dump($options);
+            $this->json($options);
         });
     }
 

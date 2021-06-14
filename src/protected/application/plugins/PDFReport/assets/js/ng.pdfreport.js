@@ -100,7 +100,7 @@
                 console.log(response.data);
                 var dataCriteria = [];
                 var options = response.data;
-                console.log(options)
+                //console.log(options)
                 $.each(options, function (indexInArray, value) { 
                     dataCriteria.push({id: value.id, text: value.value});
                 });

@@ -39,7 +39,7 @@ $entity = $this->controller->requestedEntity;
                     <label>Ordem de desempate: </label> <br />
                 </div>
                 <div id="infoMomentOpportunity">
-                    <span class="label"><?php \MapasCulturais\i::_e("Município");?>:</span> 
+                    <span class="label"><?php \MapasCulturais\i::_e("Ordenar maior nota");?>:</span> <br>
                     <input type="text" class="js-example-basic-single" name="state[]" multiple="multiple"/>
                 </div>
         </div>
