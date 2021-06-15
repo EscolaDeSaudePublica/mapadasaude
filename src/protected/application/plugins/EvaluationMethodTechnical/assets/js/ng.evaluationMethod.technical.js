@@ -42,9 +42,11 @@
                     console.log({user})
                     var postNote = {
                         nota: note,
-                        sessao: section
+                        sessao: section,
+                        incricao: reg,
+                        avaliador: user
                     }
-                    return $http.post(MapasCulturais.baseURL+'opportunity/createNoteCriteria', postNote);
+                    return $http.post(MapasCulturais.baseURL+'noteCriteria/createNoteCriteria', postNote);
                 }
 
             };
@@ -209,7 +211,7 @@
                         total += $scope.evaluation[cri.id] * cri.weight;
                     }
                 }
-
+                console.log(total.toFixed(1));
                 return total.toFixed(1);
             };
 
@@ -220,7 +222,6 @@
                     var cri = $scope.data.criteria[i];
                     total += $scope.evaluation[cri.id] * cri.weight;
                 }
-
                 return total.toFixed(1);
             };
 
@@ -253,7 +254,6 @@
             }
 
             $scope.valueNote = function(section, note, reg, user) {
-                
                 TechnicalEvaluationMethodService.saveNoteCriteria(section, note, reg, user);
             }
         }]);

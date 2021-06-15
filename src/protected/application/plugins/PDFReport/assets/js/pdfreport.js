@@ -3,6 +3,7 @@ $(function () {
 });
 $(document).ready(function () {
     $("#idopportunityReport").val(MapasCulturais.entity.id);
+    $('.js-example-basic-single').select2();
 });
 // $(document).ready(function() {
 //     $("#divSelectTiebreaker").hide();

@@ -7,8 +7,8 @@ use MapasCulturais\i;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\Entities\EvaluationMethodConfigurationMeta;
-use MapasCulturais\Entities\EvaluationMethodConfiguration;
 use MapasCulturais\Entities\RegistrationEvaluation;
+
 
 class Plugin extends \MapasCulturais\EvaluationMethod {
     function __construct(array $config = []) {
@@ -84,6 +84,9 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             ),
         ]);
 
+        $app = App::i();
+        $app->registerController('noteCriteria', 'EvaluationMethodTechnical\Controllers\SectionNoteEvaluationController');
+
     }
 
     function enqueueScriptsAndStyles() {
@@ -121,19 +124,12 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
         });
 
         $app->hook('POST(opportunity.createNoteCriteria)', function() use($app){
-            dump($this->postData);
-            $note = 0;
-            if($this->postData['nota'] == 'NaN') {
-                $note = 0;
-            }else{
-                $note = $this->postData['nota'];
-            }
-            $evaluationData = [];
-            array_push($evaluationData, ['section' => $this->postData['sessao'] ]);
+            
+           
             dump($evaluationData);
             $evaluationMeta = new RegistrationEvaluation;
             $evaluationMeta->result = $note;
-            $evaluationMeta->evaluationData = json_encode($evaluationData   );
+            $evaluationMeta->evaluationData = json_encode($evaluationData);
             // $evaluationMeta->registration = $owner[0];
             // $app->em->persist($evaluationMeta);
             // $app->em->flush();
