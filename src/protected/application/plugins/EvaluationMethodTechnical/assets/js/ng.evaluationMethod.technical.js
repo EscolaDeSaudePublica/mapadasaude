@@ -241,6 +241,9 @@
                 }
             }
 
-            
+            $scope.valueNote = function(id, note) {
+                console.log({id})
+                console.log({note})
+            }
         }]);
 })(angular);
