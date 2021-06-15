@@ -8,6 +8,7 @@ use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\Entities\EvaluationMethodConfigurationMeta;
 use MapasCulturais\Entities\EvaluationMethodConfiguration;
+use MapasCulturais\Entities\RegistrationEvaluation;
 
 class Plugin extends \MapasCulturais\EvaluationMethod {
     function __construct(array $config = []) {
@@ -107,25 +108,36 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             $owner = $app->repo('EvaluationMethodConfiguration')->findby([
                 'opportunity' => $this->postData['id']
             ]);
-            //dump($owner);
-            //die;
-
-            //dump($jsonValue);
             $evaluationMeta = new EvaluationMethodConfigurationMeta;
             $evaluationMeta->key = 'moment';
             $evaluationMeta->value = $this->postData['criteria'];
             $evaluationMeta->owner = $owner[0];
             $app->em->persist($evaluationMeta);
             $app->em->flush();
-            // dump($evaluationMeta);
-            // die;
-            
         });
 
         $app->hook('POST(opportunity.delete)', function() use($app){
             dump($this->postData);
         });
 
+        $app->hook('POST(opportunity.createNoteCriteria)', function() use($app){
+            dump($this->postData);
+            $note = 0;
+            if($this->postData['nota'] == 'NaN') {
+                $note = 0;
+            }else{
+                $note = $this->postData['nota'];
+            }
+            $evaluationData = [];
+            array_push($evaluationData, ['section' => $this->postData['sessao'] ]);
+            dump($evaluationData);
+            $evaluationMeta = new RegistrationEvaluation;
+            $evaluationMeta->result = $note;
+            $evaluationMeta->evaluationData = json_encode($evaluationData   );
+            // $evaluationMeta->registration = $owner[0];
+            // $app->em->persist($evaluationMeta);
+            // $app->em->flush();
+        });
 
         $app->hook('evaluationsReport(technical).sections', function(Entities\Opportunity $opportunity, &$sections){
            

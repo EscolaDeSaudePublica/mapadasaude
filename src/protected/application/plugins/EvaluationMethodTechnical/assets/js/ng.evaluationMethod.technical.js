@@ -34,7 +34,19 @@
                         return $http.post(MapasCulturais.baseURL+'opportunity/delete', postData);
                     }
                    
+                },
+                saveNoteCriteria: function(section, note, reg, user) {
+                    console.log({note})
+                    console.log({section})
+                    console.log({reg})
+                    console.log({user})
+                    var postNote = {
+                        nota: note,
+                        sessao: section
+                    }
+                    return $http.post(MapasCulturais.baseURL+'opportunity/createNoteCriteria', postNote);
                 }
+
             };
         }]);
 
@@ -53,7 +65,6 @@
                     return e;
                 });
             }
-            console.log(MapasCulturais.evaluationConfiguration.criteria);
             $scope.data = {
                 sections: MapasCulturais.evaluationConfiguration.sections || [],
                 criteria: MapasCulturais.evaluationConfiguration.criteria || [],
@@ -241,9 +252,9 @@
                 }
             }
 
-            $scope.valueNote = function(id, note) {
-                console.log({id})
-                console.log({note})
+            $scope.valueNote = function(section, note, reg, user) {
+                
+                TechnicalEvaluationMethodService.saveNoteCriteria(section, note, reg, user);
             }
         }]);
 })(angular);
