@@ -23,10 +23,11 @@
                     entity = JSON.parse(angular.toJson(entity));
                     return $http.patch(this.getEvaluationMethodConfigurationUrl(), entity);
                 },
-                saveCriteriaOpportunity: function (criteria, check) {
+                saveCriteriaOpportunity: function (criteria, check, name) {
                     var postData = {
                         criteria: criteria,
-                        id: MapasCulturais.entity.id
+                        id: MapasCulturais.entity.id,
+                        name: name
                     }
                     if(check) {                       
                         return $http.post(MapasCulturais.baseURL+'opportunity/saveCriteria', postData);
@@ -161,11 +162,11 @@
                 $scope.save();
             }
 
-            $scope.checkCriteria = function(criterion, event){
-                console.log(criterion)
-                console.log(event.currentTarget.checked)
+            $scope.checkCriteria = function(criterion, event, name){
+                // console.log(criterion)
+                // console.log(event.currentTarget.checked)
                 var check = event.currentTarget.checked;
-                TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion, check).then(function(response){
+                TechnicalEvaluationMethodService.saveCriteriaOpportunity(criterion, check, name).then(function(response){
                     console.log({response})
                 })
             }

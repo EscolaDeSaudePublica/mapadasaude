@@ -1,7 +1,7 @@
 <?php
 namespace PDFReport;
 
-use MapasCulturais\App;
+use MapasCulturais\App, MapasCulturais\i;
 use MapasCulturais\Entities\OpportunityMeta;
 use DateTime;
 
@@ -111,7 +111,7 @@ class Plugin extends \MapasCulturais\Plugin {
        
         $app->hook('GET(opportunity.getCriteria)', function() use($app) {
             $params = $app->router()->getCurrentRoute()->getParams();
-            dump($params);
+            //dump($params);
             $idOp = $params['args'][2];
             $criteria = $app->repo('EvaluationMethodConfigurationMeta')->findBy([
                 'owner' => $idOp
@@ -120,29 +120,15 @@ class Plugin extends \MapasCulturais\Plugin {
             $cri = json_decode($criteria[0]->value);
             //dump($cri);
             $options = [];
-            $item = '';
             foreach ($criteria as $key => $value) {
-                //dump($criteria[$key]);
-                if($criteria[$key]->key == 'moment') {
-                    //dump($value->value);
-                    $item = $value->value;
-                    //array_push($item, $value->value);
+                //BUSCANDO O VALOR QUE TEM NO KEY moment
+                if($criteria[$key]->key === 'moment') {
+                    $title = $app->repo('EvaluationMethodConfigurationMeta')->findBy([
+                        'key' => $value->value
+                    ]);
+                    array_push($options, ['id' => $title[0]->id , 'text' => $title[0]->value]);
                 }
-                
-                if($item == $cri[$key]->sid) {
-                    //dump($cri[$key]->title);
-                    array_push($options, ['id' => $cri[$key]->id, 'text' => $cri[$key]->title]);
-                }
-                // foreach ($cri as $keycri => $valuecri) {
-                    
-                //     if($item == $valuecri->sid){
-                //         dump($valuecri->sid);
-                //     }
-                // }
-                // if($item == $criteria[$key]->key)
             }
-            
-            //dump($options);
             $this->json($options);
         });
     }

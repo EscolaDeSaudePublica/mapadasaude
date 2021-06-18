@@ -11,7 +11,7 @@ use MapasCulturais\i;
             <button ng-if="section.name.trim().length > 0" ng-click="deleteSection(section)" class="btn btn-danger delete alignright"><?php i::_e('Remover seção') ?></button>
             <button ng-if="section.name.trim().length == 0" ng-click="deleteSection(section)" class="btn btn-default delete alignright"><?php i::_e('Cancelar') ?></button>
             <br />
-            <input type="checkbox" name="markBox" ng-click="checkCriteria(section.id, $event)"> <span style="color: green;">Usar para critério de desempate</span>
+            <input type="checkbox" name="markBox" ng-click="checkCriteria(section.id, $event, section.name)"> <span style="color: green;">Usar para critério de desempate</span>
         </header>
 
         <table>

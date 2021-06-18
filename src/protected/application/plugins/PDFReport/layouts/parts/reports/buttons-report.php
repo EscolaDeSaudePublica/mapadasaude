@@ -11,6 +11,11 @@
 <?php 
 $entity = $this->controller->requestedEntity;
 ?>
+<style>
+.select2-container {
+    width: 100% !important;
+}
+</style>
 <div>
     <hr>
     <form action="<?php echo $app->createUrl('pdf/gerarPdf'); ?>" method="POST" target="TargetWindow">
@@ -38,9 +43,10 @@ $entity = $this->controller->requestedEntity;
                 <div id="orderTiebreaker" class="show-select">
                     <label>Ordem de desempate: </label> <br />
                 </div>
+                {{dataCriteria}}
                 <div id="infoMomentOpportunity">
                     <span class="label"><?php \MapasCulturais\i::_e("Ordenar maior nota");?>:</span> <br>
-                    <input type="text" class="js-example-basic-single" name="state[]" multiple="multiple"/>
+                    <input type="text" id="orderMoment" name="state[]" multiple="multiple"/>
                 </div>
         </div>
         </div>

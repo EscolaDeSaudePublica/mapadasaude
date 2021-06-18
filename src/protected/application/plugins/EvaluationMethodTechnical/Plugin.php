@@ -111,11 +111,17 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             $owner = $app->repo('EvaluationMethodConfiguration')->findby([
                 'opportunity' => $this->postData['id']
             ]);
-            $evaluationMeta = new EvaluationMethodConfigurationMeta;
-            $evaluationMeta->key = 'moment';
-            $evaluationMeta->value = $this->postData['criteria'];
-            $evaluationMeta->owner = $owner[0];
-            $app->em->persist($evaluationMeta);
+            $evaluationMetaMoment = new EvaluationMethodConfigurationMeta;
+            $evaluationMetaMoment->key = 'moment';
+            $evaluationMetaMoment->value = $this->postData['criteria'];
+            $evaluationMetaMoment->owner = $owner[0];
+            $app->em->persist($evaluationMetaMoment);
+
+            $evaluationMetaTitle = new EvaluationMethodConfigurationMeta;
+            $evaluationMetaTitle->key = $this->postData['criteria'];
+            $evaluationMetaTitle->value = $this->postData['name'];
+            $evaluationMetaTitle->owner = $owner[0];
+            $app->em->persist($evaluationMetaTitle);
             $app->em->flush();
         });
 
