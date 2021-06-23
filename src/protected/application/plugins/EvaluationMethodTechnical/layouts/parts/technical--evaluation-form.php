@@ -12,9 +12,7 @@ $disabled = '';
 if($enabled[0]->status == 10){
     $disabled = 'disabled';
 }
-?>
-
-<?php 
+ 
 if($disabled == 'disabled') :
     echo '<div class="alert danger">
     <span>A avaliação já foi enviada. Não é possível alterar as notas.</span>
