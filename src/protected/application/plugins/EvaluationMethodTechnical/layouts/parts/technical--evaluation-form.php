@@ -21,6 +21,9 @@ endif;
 $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
 <div ng-controller="TechnicalEvaluationMethodFormController" class="technical-evaluation-form">
     <?php $this->applyTemplateHook('evaluationForm.technical', 'begin', $params); ?>
+    <div class="alert-evaluation-load" id="alert-evaluation-load-div">
+        <span id="successEvaluationNote" class="load-evaluation-note">A avaliação foi salva</span>
+    </div>
     <section ng-repeat="section in ::data.sections">
         <table>
             <tr>

@@ -84,3 +84,29 @@
     width: 100%;
     height:150px;
 }
+.alert-evaluation-load {
+    background: transparent;
+    border-radius: 5px;
+    padding: 2px;
+    margin-bottom: 2px;
+    text-align: center;
+    height: 25px;
+}
+
+.alert-evaluation-save {
+    background: #41ca50;
+    border-radius: 5px;
+    padding: 2px;
+    border: 1px solid #1d9b2b;
+    margin-bottom: 2px;
+    text-align: center;
+    height: 25px;
+}
+
+.load-evaluation-note {
+    color: transparent;
+}
+
+.success-evaluation-note {
+    color: #fff;
+}

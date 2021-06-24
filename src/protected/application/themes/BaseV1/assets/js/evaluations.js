@@ -55,7 +55,20 @@ $(function(){
             var data = $form.serialize();
             var url = MapasCulturais.createUrl('registration', 'saveEvaluation', [MapasCulturais.registration.id]);
             $.post(url, data, function(r){
-                MapasCulturais.Messages.success(labels.saveMessage);
+                console.log(labels.saveMessage);
+                 $("#alert-evaluation-load-div").removeClass('alert-evaluation-load');
+                 $("#alert-evaluation-load-div").addClass('alert-evaluation-save');
+
+                 $("#successEvaluationNote").removeClass('load-evaluation-note');
+                 $("#successEvaluationNote").addClass('success-evaluation-note');
+                setTimeout(() => {
+                    $("#alert-evaluation-load-div").removeClass('alert-evaluation-save');
+                    $("#alert-evaluation-load-div").addClass('alert-evaluation-load');
+
+                    $("#successEvaluationNote").addClass('load-evaluation-note');
+                    $("#successEvaluationNote").removeClass('success-evaluation-note');
+                }, 1000);
+                //MapasCulturais.Messages.success(labels.saveMessage);
             }).fail(function(rs) {
                 MapasCulturais.Messages.error(rs.responseJSON.message);
             });;
