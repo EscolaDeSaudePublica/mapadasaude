@@ -6,7 +6,7 @@ $params = ['registration' => $entity, 'opportunity' => $opportunity];
 //VERIFICA SE O AVALIADOR ENVIOU AS NOTAS
 $enabled = $app->repo('AgentRelation')->findBy([
     'objectId' => $opportunity->id,
-    'agent' => $app->user->id
+    'agent' => $app->user->profile->id
 ]);
 $disabled = '';
 if($enabled[0]->status == 10){
