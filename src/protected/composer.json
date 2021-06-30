@@ -27,7 +27,8 @@
         "sinergi/browser-detector": "*",
         "acelaya/doctrine-enum-type": "^2.3",
         "hacklab/bank-account-validator": "1.1.0",
-        "dompdf/dompdf": "0.8.5"
+        "dompdf/dompdf": "0.8.5",
+        "asistenteweb/nusoap": "^0.1.0"
     },
     "require-dev": {
     },
