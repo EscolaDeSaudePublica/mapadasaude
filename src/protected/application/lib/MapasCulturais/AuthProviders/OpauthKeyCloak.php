@@ -1,17 +1,21 @@
 <?php
+
 namespace MapasCulturais\AuthProviders;
+
 use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\AuthProviders\JWT;
 
-class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
+class OpauthKeyCloak extends \MapasCulturais\AuthProvider
+{
     protected $opauth;
 
     protected $_firstLloginUrl = null;
 
-    protected function _init() {
+    protected function _init()
+    {
         $app = App::i();
-        
+
         $url = $app->createUrl('auth');
         $config = array_merge([
             'timeout' => '24 hours',
@@ -21,9 +25,9 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             'cliente_id' => '',
             'path' => preg_replace('#^https?\:\/\/[^\/]*(/.*)#', '$1', $url)
         ], $this->_config);
-        
-        
-         $opauth_config = [
+
+
+        $opauth_config = [
             'strategy_dir' => PROTECTED_PATH . '/vendor/opauth/',
             'Strategy' => [
                 'keycloak' => $config
@@ -32,90 +36,99 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             'security_timeout' => $config['timeout'],
             'host' => preg_replace('#^(https?\:\/\/[^\/]*)/.*#', '$1', $url),
             'path' => $config['path'],
-            'callback_url' => $app->createUrl('auth','response')
+            'callback_url' => $app->createUrl('auth', 'response')
         ];
-        
+
         $metadata = [
             'key_cloak__id' => ['label' => 'KeyCloak Client ID', 'private' => 'true'],
             'key_cloak__secret' => ['label' => 'Key Cloak Client Secret', 'private' => 'true']
         ];
 
-        foreach($metadata as $k => $cfg){
+        foreach ($metadata as $k => $cfg) {
             $def = new \MapasCulturais\Definitions\Metadata($k, $cfg);
             $app->registerMetadata($def, 'MapasCulturais\Entities\Subsite');
         }
-        
-        if($subsite = $app->getCurrentSubsite()){
+
+        if ($subsite = $app->getCurrentSubsite()) {
             $key_cloak__id = $subsite->getMetadata('key_cloak__id');
             $key_cloak__secret = $subsite->getMetadata('key_cloak__secret');
-            
-            if($key_cloak__id && $key_cloak__secret){
+
+            if ($key_cloak__id && $key_cloak__secret) {
                 $opauth_config['Strategy']['keycloak']['client_id'] = $key_cloak__id;
                 $opauth_config['Strategy']['keycloak']['client_secret'] = $key_cloak__secret;
             }
         }
-        
+
         // SaaS -- END
 
-        if(isset($config['onCreateRedirectUrl'])){
+        if (isset($config['onCreateRedirectUrl'])) {
             $this->onCreateRedirectUrl = $config['onCreateRedirectUrl'];
         }
 
-        $opauth = new \Opauth($opauth_config, false );
+        $opauth = new \Opauth($opauth_config, false);
         $this->opauth = $opauth;
 
 
         // add actions to auth controller
-        $app->hook('GET(auth.index)', function () use($app){
+        $app->hook('GET(auth.index)', function () use ($app) {
             $app->redirect($this->createUrl('keycloak'));
         });
-        $app->hook('<<GET|POST>>(auth.keycloak)', function () use($opauth, $config){
-//            $_POST['openid_url'] = $config['login_url'];
+        $app->hook('<<GET|POST>>(auth.keycloak)', function () use ($opauth, $config) {
+            //            $_POST['openid_url'] = $config['login_url'];
             $opauth->run();
         });
-        $app->hook('GET(auth.response)', function () use($app){
-            
+        $app->hook('GET(auth.response)', function () use ($app) {
+
             $app->auth->processResponse();
-            if($app->auth->isUserAuthenticated()){
-                $app->redirect ($app->auth->getRedirectPath());
-            }else{
-                $app->redirect ($this->createUrl(''));
+            if ($app->auth->isUserAuthenticated()) {
+                $app->redirect($app->auth->getRedirectPath());
+            } else {
+                $app->redirect($this->createUrl(''));
             }
         });
-        
-        if($config['logout_url']){
-            $app->hook('auth.logout:after', function() use($app, $config){
+
+        if ($config['logout_url']) {
+            $app->hook('auth.logout:after', function () use ($app, $config) {
                 $app->redirect($config['logout_url'] . '?redirect_uri=' . $app->baseUrl);
             });
         }
-        
     }
-    public function _cleanUserSession() {
+    public function _cleanUserSession()
+    {
         unset($_SESSION['opauth']);
     }
-    public function _requireAuthentication() {
+    public function _requireAuthentication()
+    {
         $app = App::i();
-        if($app->request->isAjax()){
+        if ($app->request->isAjax()) {
             $app->halt(401, \MapasCulturais\i::__('This action requires authentication'));
-        }else{
-            $this->_setRedirectPath($app->request->getPathInfo());
+        } else {
+            $this->_setRedirectPath($this->getUriHttpReferer());
             $app->redirect($app->controller('auth')->createUrl(''), 401);
         }
     }
+    
+    private function getUriHttpReferer()
+    {
+        return $_SERVER['HTTP_REFERER'];
+    }
+
     /**
      * Defines the URL to redirect after authentication
      * @param string $redirect_path
      */
-    protected function _setRedirectPath($redirect_path) {
+    protected function _setRedirectPath($redirect_path)
+    {
         parent::_setRedirectPath($redirect_path);
     }
     /**
      * Returns the URL to redirect after authentication
      * @return string
      */
-    public function getRedirectPath(){
+    public function getRedirectPath()
+    {
         $path = key_exists('mapasculturais.auth.redirect_path', $_SESSION) ?
-                    $_SESSION['mapasculturais.auth.redirect_path'] : App::i()->createUrl('site','');
+            $_SESSION['mapasculturais.auth.redirect_path'] : App::i()->createUrl('site', '');
         unset($_SESSION['mapasculturais.auth.redirect_path']);
         return $path;
     }
@@ -123,21 +136,22 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
      * Returns the Opauth authentication response or null if the user not tried to authenticate
      * @return array|null
      */
-    protected function _getResponse(){
+    protected function _getResponse()
+    {
         $app = App::i();
         /**
-        * Fetch auth response, based on transport configuration for callback
-        */
+         * Fetch auth response, based on transport configuration for callback
+         */
         $response = null;
-        switch($this->opauth->env['callback_transport']) {
+        switch ($this->opauth->env['callback_transport']) {
             case 'session':
                 $response = key_exists('opauth', $_SESSION) ? $_SESSION['opauth'] : null;
                 break;
             case 'post':
-                $response = unserialize(base64_decode( $_POST['opauth'] ));
+                $response = unserialize(base64_decode($_POST['opauth']));
                 break;
             case 'get':
-                $response = unserialize(base64_decode( $_GET['opauth'] ));
+                $response = unserialize(base64_decode($_GET['opauth']));
                 break;
             default:
                 $app->log->error('Opauth Error: Unsupported callback_transport.');
@@ -149,13 +163,14 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
      * Check if the Opauth response is valid. If it is valid, the user is authenticated.
      * @return boolean
      */
-    protected function _validateResponse(){
+    protected function _validateResponse()
+    {
         $app = App::i();
         $reason = '';
         $response = $this->_getResponse();
         $valid = false;
         // o usuário ainda não tentou se autenticar
-        if(!is_array($response))
+        if (!is_array($response))
             return false;
         // verifica se a resposta é um erro
         if (array_key_exists('error', $response)) {
@@ -163,11 +178,11 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             $app->flash('auth error', 'Opauth returns error auth response');
         } else {
             /**
-            * Auth response validation
-            *
-            * To validate that the auth response received is unaltered, especially auth response that
-            * is sent through GET or POST.
-            */
+             * Auth response validation
+             *
+             * To validate that the auth response received is unaltered, especially auth response that
+             * is sent through GET or POST.
+             */
             if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
                 $app->flash('auth error', 'Invalid auth response: Missing key auth response components.');
             } elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
@@ -178,16 +193,17 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         }
         return $valid;
     }
-    public function _getAuthenticatedUser() {
+    public function _getAuthenticatedUser()
+    {
         $user = null;
-        if($this->_validateResponse()){
+        if ($this->_validateResponse()) {
             $app = App::i();
             $response = $this->_getResponse();
             $auth_uid = $response['auth']['uid'];
             $auth_provider = $app->getRegisteredAuthProviderId('keycloak');
             $user = $app->repo('User')->getByAuth($auth_provider, $auth_uid);
             return $user;
-        }else{
+        } else {
             return null;
         }
     }
@@ -195,12 +211,13 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
      * Process the Opauth authentication response and creates the user if it not exists
      * @return boolean true if the response is valid or false if the response is not valid
      */
-    public function processResponse(){
+    public function processResponse()
+    {
         // se autenticou
-        if($this->_validateResponse()){
+        if ($this->_validateResponse()) {
             // e ainda não existe um usuário no sistema
             $user = $this->_getAuthenticatedUser();
-            if(!$user){
+            if (!$user) {
                 $response = $this->_getResponse();
                 $user = $this->createUser($response);
 
@@ -217,7 +234,8 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         }
     }
 
-    protected function _createUser($response) {
+    protected function _createUser($response)
+    {
         $app = App::i();
 
         $app->disableAccessControl();
@@ -227,7 +245,7 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         $user->authProvider = $response['auth']['provider'];
         $user->authUid = $response['auth']['uid'];
         $user->email = $response['auth']['raw']['email'];
-        
+
         if (!empty($response['auth']['raw']['CPF'])) {
             $user->cpf = $response['auth']['raw']['CPF'];
         }
@@ -235,21 +253,21 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         if (!empty($response['auth']['raw']['TELEFONE'])) {
             $user->telefone = $response['auth']['raw']['TELEFONE'];
         }
-        
+
         $app->em->persist($user);
         // cria um agente do tipo user profile para o usuário criado acima
         $agent = new Entities\Agent($user);
         $agent->status = 0;
 
-        if(isset($response['auth']['raw']['name']) && isset($response['auth']['raw']['surname'])){
+        if (isset($response['auth']['raw']['name']) && isset($response['auth']['raw']['surname'])) {
             $agent->name = $response['auth']['raw']['name'] . ' ' . $response['auth']['raw']['surname'];
             $agent->nomeCompleto = $response['auth']['raw']['name'] . ' ' . $response['auth']['raw']['surname'];
-        }else if(isset($response['auth']['raw']['name'])){
+        } else if (isset($response['auth']['raw']['name'])) {
             $agent->name            = $response['auth']['raw']['name'];
             $agent->nomeCompleto    = $response['auth']['raw']['name'];
-        }else{
+        } else {
             $agent->name        = '';
-            $agent->nomeCompleto= '';
+            $agent->nomeCompleto = '';
         }
 
         $agent->emailPrivado = $user->email;
@@ -261,7 +279,7 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         if (isset($user->telefone)) {
             $agent->telefone1 = $user->telefone;
         }
-        
+
         $agent->save();
         $app->em->persist($agent);
         $app->em->flush();
