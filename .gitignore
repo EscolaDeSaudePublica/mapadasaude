@@ -30,3 +30,4 @@ private-files
 docker-data
 scripts/nohup.out
 docker-compose.prod.yml
+docker-compose.local.yml
