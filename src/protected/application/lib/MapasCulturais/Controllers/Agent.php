@@ -11,7 +11,8 @@ use MapasCulturais\Traits;
  * By default this controller is registered with the id 'agent'.
  *
  */
-class Agent extends EntityController {
+class Agent extends EntityController
+{
     use Traits\ControllerUploads,
         Traits\ControllerTypes,
         Traits\ControllerMetaLists,
@@ -45,29 +46,29 @@ class Agent extends EntityController {
      *   curl -i http://localhost/api/agent/find?@select=id,name,subsite.name&user=EQ\(8006\)
      */
 
-    
+
     /**
      * @api {GET} /api/agent/describe Recuperar descrição da entidade Agente
      * @apiUse APIdescribe
      * @apiGroup AGENT
      * @apiName GETdescribe
      */
-    
-     /**
+
+    /**
      * @api {GET} /api/agent/createOpportunity Criar Oportunidade.
      * @apiUse apiDefine
      * @apiGroup AGENT
      * @apiName GETcreateOpportunity
      */
-    
-     /**
+
+    /**
      * @api {POST} /agent/index Criar Agente.
      * @apiUse APICreate
      * @apiGroup AGENT
      * @apiName POSTagent
      */
 
-     /**
+    /**
      * @api {PATCH} /agent/single/:id Atualizar parcialmente um Agente.
      * @apiUse APIPatch
      * @apiGroup AGENT
@@ -81,14 +82,14 @@ class Agent extends EntityController {
      * @apiName PUTagent
      */
 
-     /**
+    /**
      * @api {DELETE} /agent/single/:id Deletar Agente.
      * @apiUse APIDelete
      * @apiGroup AGENT
      * @apiName DELETEagent
      */
 
-     /**
+    /**
      * @api {all} /api/agent/getTypes Retornar tipos
      * @apiUse getTypes
      * @apiGroup AGENT
@@ -118,24 +119,25 @@ class Agent extends EntityController {
      * @apiName setAsUserProfile
      * @apiPermission user
      * @apiVersion 4.0.0
-    */
-    function ALL_setAsUserProfile(){
+     */
+    function ALL_setAsUserProfile()
+    {
         $this->requireAuthentication();
         $app = App::i();
 
         $agent = $this->requestedEntity;
 
-        if(!$agent)
+        if (!$agent)
             $app->pass();
 
         $success = $agent->setAsUserProfile();
 
-        if($this->isAjax()){
-            if($success)
-                $this->json (true);
+        if ($this->isAjax()) {
+            if ($success)
+                $this->json(true);
             else
-                $this->json (false);
-        }else{
+                $this->json(false);
+        } else {
             $app->redirect($app->request()->getReferer());
         }
     }
@@ -149,27 +151,28 @@ class Agent extends EntityController {
      * @apiParam {Number} [subsiteId] identificador do subsite.
      * @apiPermission user
      */
-    function ALL_addRole(){
+    function ALL_addRole()
+    {
         $this->requireAuthentication();
         $app = App::i();
 
         $agent = $this->requestedEntity;
 
-        if(!$agent || !isset($this->data['role']))
+        if (!$agent || !isset($this->data['role']))
             $app->pass();
 
-        if(isset($this->data['subsiteId'])){
+        if (isset($this->data['subsiteId'])) {
             $success = $agent->user->addRole($this->data['role'], $this->data['subsiteId']);
         } else {
             $success = $agent->user->addRole($this->data['role']);
         }
 
-        if($this->isAjax()){
-            if($success)
-                $this->json (true);
+        if ($this->isAjax()) {
+            if ($success)
+                $this->json(true);
             else
-                $this->json (false);
-        }else{
+                $this->json(false);
+        } else {
             $app->redirect($app->request()->getReferer());
         }
     }
@@ -183,28 +186,29 @@ class Agent extends EntityController {
      * @apiParam {Number} [subsiteId] identificador do subsite.
      * @apiPermission user
      * @apiVersion 4.0.0
-    */
-    function ALL_removeRole(){
+     */
+    function ALL_removeRole()
+    {
         $this->requireAuthentication();
         $app = App::i();
 
         $agent = $this->requestedEntity;
 
-        if(!$agent || !isset($this->data['role']))
+        if (!$agent || !isset($this->data['role']))
             $app->pass();
-        
-        if(isset($this->data['subsiteId'])){
+
+        if (isset($this->data['subsiteId'])) {
             $success = $agent->user->removeRole($this->data['role'], $this->data['subsiteId']);
         } else {
             $success = $agent->user->removeRole($this->data['role']);
         }
-        
-        if($this->isAjax()){
-            if($success)
-                $this->json (true);
+
+        if ($this->isAjax()) {
+            if ($success)
+                $this->json(true);
             else
-                $this->json (false);
-        }else{
+                $this->json(false);
+        } else {
             $app->redirect($app->request()->getReferer());
         }
     }
