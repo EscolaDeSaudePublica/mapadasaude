@@ -460,7 +460,7 @@ class Module extends \MapasCulturais\Module{
         });
 
         // desliga a edição do campo principal de data quando vendo uma fase
-        $app->hook('view.partial(singles/opportunity-about--registration-dates).params', function(&$params){
+        $app->hook('view.partial(singles/opportunity-about--registration-dates-link).params', function(&$params){
             $opportunity = self::getRequestedOpportunity();
             $base_opportunity = self::getBaseOpportunity();
 
