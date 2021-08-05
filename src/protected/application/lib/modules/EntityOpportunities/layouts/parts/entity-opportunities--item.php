@@ -24,8 +24,7 @@ $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
         <em><?php i::_e('(Rascunho)') ?></em>
         <?php endif; ?>
         <br>
-        <div class="objeto-meta">
-    
+        <div>
             <?php $this->part('singles/opportunity-registrations--form', ['entity' => $opportunity]) ?>
         <!-- <button class="btn-access" style="float: left; margin-right: 12px;" title="Acessar inscrições">
             <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
