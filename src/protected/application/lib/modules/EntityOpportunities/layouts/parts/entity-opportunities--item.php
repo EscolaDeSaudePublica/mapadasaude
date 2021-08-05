@@ -8,11 +8,11 @@ $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
 // $entity = $app->repo('ProjectOpportunity')->find();
 
 ?>
-<article class="objeto has-avatar" style="background: #E8E8E8;border-radius: 8px;height: 200px;">
+<article class="objeto has-avatar card-info-opportunity">
     <?php if($avatar): ?>
-    <img src="<?php echo $avatar->url?>" style="background: white; border-radius: 50px; padding: 3px;">
+    <img src="<?php echo $avatar->url?>" class="avatar-card-info-opportunity">
     <?php else: ?>
-        <img src="http://localhost/assets/img/avatar--opportunity.png" style="background: white; border-radius: 50px; padding: 3px;"/>
+        <img src="http://localhost/assets/img/avatar--opportunity.png"  class="avatar-card-info-opportunity"/>
     <?php endif; ?>
     
     <div class="entity-opportunity--content ">
