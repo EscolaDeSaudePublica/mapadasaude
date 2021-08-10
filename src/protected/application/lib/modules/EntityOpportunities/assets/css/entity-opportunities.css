@@ -15,25 +15,36 @@
         display: inline-block;
     }   
     
-    #entity-opportunities .objeto.has-avatar .entity-opportunity--content {
-        /* margin-left: 20px */
-    }
-    
-    #entity-opportunities .objeto .objeto-meta>div{
-        margin-right: 1em;
-        /* float:left; */
-    }
-    .card-info-opportunity {
-        background: #E8E8E8;
-        border-radius: 8px;
-        display: flex;
-    }
-    .avatar-card-info-opportunity {
-        background: white;
-        border-radius: 50px;
-        padding: 3px;
-        height: 64px
-    }
+#entity-opportunities .objeto.has-avatar .entity-opportunity--content {
+    /* margin-left: 20px */
+}
+
+#entity-opportunities .objeto .objeto-meta>div{
+    margin-right: 1em;
+    /* float:left; */
+}
+.card-info-opportunity {
+    background: #E8E8E8;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+.avatar-card-info-opportunity {
+    background: white;
+    border-radius: 50%;
+    padding: 3px;
+    height: 64px;
+    width: 64px;
+}
 .pad-left-10 {
     margin-left: 2%;
 }
+.card-info-header {
+    display: flex;
+}
+.card-info-header span {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+
