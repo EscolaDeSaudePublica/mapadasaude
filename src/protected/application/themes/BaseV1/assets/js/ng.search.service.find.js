@@ -124,27 +124,40 @@
                 numRequests++;
                 activeRequests++;
                 $rootScope.spinnerCount++;
-
+               
                 apiFind(requestEntity, sData, $rootScope.pagination[entity], requestAction).success(function(rs,status,header){
+
                     var metadata = JSON.parse(header('API-Metadata'));
+
+                    var countProjectNotSub = 0;
                     
                     numSuccessRequests++;
                     activeRequests--;
                     $rootScope.spinnerCount--;
-
+                    
                     results[entity] = rs;
-
+                    
                     endRequest();
                    
                     if(requestEntity === 'space' && requestAction === 'findByEvents') {
                         countResults[entity].spaces = metadata.count;
                     }else if(requestEntity === 'event' && requestAction === 'findByLocation' && metadata == null){
                         countResults['event'] = 0;
-                    }else{
+                    }else if(requestEntity === 'project'){
+                        rs.forEach(element => {
+                            if(element.parent == null){
+                                countProjectNotSub++;
+                            }
+                        });
+                        countResults[entity] = countProjectNotSub;
+                       
+                    }else {
                         countResults[entity] = metadata.count;
                     }
+
                     numCountSuccessRequests++;
                     numCountRequests++;
+                    
                     endCountRequest();
                 });
 
@@ -260,7 +273,7 @@
                         apiExportURL += 'event/findByLocation/?';
                     }
                 }else if (entity === 'project'){
-                    selectData += ',registrationFrom,registrationTo';
+                    selectData += ',registrationFrom,registrationTo,parent';
                 }else if(entity === 'event'){
                     selectData += ',classificacaoEtaria,project.name,project.singleUrl,occurrences.{*,space.{*}}';
                 }
@@ -330,8 +343,6 @@
                 }
 
                 $rootScope.apiURL = apiExportURL+queryString_apiExport;
-                
-                
 
                 return $http({method: 'GET', cache:true, url:MapasCulturais.baseURL + 'api/' + entity + '/' + action + '/?'+querystring , data:searchData});
             }
@@ -344,6 +355,7 @@
                 for(var att in searchData) {
                     querystring += "&"+att+"="+searchData[att];
                 }
+               
                 return $http({method: 'GET', cache:true, url: MapasCulturais.baseURL + 'api/'+entity+'/' + action + '/?@count=1&'+querystring, data:searchData});
             }
 
