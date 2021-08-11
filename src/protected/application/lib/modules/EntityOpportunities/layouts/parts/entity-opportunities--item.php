@@ -38,7 +38,7 @@ $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
         <?php if ($avatar) : ?>
             <img src="<?php echo $avatar->url ?>" class="avatar-card-info-opportunity">
         <?php else : ?>
-            <img src="http://localhost/assets/img/avatar--opportunity.png" class="avatar-card-info-opportunity" />
+            <img src="<?php $this->asset('img/avatar--opportunity.png'); ?>" alt=""  class="avatar-card-info-opportunity" />
         <?php endif; ?>
 
         <span>
