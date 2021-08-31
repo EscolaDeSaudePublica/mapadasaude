@@ -56,10 +56,6 @@ $evaluation_methods = $app->getRegisteredEvaluationMethods();
 </edit-box>
 <?php endif; ?>
     <div class="opportunity-phases clear">
-        <?php if($this->isEditable()): ?>
-            
-            <a class="btn btn-default add" ng-click="editbox.open('new-opportunity-phase', $event)"  rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Adicionar fase");?></a>
-        <?php endif; ?>
         <ul  class="list-group">
 
         <?php foreach($phases as $phase): ?>
@@ -146,5 +142,8 @@ $evaluation_methods = $app->getRegisteredEvaluationMethods();
 
         <?php endforeach; ?>
         </ul>
+        <?php if($this->isEditable()): ?>
+            <a class="btn btn-default add" ng-click="editbox.open('new-opportunity-phase', $event)"  rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Adicionar fase");?></a>
+        <?php endif; ?>
     </div>
 <?php endif; ?>
