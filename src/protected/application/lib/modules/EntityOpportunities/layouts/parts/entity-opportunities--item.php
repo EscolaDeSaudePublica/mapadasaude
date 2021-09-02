@@ -12,7 +12,10 @@ $this->bodyProperties['ng-controller'] = "EntityController";
 $this->jsObject['angularAppDependencies'][] = 'entity.module.opportunity';
 $this->jsObject['angularAppDependencies'][] = 'ui.sortable';
 
-$this->addEntityToJs($opportunity);
+// Se a rora for diferente de edição, então passa a entidade opportunity, mas se for edição então pode ser o lançamento de selos, devido ao conflito do objectjs
+if ($this->controller->action != 'edit') {
+    $this->addEntityToJs($opportunity);
+}
 
 $this->addOpportunityToJs($opportunity);
 
