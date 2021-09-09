@@ -28,7 +28,8 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
         <table>
             <tr>
                 <th colspan="2">
-                    {{section.name}}
+                    {{section.name}}</br>
+                    Peso: {{ section.weight  }}
                 </th>
             </tr>
             <tr ng-repeat="cri in ::data.criteria" ng-if="cri.sid == section.id">
