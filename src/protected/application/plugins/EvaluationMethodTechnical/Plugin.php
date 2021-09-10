@@ -276,8 +276,10 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
     }
 
     public function getEvaluationResult(Entities\RegistrationEvaluation $evaluation) {
+
         $total = 0.00;
         $cfg = $evaluation->getEvaluationMethodConfiguration();
+        
         foreach($cfg->criteria as $cri){
             $key = $cri->id;
             //dump($key);
@@ -288,6 +290,8 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 $total += is_numeric($val) ? floatval($cri->weight) * floatval($val) : 0;
             }
         }
+
+        App::i()->applyHookBoundTo($this, 'app.plugin.getEvaluationResultCalc:before', [$cfg, &$total]);
         return $total;
     }
 
