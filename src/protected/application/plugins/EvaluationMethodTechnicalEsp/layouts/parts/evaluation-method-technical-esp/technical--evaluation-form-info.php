@@ -1,0 +1,2 @@
+<br>
+Peso: {{section.weight}}

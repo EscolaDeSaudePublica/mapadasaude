@@ -28,7 +28,9 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
         <table>
             <tr>
                 <th colspan="2">
+                    <?php $this->applyTemplateHook('technical--evaluation-form-info', 'begin'); ?>
                     {{section.name}}
+                    <?php $this->applyTemplateHook('technical--evaluation-form-info', 'end'); ?>
                 </th>
             </tr>
             <tr ng-repeat="cri in ::data.criteria" ng-if="cri.sid == section.id">

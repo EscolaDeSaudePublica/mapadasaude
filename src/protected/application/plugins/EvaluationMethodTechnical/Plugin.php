@@ -291,7 +291,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             }
         }
 
-        App::i()->applyHookBoundTo($this, 'app.plugin.getEvaluationResultCalc:before', [$cfg, &$total]);
+        App::i()->applyHookBoundTo($this, 'app.plugin.getEvaluationResultCalc:before', [$evaluation, &$total]);
         return $total;
     }
 
