@@ -39,6 +39,13 @@
                     return e;
                 });
             }
+
+            if(MapasCulturais.evaluationConfiguration && MapasCulturais.evaluationConfiguration.sections){
+                MapasCulturais.evaluationConfiguration.sections = MapasCulturais.evaluationConfiguration.sections.map(function(e){
+                    e.weight = parseFloat(e.weight);
+                    return e;
+                });
+            }
             
             $scope.data = {
                 sections: MapasCulturais.evaluationConfiguration.sections || [],
@@ -88,7 +95,7 @@
             $scope.addSection = function(){
                 var date = new Date;
                 var new_id = 's-' + date.getTime();
-                $scope.data.sections.push({id: new_id, name: ''});
+                $scope.data.sections.push({id: new_id, name: '', weight: 0});
 
                 $timeout(function(){
                     jQuery('#' + new_id + ' header input').focus();
@@ -166,6 +173,19 @@
                 $scope.evaluation =  {};
             }
 
+            $scope.maxSection = function(section){
+                var total = 0;
+
+                for(var i in $scope.data.criteria){
+                    var cri = $scope.data.criteria[i];
+                    if(cri.sid == section.id){
+                        total += cri.max * cri.weight;
+                    }
+                }
+
+                return total;
+            };
+
             $scope.subtotalSection = function(section){
                 var total = 0;
 
@@ -176,29 +196,59 @@
                     }
                 }
 
-                return total.toFixed(1);
+                return total;
             };
 
             $scope.total = function(){
                 var total = 0;
+                var totalWeight = 0;
 
-                for(var i in $scope.data.criteria){
-                    var cri = $scope.data.criteria[i];
-                    total += $scope.evaluation[cri.id] * cri.weight;
+                for(var sec in $scope.data.sections){
+                    var section = $scope.data.sections[sec];
+                    var subtotal = $scope.subtotalSection(section);
+
+                    var sectionWeight = parseFloat(section.weight);
+                    
+                    if (sectionWeight > 0) {
+                        totalWeight += sectionWeight;
+                        subtotal = subtotal * sectionWeight;
+                    }
+
+                    total += subtotal;
                 }
 
-                return total.toFixed(1);
+                if (totalWeight) {
+                    total = total / totalWeight;
+                }                
+
+                return total.toFixed(2);
             };
 
             $scope.max = function(){
                 var total = 0;
-                
-                for(var i in $scope.data.criteria){
-                    var cri = $scope.data.criteria[i];
-                    total += cri.max * cri.weight;
+                var totalWeight = 0;
+
+                for(var sec in $scope.data.sections){
+                    var section = $scope.data.sections[sec];
+                    var subtotal = $scope.maxSection(section);
+
+                    var sectionWeight = parseFloat(section.weight);
+
+                    if (sectionWeight > 0) {
+                        totalWeight += sectionWeight;
+                        subtotal = subtotal * sectionWeight;
+                    }
+
+                    total += subtotal;
                 }
 
-                return total;
+                
+
+                if (totalWeight > 0) {
+                    total = total / totalWeight;
+                }                
+
+                return total.toFixed(2);
             };
 
             $scope.checkTotal = function(num) {
