@@ -12,5 +12,13 @@ return [
         'PDFReport' => [
             'namespace' => 'PDFReport'
         ],
+        'SealModelTab' => ['namespace' => 'SealModelTab' ],
+        'SealCertified' => [
+            'namespace' => 'SealCertified',
+            'config' => [
+                'logo-site' => 'img/logo-saude.png'
+            ]
+        ],
+
     ]
 ];

@@ -61,8 +61,21 @@
              <!--print seal relation -->
              <?php $this->applyTemplateHook('print-certificate','before'); ?>
             <div id="seal-print-container">
-                <?php //echo $printSeal ?>
-                <?php $this->part('seal-model--printCertificate--esp', ['relation' => $relation]); ?>
+                <?php //echo $printSeal
+                if($app->isEnabled('seals') && 
+                    $relation->seal->seal_model &&
+                    !$app->user->is('guest') &&
+                    (   $app->user->is('superAdmin') || 
+                        $app->user->is('admin') || 
+                        $app->user->profile->id == $relation->owner->id
+                    )
+                ) { 
+                    $this->part('seal-model--printCertificate', ['relation' => $relation]);
+                }
+                
+                ?>
+
+                <?php //$this->part('seal-model--printCertificate--esp', ['relation' => $relation]); ?>
             </div>
             <?php $this->applyTemplateHook('print-certificate','after',[$relation]); ?>
         </div><!-- fim seal info container -->

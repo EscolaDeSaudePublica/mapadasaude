@@ -1,9 +1,17 @@
 <?php
 $plugin = $app->plugins['SealCertified'];
 ?>
-
+<style>
+    .img-header {
+        flex: 1;
+        width: 90%;
+        margin: auto;
+    }
+</style>
 <div class="center">
-    <img class="cert-background" src="<?php $view->asset('img/meu-certificado--bg.jpg') ?>"/>
+    <div  class="img-header">
+    <img src="<?php $view->asset('img/meu-certificado--bg.jpg') ?>"/>
+    </div>
     <div style="width: 80%; margin: auto;">
     <p style="margin-top: 35px; text-align: center; font-size: 10px;">
         <?php echo $relation->seal->shortDescription; ?>

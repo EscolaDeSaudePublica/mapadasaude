@@ -8,7 +8,6 @@ class Plugin extends \SealModelTab\SealModelTemplatePlugin
       $config += [
          'logo-site' => 'img/logo-saude.png'
       ];
-
       parent::__construct($config);
    }
 
@@ -21,6 +20,5 @@ class Plugin extends \SealModelTab\SealModelTemplatePlugin
             'preview' => 'seal-certified--preview.jpg'
         ];
     }
-
 
 }
