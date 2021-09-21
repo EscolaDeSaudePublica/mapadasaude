@@ -13,7 +13,7 @@ class Plugin extends \SealModelTab\SealModelTemplatePlugin
 
     function getModelData(){
         return [
-            'label'=> 'Certificado ESP',
+            'label'=> 'Declaração ESP',
             'name' => 'SealCertified',
             'css' => 'seal-certified--styles.css',
             'background' => 'meu-certificado--bg.jpg',
