@@ -24,11 +24,12 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
     <div class="alert-evaluation-load" id="alert-evaluation-load-div">
         <span id="successEvaluationNote" class="load-evaluation-note">A avaliação foi salva</span>
     </div>
-    <section ng-repeat="section in ::data.sections">
+    <section ng-repeat="section in ::data.sections" ng-if="section.categories.indexOf(data.registrationCategory) != -1">
         <table>
             <tr>
                 <th colspan="2">
-                    {{section.name}}
+                    {{section.name}}</br>
+                    Peso: {{ section.weight  }}
                 </th>
             </tr>
             <tr ng-repeat="cri in ::data.criteria" ng-if="cri.sid == section.id">
