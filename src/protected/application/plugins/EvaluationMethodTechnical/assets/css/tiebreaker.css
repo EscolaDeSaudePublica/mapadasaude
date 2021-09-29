@@ -1,0 +1,32 @@
+.li-item {
+    font-size: 14px;
+    font-weight: bold;
+    color: #5d5b5b;
+}
+
+.btn-plus-item{
+    color: #5b965b;
+    font-size: 0.9rem;
+}
+
+.btn-plus-item:hover{
+    color: #114611;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #114611;
+}
+
+.remove-item{
+    color: #c43d38;
+    font-size: 0.9rem;
+}
+
+.remove-item:hover{
+    color: #c55551;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #c55551;
+    padding: 0 0.5rem !important;
+}
+
+.text-success {
+    color: #5b965b;
+}

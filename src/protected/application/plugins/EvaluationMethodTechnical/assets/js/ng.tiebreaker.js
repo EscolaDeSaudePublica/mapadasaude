@@ -30,7 +30,8 @@
             itensSections : [ ],
             itensFields : [ ],
             countClickSection : 0,
-            disabled : ''
+            disabled : '',
+            textSuccess: false
         };
         //mudando a div de acordo com a escolha do select
         $scope.changeTiebreaker = function(itemSelect) {
@@ -62,8 +63,22 @@
             }
             console.log({nameSection});
             $scope.data.itensSections.push(nameSection);
+            $scope.data.textSuccess = true;
+            setInterval(() => {
+                $scope.data.textSuccess = false;
+            }, 1000);
             console.log($scope.data.itensSections);
-        }        
+        }       
+        
+        $scope.removeItemSection = function(item) {
+            console.log({item});
+            
+              var index = $scope.data.itensSections.indexOf(item);
+              if (index > -1) {
+                $scope.data.itensSections.splice(index, 1);
+              }
+           
+          }
         
         $scope.addFieldTiebreaker = function(idField, nameField) {
            console.log({idField})

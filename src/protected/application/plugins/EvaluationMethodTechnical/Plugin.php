@@ -86,6 +86,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
     function enqueueScriptsAndStyles() {
         $app = App::i();
         $app->view->enqueueStyle('app', 'technical-evaluation-method', 'css/technical-evaluation-method.css');
+        $app->view->enqueueStyle('app', 'tiebreaker', 'css/tiebreaker.css');
         $app->view->enqueueScript('app', 'technical-evaluation-form', 'js/ng.evaluationMethod.technical.js', ['entity.module.opportunity']);
         $app->view->enqueueScript('app', 'tiebreaker', 'js/ng.tiebreaker.js');
 
