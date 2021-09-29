@@ -5,10 +5,14 @@
         color: #c3c3c3;
     }
 </style>
-<?php
-$fields = $configuration->opportunity->registrationFieldConfigurations;
-?>
-<div ng-controller="TiebreakerController">
+<div ng-controller="TiebreakerController" class="registration-fieldset project-edit-mode">
+    <h4>Critérios de desempate</h4>
+    <span class="registration-help">Habilitação de ordem de desempate.</span>
+    <p>
+        <a ng-click="editbox.open('add-tiebreaker-criteria', $event)" class="btn btn-default" title="Abrir EditBox">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i> Adicionar desempate
+        </a>
+    </p>
     <div>
         <span>Ordem de desempate</span>
         <ul>

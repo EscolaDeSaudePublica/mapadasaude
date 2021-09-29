@@ -86,9 +86,8 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
     function enqueueScriptsAndStyles() {
         $app = App::i();
         $app->view->enqueueStyle('app', 'technical-evaluation-method', 'css/technical-evaluation-method.css');
-        $app->view->enqueueStyle('app', 'tiebreaker', 'css/tiebreaker.css');
+        
         $app->view->enqueueScript('app', 'technical-evaluation-form', 'js/ng.evaluationMethod.technical.js', ['entity.module.opportunity']);
-        $app->view->enqueueScript('app', 'tiebreaker', 'js/ng.tiebreaker.js');
 
         $app->view->localizeScript('technicalEvaluationMethod', [
             'sectionNameAlreadyExists' => i::__('Já existe uma seção com o mesmo nome'),
@@ -97,7 +96,6 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             'deleteCriterionConfirmation' => i::__('Deseja remover este critério de avaliação? Esta ação não poderá ser desfeita.')
         ]);
         $app->view->jsObject['angularAppDependencies'][] = 'ng.evaluationMethod.technical';
-        $app->view->jsObject['angularAppDependencies'][] = 'tiebreaker';
     }
 
     public function _init() {
@@ -180,7 +178,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             }
 
             $result['evaluation'] = $sections['evaluation'];
-//            $result['evaluation']->color = $get_next_color(true);
+            //$result['evaluation']->color = $get_next_color(true);
 
 
             // adiciona coluna do parecer técnico
@@ -207,7 +205,36 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 'invalid' => i::__('Inválido')
             ];
         });
+
+        $app->hook('view.partial(technical--configuration-form):before', function() {
+            $entity =  $this->controller->requestedEntity;
+            $this->part('note-minimum', ['entity' => $entity]);
+        });
+        $app->hook('view.partial(technical--configuration-form):after', function() {
+            $app = App::i();
+            $entity =  $this->controller->requestedEntity;
+            $configuration = $entity->evaluationMethodConfiguration;
+            
+            //CONSULTA A(S) SEÇÃO(OES) DE AVALIAÇÃO DE UMA DETERMINADA OPORTUNIDADE
+            $sec = $app->repo('EvaluationMethodConfigurationMeta')->findBy(['owner' => $configuration->opportunity, 'key' => 'sections']);
+            $allSection = [];
+            //RETIRANDO DE UM JSON E TRANSFORMANDO EM UM ARRAY PARA SER ENVIADO
+            foreach($sec as $sections):
+                $allSection = json_decode($sections->value);
+            endforeach;
+
+            $fields = $configuration->opportunity->registrationFieldConfigurations;
+
+            $app->view->enqueueStyle('app', 'tiebreaker', 'css/tiebreaker.css');
+            $app->view->enqueueScript('app', 'tiebreaker', 'js/ng.tiebreaker.js');
+            $app->view->jsObject['angularAppDependencies'][] = 'tiebreaker';
+            
+            $this->part('evaluationMethodTecnical/box-tiebreaker', ['fields' => $fields, 'section' => $allSection]);
+        });
+
     }
+
+
 
     function getValidationErrors(Entities\EvaluationMethodConfiguration $evaluation_method_configuration, array $data){
         $errors = [];
@@ -341,16 +368,4 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
         return '';
     }
 
-    public function getSection($opportunity) {
-        $app = App::i();
-        //CONSULTA A(S) SEÇÃO(OES) DE AVALIAÇÃO DE UMA DETERMINADA OPORTUNIDADE
-        $sec = $app->repo('EvaluationMethodConfigurationMeta')->findBy(['owner' => $opportunity, 'key' => 'sections']);
-        $allSection = [];
-        //RETIRANDO DE UM JSON E TRANSFORMANDO EM UM ARRAY PARA SER ENVIADO
-        foreach($sec as $sections):
-            $allSection = json_decode($sections->value);
-        endforeach;
-        //RETORNANDO UM ARRAY
-        return $allSection;
-    }
 }
