@@ -352,5 +352,4 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
         //RETORNANDO UM ARRAY
         return $allSection;
     }
-
 }
