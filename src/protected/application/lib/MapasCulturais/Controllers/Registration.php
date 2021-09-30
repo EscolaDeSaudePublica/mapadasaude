@@ -466,7 +466,10 @@ class Registration extends EntityController {
         } else {
             $user = null;
         }
-
+        // dump($this->json($registration->evaluationMethodConfiguration));
+        // dump($this->json($registration->evaluationMethodConfiguration->criteria[0]));
+        //$evaluation = $registration->saveUserEvaluation($this->postData['data'], $user);
+       // die();
         $app->applyHookBoundTo($this, 'controller(registration).saveEvaluationValidate', [$registration]);
 
         if(isset($this->urlData['status']) && $this->urlData['status'] === 'evaluated'){
