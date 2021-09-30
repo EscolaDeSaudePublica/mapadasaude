@@ -1182,7 +1182,6 @@ class Registration extends \MapasCulturais\Entity
             $evaluation->status = $evaluation_status;
         }
 
-        $this->saveEvaluationSectionNote($evaluation);
         $evaluation->save(true);
     }
 
@@ -1227,23 +1226,6 @@ class Registration extends \MapasCulturais\Entity
 
     protected function canUserModifyValuers($user){
         return $this->opportunity->canUser('@control', $user);
-    }
-
-    public function saveEvaluationSectionNote($evaluation) {
-        ini_set('display_errors', 1);
-         error_reporting(E_ALL);
-        $app = App::i();
-        $app->disableAccessControl();
-
-        $valueNote = [];
-        foreach($evaluation->evaluationData as $key => $value) {
-            array_push($valueNote, $value );
-        }
-        $evaluationSection = new RegistrationMeta;
-        $evaluationSection->owner = $evaluation->registration;
-        $evaluationSection->key = 'section_'.$evaluation->registration->evaluationMethodConfiguration->sections[0]->id;
-        $evaluationSection->value = $valueNote[0];
-        $evaluationSection->save(true);
     }
 
      //============================================================= //
