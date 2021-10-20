@@ -5,12 +5,14 @@ $plugin = $app->plugins['EvaluationMethodTechnical'];
 $params = ['registration' => $entity, 'opportunity' => $opportunity];
 //VERIFICA SE O AVALIADOR ENVIOU AS NOTAS
 $enabled = $app->repo('AgentRelation')->findBy([
-    'objectId' => $opportunity->id,
+    'objectId' => $opportunity->evaluationMethodConfiguration->id,
     'agent' => $app->user->profile->id
 ]);
 $disabled = '';
-if($enabled[0]->status == 10){
-    $disabled = 'disabled';
+if (count($enabled)) {
+    if($enabled[0]->status == 10){
+        $disabled = 'disabled';
+    }
 }
  
 if($disabled == 'disabled') :
