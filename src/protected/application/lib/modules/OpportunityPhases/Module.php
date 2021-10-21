@@ -261,6 +261,8 @@ class Module extends \MapasCulturais\Module{
 
             foreach($registrations as $i => $reg){
 
+                $this->jsObject['registration'] = $reg;
+
                 $opportunity = $reg->opportunity;
 
                 if($opportunity->registrationFieldConfigurations->count() || $opportunity->registrationFileConfigurations->count()){
@@ -298,7 +300,13 @@ class Module extends \MapasCulturais\Module{
                     $this->jsObject['entity']['registrationFileConfigurations'][] = $file;
                 }
 
+                if(!is_array($this->jsObject['entity']['registrationFiles'])){
+                    $this->jsObject['entity']['registrationFiles'] = [];
+                }
 
+                foreach($reg->files as $key => $value){
+                    $this->jsObject['entity']['registrationFiles'][$key] = $value;
+                }
             }
 
             $this->jsObject['entity']['id'] = $current_registration->id;

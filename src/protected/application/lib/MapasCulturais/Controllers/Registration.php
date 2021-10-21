@@ -458,22 +458,17 @@ class Registration extends EntityController {
     
     function POST_saveEvaluation(){
        
+        $app = App::i();
+        
         $registration = $this->getRequestedEntity();
         if(isset($this->postData['uid'])){
             $user = App::i()->repo('User')->find($this->postData['uid']);
         } else {
             $user = null;
         }
-        //RECEBENDO O RETORNO DAS CONFIGURAÇÕES DAS AVALIAÇÕES
-        $cfg = $registration->getEvaluationMethodConfiguration();
-        //LOOP PARA PERCORRER TODOS OS CAMPOS PARA FAZER A COMPARAÇÃO COM A NOTA MAXIMA PERMITIDA
-        foreach($cfg->criteria as $indice => $cri){
-            $key = $cri->id;
-            //COMPARAÇÃO DE VALOR DIGITA É MAIOR QUE O VALOR MAXIMO PERMITADO
-            if($this->postData['data']["{$key}"] > $cri->max) {
-                return $this->json(['message' => "O valor do campo ".$cri->title." é maior que a pontuação máxima permitida", 'status' => 'error'], 403);
-            }
-        }
+        
+        $app->applyHookBoundTo($this, 'controller(registration).saveEvaluationValidate', [$registration]);
+
         if(isset($this->urlData['status']) && $this->urlData['status'] === 'evaluated'){
             if($errors = $registration->getEvaluationMethod()->getValidationErrors($registration->getEvaluationMethodConfiguration(), $this->postData['data'])){
                 $this->errorJson($errors, 400);

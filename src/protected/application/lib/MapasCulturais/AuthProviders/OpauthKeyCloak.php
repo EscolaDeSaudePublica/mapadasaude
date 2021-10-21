@@ -94,7 +94,14 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         unset($_SESSION['opauth']);
     }
     private function getUriHttpReferer() {
-        return $_SERVER['HTTP_REFERER'];
+        $app = App::i();
+        $caminho = $app->request()->cookies('mapasculturais_user_nav_url');
+        if(($_SERVER['HTTP_REFERER']==$app->createUrl('site', 'search')) and (isset($caminho))){
+            $path = $app->request()->cookies('mapasculturais_user_nav_url');
+        }else{
+            $path = $_SERVER['HTTP_REFERER'];
+        }
+        return $path;
     }
     public function _requireAuthentication() {
         $app = App::i();
@@ -208,8 +215,8 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
                 $response = $this->_getResponse();
                 $user = $this->createUser($response);
 
-                $profile = $user->profile;
-                $this->_setRedirectPath($this->onCreateRedirectUrl ? $this->onCreateRedirectUrl : $profile->editUrl);
+                
+                $this->lastRedirectPath();
             }
             $this->_setAuthenticatedUser($user);
             App::i()->applyHook('auth.successful');
@@ -221,7 +228,16 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         }
     }
 
+
+    //Método que pega a última URL antes de criar o login ou do usuário logar no mapa da saúde
+    public function lastRedirectPath(){
+        $path = $this->_setRedirectPath($_SESSION['UriHttpReferer']);
+        return $path;
+    }
+
     protected function _createUser($response) {
+        
+    
         $app = App::i();
 
         $app->disableAccessControl();
@@ -243,7 +259,7 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         $app->em->persist($user);
         // cria um agente do tipo user profile para o usuário criado acima
         $agent = new Entities\Agent($user);
-        $agent->status = 0;
+        $agent->status = 1;
 
         if(isset($response['auth']['raw']['name']) && isset($response['auth']['raw']['surname'])){
             $agent->name = $response['auth']['raw']['name'] . ' ' . $response['auth']['raw']['surname'];
@@ -278,5 +294,6 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         $this->_setRedirectPath($this->onCreateRedirectUrl ? $this->onCreateRedirectUrl : $agent->editUrl);
 
         return $user;
+        
     }
 }

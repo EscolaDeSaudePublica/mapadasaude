@@ -5,12 +5,14 @@ $plugin = $app->plugins['EvaluationMethodTechnical'];
 $params = ['registration' => $entity, 'opportunity' => $opportunity];
 //VERIFICA SE O AVALIADOR ENVIOU AS NOTAS
 $enabled = $app->repo('AgentRelation')->findBy([
-    'objectId' => $opportunity->id,
+    'objectId' => $opportunity->evaluationMethodConfiguration->id,
     'agent' => $app->user->profile->id
 ]);
 $disabled = '';
-if($enabled[0]->status == 10){
-    $disabled = 'disabled';
+if (count($enabled)) {
+    if($enabled[0]->status == 10){
+        $disabled = 'disabled';
+    }
 }
  
 if($disabled == 'disabled') :
@@ -24,11 +26,12 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
     <div class="alert-evaluation-load" id="alert-evaluation-load-div">
         <span id="successEvaluationNote" class="load-evaluation-note">A avaliação foi salva</span>
     </div>
-    <section ng-repeat="section in ::data.sections">
+    <section ng-repeat="section in ::data.sections" ng-if="section.categories.indexOf(data.registrationCategory) != -1">
         <table>
             <tr>
                 <th colspan="2">
-                    {{section.name}}
+                    {{section.name}}</br>
+                    Peso: {{ section.weight  }}
                 </th>
             </tr>
             <tr ng-repeat="cri in ::data.criteria" ng-if="cri.sid == section.id">

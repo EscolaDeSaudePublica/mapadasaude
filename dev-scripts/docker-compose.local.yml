@@ -15,25 +15,32 @@ services:
       - ../docker-data/assets:/var/www/html/assets
       - ../docker-data/public-files:/var/www/html/files
       - ../docker-data/private-files:/var/www/private-files
-      - ../docker-data/pcache-cron.log:/var/www/scripts/nohup.out
       - ../tests:/var/www/tests
     links:
       - db
+      - redis
+  
     environment:
       # - DB_HOST=db
       # - DB_NAME=mapas
       # - DB_USER=mapas
       # - DB_PASS=mapas
 
+      - PENDING_PCACHE_RECREATION_INTERVAL=15
       - APP_LCODE=pt_BR,es_ES
-      - ACTIVE_THEME=SpCultura
+      - ACTIVE_THEME=Saude
       - APP_MODE=development
+      - REDIS_CACHE=redis
 
     depends_on:
       - db
-      
+      - redis
     stdin_open: true
     tty: true
+  
+  redis:
+    image: redis:5
+    command: --maxmemory 256Mb --maxmemory-policy allkeys-lru
       
   db:
     image: mdillon/postgis:10
@@ -44,6 +51,6 @@ services:
     ports:
       - "5470:5432"
     volumes:
-      - ../docker-data/postgres:/var/lib/postgresql/data
-      - ../db/schema.sql:/docker-entrypoint-initdb.d/0.schema.sql
-      - ../db/initial-data.sql:/docker-entrypoint-initdb.d/1.data.sql
+      - ../docker-data/db:/var/lib/postgresql/data
+    # - ../docker-data/postgres:/var/lib/postgresql
+      - ../compose/local/dump.sql:/docker-entrypoint-initdb.d/dump.sql

@@ -1192,12 +1192,13 @@ class Registration extends \MapasCulturais\Entity
         }
 
         $evaluation = $this->getUserEvaluation($user);
+       
         if(!$evaluation){
             $evaluation = new RegistrationEvaluation;
             $evaluation->user = $user;
             $evaluation->registration = $this;
         }
-
+       
         $this->saveEvaluation($evaluation, $data, $evaluation_status);
 
         return $evaluation;

@@ -11,7 +11,7 @@ return [
     'slim.log.enabled'      => true,
 
     // 'app.log.query'         => true,
-    'app.log.hook'          => 'panel',
+       'app.log.hook'          => true,
     // 'app.log.requestData'   => true,
     // 'app.log.translations'  => true,
     // 'app.log.apiCache'      => true,
