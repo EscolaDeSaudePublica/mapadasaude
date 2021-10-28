@@ -448,6 +448,8 @@ class Registration extends EntityController {
             $registration->cleanMaskedRegistrationFields();
             $registration->send();
 
+            $app->applyHookBoundTo($this, "POST(registration.send):after");
+
             if($app->request->isAjax()){
                 $this->json($registration);
             }else{
