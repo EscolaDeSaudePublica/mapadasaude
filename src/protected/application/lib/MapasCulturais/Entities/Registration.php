@@ -4,6 +4,7 @@ namespace MapasCulturais\Entities;
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\Traits;
 use MapasCulturais\App;
+use MapasCulturais\i;
 
 /**
  * Registration
@@ -582,6 +583,24 @@ class Registration extends \MapasCulturais\Entity
         $app->enableAccessControl();
     }
 
+    /**
+     * Retorna array com os nomes dos status
+     * 
+     * @return array
+     */
+    
+    protected static function _getStatusesNames() {
+        $statuses = parent::_getStatusesNames();
+
+        $statuses[self::STATUS_SENT] = i::__('Pendente');
+        $statuses[self::STATUS_INVALID] = i::__('Inválida');
+        $statuses[self::STATUS_NOTAPPROVED] = i::__('Não selecionada');
+        $statuses[self::STATUS_WAITLIST] = i::__('Suplente');
+        $statuses[self::STATUS_APPROVED] = i::__('Selecionada');
+
+        return $statuses;
+    }
+
     function setStatusToDraft(){
         $this->_setStatusTo(self::STATUS_DRAFT);
         App::i()->applyHookBoundTo($this, 'entity(Registration).status(draft)');
@@ -632,6 +651,8 @@ class Registration extends \MapasCulturais\Entity
         $this->checkPermission('send');
         $app = App::i();
 
+        $app->applyHookBoundTo($this, "entity($this->hookClassPath).send:before");
+
         $_access_control_enabled = $app->isAccessControlEnabled();
 
         if($_access_control_enabled){
@@ -654,6 +675,8 @@ class Registration extends \MapasCulturais\Entity
         if($_access_control_enabled){
             $app->enableAccessControl();
         }
+
+        $app->applyHookBoundTo($this, "entity($this->hookClassPath).send:after");
 
         $app->enqueueEntityToPCacheRecreation($this->opportunity);
         $app->enqueueEntityToPCacheRecreation($this);
