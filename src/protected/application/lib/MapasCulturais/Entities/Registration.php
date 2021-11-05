@@ -4,6 +4,7 @@ namespace MapasCulturais\Entities;
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\Traits;
 use MapasCulturais\App;
+use MapasCulturais\i;
 
 /**
  * Registration
@@ -580,6 +581,24 @@ class Registration extends \MapasCulturais\Entity
         	}
         }
         $app->enableAccessControl();
+    }
+
+    /**
+     * Retorna array com os nomes dos status
+     * 
+     * @return array
+     */
+    
+    protected static function _getStatusesNames() {
+        $statuses = parent::_getStatusesNames();
+
+        $statuses[self::STATUS_SENT] = i::__('Pendente');
+        $statuses[self::STATUS_INVALID] = i::__('Inválida');
+        $statuses[self::STATUS_NOTAPPROVED] = i::__('Não selecionada');
+        $statuses[self::STATUS_WAITLIST] = i::__('Suplente');
+        $statuses[self::STATUS_APPROVED] = i::__('Selecionada');
+
+        return $statuses;
     }
 
     function setStatusToDraft(){
