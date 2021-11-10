@@ -157,15 +157,15 @@
         //window.print();
     });
     $(function () {
-      $("#btn-print-report").click(function (e) { 
-         console.log(e);
-         e.preventDefault();
-         $("#btn-print-report").css('display', 'none');
-         window.print();
-         setTimeout(() => {
-          $("#btn-print-report").css('display', 'inline-block');
-         }, 1000);
-     });
+    //   $("#btn-print-report").click(function (e) { 
+    //      console.log(e);
+    //      e.preventDefault();
+    //      $("#btn-print-report").css('display', 'none');
+    //      window.print();
+    //      setTimeout(() => {
+    //       $("#btn-print-report").css('display', 'inline-block');
+    //      }, 1000);
+    //  });
     });
 </script>
 

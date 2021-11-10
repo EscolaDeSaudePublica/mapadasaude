@@ -2,10 +2,46 @@
     $this->layout = 'nolayout'; 
     $sub = $app->view->jsObject['subscribers'];
     $nameOpportunity = $sub[0]->opportunity->name;
+    //Objeto Oportunidade
+    $op = $app->view->jsObject['opp'];
+    include_once('style.php');  
+    //dump($op->ownerEntity->name);
+    //
+  
+    // dump($op->avatar->transform('avatarMedium')->url);
 ?>
 
 <div class="container">
-    <?php include_once('header.php'); ?>
+    <?php //include_once('header.php'); ?>
+    <table width="100%" style="height: 100px;">
+        <thead>
+            <tr class="">
+                <td>                   
+                    <img src="<?php echo PLUGINS_PATH.'PDFReport/assets/img/logo-saude.png'; ?>" style="float:left;"/>
+
+                </td>
+                <td>
+                    <img src="<?php echo PLUGINS_PATH.'PDFReport/assets/img/ESP-CE-ORGAO-SEC-INVERTIDA-WEB2_3.png'; ?>"  style="float:right;"/>
+                </td>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+            <img src="<?php echo $op->avatar->url ?>" alt="" style="width: 80px; height: 80px;">
+            </div>
+            <div class="col-md-10">
+                <label for="" class="title-edital">Edital</label><br>
+                <label class="sub-title-edital"><?php echo $op->ownerEntity->name; ?></label>
+                <br>
+                <label for="" class="title-edital">Oportunidade</label><br>
+                <label class="sub-title-edital"><?php echo $op->name; ?></label>
+            </div>
+        </div>
+    </div>
+
     <table class="table table-striped table-bordered">
         <thead>
             <tr class ="cert-background" style="background: #009353 !important; color:black">
@@ -53,4 +89,4 @@
         </tbody>
     </table>
 </div>
-<?php include_once('footer.php'); ?>
+<?php //include_once('footer.php'); ?>
