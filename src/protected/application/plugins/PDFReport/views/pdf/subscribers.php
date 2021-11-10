@@ -18,9 +18,11 @@
             <tr class="">
                 <td>                   
                     <img src="<?php echo PLUGINS_PATH.'PDFReport/assets/img/logo-saude.png'; ?>" style="float:left;"/>
+                    <!-- <img src="<?php $this->asset('img/logo-saude.png') ?>"  class="pull-left" > -->
 
                 </td>
                 <td>
+                <!-- <img src="<?php $this->asset('img/ESP-CE-ORGAO-SEC-INVERTIDA-WEB2_3.png') ?>" class="pull-right" alt=""> -->
                     <img src="<?php echo PLUGINS_PATH.'PDFReport/assets/img/ESP-CE-ORGAO-SEC-INVERTIDA-WEB2_3.png'; ?>"  style="float:right;"/>
                 </td>
             </tr>
@@ -30,7 +32,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-2">
-            <img src="<?php echo $op->avatar->url ?>" alt="" style="width: 80px; height: 80px;">
+            <!-- <img src="<?php echo $op->avatar->url ?>" alt="" style="width: 80px; height: 80px;"> -->
+             <img src="<?php echo $op->files['avatar']->path ?>"  style="width: 80px; height: 80px;">
             </div>
             <div class="col-md-10">
                 <label for="" class="title-edital">Edital</label><br>
@@ -39,6 +42,16 @@
                 <label for="" class="title-edital">Oportunidade</label><br>
                 <label class="sub-title-edital"><?php echo $op->name; ?></label>
             </div>
+        </div>
+       
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <br>
+        </div>
+        <div class="col-md-12">
+            <br>
         </div>
     </div>
 
