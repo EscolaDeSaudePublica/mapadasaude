@@ -219,7 +219,13 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 $empty = true;
             } else if($key === 'obs' && !trim($val)) {
                 $empty = true;
-            } else if($key !== 'obs' && $key !== 'viability' && !is_numeric($val)){
+            } else if($key !== 'obs' && $key !== 'viability' && $key !== 'na' && !is_numeric($val)){
+                if (count($data['na'])) {
+                    if ($data['na'][$key]) {
+                        continue;
+                    }                    
+                }
+
                 $empty = true;
             }
         }
