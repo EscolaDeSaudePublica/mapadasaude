@@ -158,7 +158,7 @@
             
             if(MapasCulturais.evaluation){
                 for(var id in MapasCulturais.evaluation.evaluationData){
-                    if(id != 'obs' && id != 'viability'){
+                    if(id != 'obs' && id != 'viability' && id != 'na'){
                         MapasCulturais.evaluation.evaluationData[id] = parseFloat(MapasCulturais.evaluation.evaluationData[id]);
                     }
                 }
@@ -178,7 +178,7 @@
             } else {
                 $scope.evaluation =  {};
             }
-
+            
             $scope.maxSection = function(section){
                 var total = 0;
 
