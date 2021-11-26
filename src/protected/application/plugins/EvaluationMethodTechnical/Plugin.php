@@ -221,13 +221,18 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 $empty = true;
             } else if($key !== 'obs' && $key !== 'viability' && $key !== 'na' && !is_numeric($val)){
                 if (count($data['na'])) {
-                    if ($data['na'][$key]) {
-                        continue;
-                    }                    
+                    if (isset($data['na'][$key])) {
+                        if ($data['na'][$key]){
+                            continue;
+                        }
+                    }
                 }
-
                 $empty = true;
             }
+        }
+        //Verifica se tem pelo menos um critério a ser avaliado. O Candidato precisa ser avaliado pelo menos um critério.
+        if(count($data) == count($data['na'])+2){
+            $errors[] = i::__('É necessário avaliar pelo menos um critério do candidato');
         }
 
         if($empty){
