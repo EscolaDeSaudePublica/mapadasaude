@@ -181,28 +181,40 @@
             
             $scope.maxSection = function(section){
                 var total = 0;
+                var criWeight = 0;
 
                 for(var i in $scope.data.criteria){
                     var cri = $scope.data.criteria[i];
                     if(cri.sid == section.id){
+                        criWeight += cri.weight;
                         total += cri.max * cri.weight;
                     }
                 }
 
-                return total;
+                if (section.weight > 0) {
+                    return total;
+                } else {
+                    return total / criWeight;
+                }
             };
 
             $scope.subtotalSection = function(section){
                 var total = 0;
+                var criWeight = 0;
 
                 for(var i in $scope.data.criteria){
                     var cri = $scope.data.criteria[i];
                     if(cri.sid == section.id){
+                        criWeight += cri.weight;
                         total += $scope.evaluation[cri.id] * cri.weight;
                     }
                 }
 
-                return total;
+                if (section.weight > 0) {
+                    return total;
+                } else {
+                    return total / criWeight;
+                }
             };
 
             $scope.total = function(){
@@ -217,7 +229,6 @@
                     }
                     
                     var subtotal = $scope.subtotalSection(section);
-
                     var sectionWeight = parseFloat(section.weight);
                     
                     if (sectionWeight > 0) {
