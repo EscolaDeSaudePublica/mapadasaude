@@ -230,8 +230,8 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 $empty = true;
             }
         }
-        //Verifica se tem pelo menos um critério a ser avaliado. O Candidato precisa ser avaliado pelo menos um critério.
-        if(count($data) == count($data['na'])+2){
+        //Verifica se tem pelo menos um critério a ser avaliado. O Candidato precisa ser avaliado pelo menos por um critério.
+        if(count($data) == 2){
             $errors[] = i::__('É necessário avaliar pelo menos um critério do candidato');
         }
 
@@ -288,6 +288,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
 
     public function getEvaluationResult(Entities\RegistrationEvaluation $evaluation) {
         $total = 0.00;
+        $somaPesos = 0;
 
         $cfg = $evaluation->getEvaluationMethodConfiguration();
         $qtdWeightTotal = 0;
@@ -303,6 +304,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             foreach($cfg->criteria as $cri) {
                 if ($section->id == $cri->sid) {
                     $key = $cri->id;
+                    $somaPesos += $cri->weight;
                     if(!isset($evaluation->evaluationData->$key)){
                         return null;
                     } else {
@@ -315,16 +317,21 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             if ($section->weight) {
                 $total  += floatval($totalSection) * floatval($section->weight);
             } else {
-                $total += floatval($totalSection);
+                //$total += floatval($totalSection);
+                $total = $totalSection/$somaPesos;
             }
+            
+            //dump($totalSection/$somaPesos);die;
+            
         }
-
+        
         if ($qtdWeightTotal) {
             $total = $total / $qtdWeightTotal;
-        } 
-
+        }
+        
         return $total;
     }
+    
 
     public function valueToString($value) {
         if(is_null($value)){

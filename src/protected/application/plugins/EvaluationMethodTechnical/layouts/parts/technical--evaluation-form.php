@@ -26,8 +26,8 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
     <div class="alert-evaluation-load" id="alert-evaluation-load-div">
         <span id="successEvaluationNote" class="load-evaluation-note">A avaliação foi salva</span>
     </div>
-    <section ng-repeat="section in ::data.sections" ng-if="section.categories.indexOf(data.registrationCategory) != -1">
-        <table>
+    <section ng-repeat="section in ::data.sections" ng-if="section.categories.indexOf(data.registrationCategory) != -1">    
+    <table>
             <tr>
                 <th colspan="2">
                     {{section.name}}</br>
@@ -38,7 +38,10 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
                 
                 <td><label for="{{cri.id}}">{{cri.title}}:</label></td>
                 <td>
-                    <input id="{{cri.id}}" name="data[{{cri.id}}]" type="number" step="<?php echo $plugin->step ?>" <?php echo $disabled; ?> min="{{cri.min}}" max="{{cri.max}}" ng-model="evaluation[cri.id]" class="hltip" title="Configurações: min: {{cri.min}}<br>max: {{cri.max}}<br>peso: {{cri.weight}}"><input type="checkbox" name="data[na][{{cri.id}}]" ng-checked="{{ evaluation.na[cri.id] }}" value="true"> Não se aplica 
+                    
+                    <input id="{{cri.id}}" name="data[{{cri.id}}]" type="number" step="<?php echo $plugin->step ?>" <?php echo $disabled; ?> min="{{cri.min}}" max="{{cri.max}}" ng-model="evaluation[cri.id]" class="hltip" title="Configurações: min: {{cri.min}}<br>max: {{cri.max}}<br>peso: {{cri.weight}}">
+                    <input type="checkbox" ng-model="cri.checked" id="checkedCri-{{cri.id}}" name="data[na][{{cri.id}}]" ng-checked="{{ evaluation.na[cri.id] }}" ng-click="disabledNa(cri)" value="true"> Não se aplica
+                    
                 </td>
             </tr>
             <tr class="subtotal">

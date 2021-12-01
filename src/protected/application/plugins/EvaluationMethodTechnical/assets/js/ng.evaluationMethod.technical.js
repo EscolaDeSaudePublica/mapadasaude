@@ -179,6 +179,39 @@
                 $scope.evaluation =  {};
             }
             
+            //Condição que verifica se há campos, cadastrados no banco de dados, marcados como não se aplica.
+            if($scope.evaluation.na != undefined){
+                //Trecho de código que traz os campos que estão cadastrados no banco de dados como não se aplica.
+                Object.keys($scope.evaluation.na).forEach(function (r,i) {
+                //console.log($scope.data.criteria);
+                setTimeout(() => {
+                    document.getElementById(r).readonly = true;
+                }, 2000);
+                //console.log(r);
+                })
+            }
+
+            //Função criada para o sistema deixar os campos disabled quando o avaliador marcar os critérios como não se aplica.
+            $scope.disabledNa = function(v){
+                //document.getElementById(v).disabled = true;
+                //var dado = $("#data[na]["+v+"]").val();
+                //console.log($scope.data.criteria[0].checked);
+                //var valorDigitado = document.getElementById(v.id).value;
+                //console.log("Valor digitado:---- "+valorDigitado);
+                //console.log("teste---: "+v);
+                if(v.checked){
+                    document.getElementById(v.id).readonly = true;
+                    document.getElementById(v.id).value = '';
+                }else{
+                    document.getElementById(v.id).value = $scope.evaluation[v.id];
+                    document.getElementById(v.id).readonly = false;
+                }
+                /*$scope.data.criteria.forEach(function(cri){
+                    console.log(cri.id);
+                }); */
+                
+            }
+            
             $scope.maxSection = function(section){
                 var total = 0;
                 var criWeight = 0;
@@ -201,13 +234,19 @@
             $scope.subtotalSection = function(section){
                 var total = 0;
                 var criWeight = 0;
+                var na = $scope.evaluation.na ?? {};
 
                 for(var i in $scope.data.criteria){
                     var cri = $scope.data.criteria[i];
                     if(cri.sid == section.id){
-                        criWeight += cri.weight;
-                        total += $scope.evaluation[cri.id] * cri.weight;
+                        //total += $scope.evaluation[cri.id] * cri.weight;
+                        if(na[cri.id] === undefined){
+                            total += $scope.evaluation[cri.id] * cri.weight;
+                            //denominador += cri.weight;
+                            criWeight += cri.weight;
+                        }
                     }
+                    //console.log(cri);
                 }
 
                 if (section.weight > 0) {
