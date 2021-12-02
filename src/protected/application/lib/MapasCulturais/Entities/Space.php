@@ -34,6 +34,8 @@ class Space extends \MapasCulturais\Entity
         Traits\EntityArchive,
         Traits\EntityRevision,
         Traits\EntityOpportunities;
+        
+    protected $__enableMagicGetterHook = true;
 
     /**
      * @var integer
@@ -241,7 +243,8 @@ class Space extends \MapasCulturais\Entity
     }
 
     static function getValidations() {
-        return [
+        $app = App::i();
+        $validations = [
             'name' => [
                 'required' => \MapasCulturais\i::__('O nome do espaço é obrigatório')
             ],
@@ -253,6 +256,11 @@ class Space extends \MapasCulturais\Entity
                 'required' => \MapasCulturais\i::__('O tipo do espaço é obrigatório'),
             ]
         ];
+
+        $prefix = self::getHookPrefix();
+        $app->applyHook("{$prefix}.validations", [&$validations]);
+
+        return $validations;
     }
 
     public function save($flush = false) {
