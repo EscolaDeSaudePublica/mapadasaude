@@ -1380,6 +1380,11 @@ $$
             WHERE
                 object_type = 'MapasCulturais\Entities\EvaluationMethodConfiguration' AND
                 has_control IS false");
+    },
+    'alter table add registration_file_configuration metadata' => function() use($conn) {
+        $conn->executeQuery("ALTER TABLE registration_file_configuration ADD metadata TEXT;");
+    },
+    'alter table add registration_file_configuration multiple' => function() use($conn) {
+        $conn->executeQuery("ALTER TABLE registration_file_configuration ADD multiple BOOLEAN;");
     }
-
 ] + $updates ;
