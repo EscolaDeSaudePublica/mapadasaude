@@ -187,6 +187,17 @@ class Module extends \MapasCulturais\Module{
 
         $app->view->enqueueStyle('app', 'plugin-opportunity-phases', 'css/opportunity-phases.css');
 
+        // Atualiza categorias das fases baseada na oportunidade principal (parent)
+        $app->hook('entity(Opportunity).save:after', function() use($app) {
+            if (is_null($this->parent)) {
+                $phases =  $app->repo('Opportunity')->findBy(['parent' => $this]);
+                foreach ($phases as $phase) {
+                    $phase->registrationCategories = $this->registrationCategories;
+                    // problema: força o flush mesmo que o flush não tenha sido chamado no save da primeira fase
+                    $phase->save(true);
+                }
+            }
+        });
 
         // registra os metadados das inscrićões das fases anteriores
         $app->hook('<<GET|POST|PUT|PATCH|DELETE>>(registration.<<*>>):before', function() {
