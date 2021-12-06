@@ -402,6 +402,38 @@ class Opportunity extends EntityController {
         $registrations = $query->find();
 
         $em = $opportunity->getEvaluationMethod();
+
+        $committee = $opportunity->getEvaluationCommittee();
+
+        $users = [];
+        foreach ($committee as $item) {
+            $users[] = $item->agent->user->id;
+        }
+
+        foreach($registrations as $key => $reg){
+            $notes = [];
+            $regis = $app->repo('Registration')->find($reg['id']);
+            $evaluations = $app->repo('RegistrationEvaluation')->findByRegistrationAndUsersAndStatus($regis);
+            
+            foreach($evaluations as $eval){
+                $cfg = $eval->getEvaluationMethodConfiguration();
+                foreach($cfg->criteria as $cri){
+                    foreach($cfg->sections as $section){
+                        if(in_array($regis->category, $section->categories)){
+                            if($cri->sid == $section->id){
+                                if(!isset($notes[$section->id])){
+                                    $notes[$section->name] = floatval($eval->evaluationData->{$cri->id}) / count($users);
+                                }else{
+                                    $notes[$section->name] += floatval($eval->evaluationData->{$cri->id}) / count($users);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $registrations[$key]['sections'] = $notes;
+        }
+
         foreach($registrations as &$reg) {
             if(in_array('consolidatedResult', $query->selecting)){
                 $reg['evaluationResultString'] = $em->valueToString($reg['consolidatedResult']);
