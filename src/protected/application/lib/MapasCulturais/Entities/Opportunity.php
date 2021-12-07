@@ -47,6 +47,8 @@ abstract class Opportunity extends \MapasCulturais\Entity
         Traits\EntityPermissionCache,
         Traits\EntityOriginSubsite,
         Traits\EntityArchive;
+        
+    protected $__enableMagicGetterHook = true;
 
     /**
      * @var integer
@@ -305,7 +307,8 @@ abstract class Opportunity extends \MapasCulturais\Entity
     }
 
     static function getValidations() {
-        return [
+        $app = App::i();
+        $validations = [
             'name' => [
                 'required' => \MapasCulturais\i::__('O nome da oportunidade é obrigatório')
             ],
@@ -324,6 +327,11 @@ abstract class Opportunity extends \MapasCulturais\Entity
                 '$this->validateRegistrationDates()' => \MapasCulturais\i::__('A data final das inscrições deve ser maior ou igual a data inicial')
             ]
         ];
+
+        $prefix = self::getHookPrefix();
+        $app->applyHook("{$prefix}.validations", [&$validations]);
+
+        return $validations;
     }
 
     static function getClassName() {
