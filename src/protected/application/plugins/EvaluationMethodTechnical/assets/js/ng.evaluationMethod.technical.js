@@ -193,23 +193,13 @@
 
             //Função criada para o sistema deixar os campos disabled quando o avaliador marcar os critérios como não se aplica.
             $scope.disabledNa = function(v){
-                //document.getElementById(v).disabled = true;
-                //var dado = $("#data[na]["+v+"]").val();
-                //console.log($scope.data.criteria[0].checked);
-                //var valorDigitado = document.getElementById(v.id).value;
-                //console.log("Valor digitado:---- "+valorDigitado);
-                //console.log("teste---: "+v);
                 if(v.checked){
-                    document.getElementById(v.id).readonly = true;
-                    document.getElementById(v.id).value = '';
+                    $scope.evaluation[v.id] = 0;
+                    document.getElementById(v.id).disabled = true;
                 }else{
-                    document.getElementById(v.id).value = $scope.evaluation[v.id];
-                    document.getElementById(v.id).readonly = false;
+                    $scope.evaluation[v.id] = 0;
+                    document.getElementById(v.id).disabled = false;
                 }
-                /*$scope.data.criteria.forEach(function(cri){
-                    console.log(cri.id);
-                }); */
-                
             }
             
             $scope.maxSection = function(section){
@@ -233,27 +223,27 @@
 
             $scope.subtotalSection = function(section){
                 var total = 0;
-                var criWeight = 0;
-                var na = $scope.evaluation.na ?? {};
-
+                var na = $scope.evaluation.na ?? [];
+                var totalWeight = 0;
+                if($scope.data.sections.length == 1){
+                    for(var i in $scope.data.criteria){
+                        var cri = $scope.data.criteria[i];
+                        if((Object.keys(na) > 0 && na[cri.id]) || ($scope.evaluation[cri.id] == undefined) || Number.isNaN($scope.evaluation[cri.id])){
+                            continue;
+                        }
+                        total += $scope.evaluation[cri.id] * cri.weight;
+                        totalWeight += cri.weight;
+                    }
+                    
+                    return total / totalWeight;
+                };
                 for(var i in $scope.data.criteria){
                     var cri = $scope.data.criteria[i];
-                    if(cri.sid == section.id){
-                        //total += $scope.evaluation[cri.id] * cri.weight;
-                        if(na[cri.id] === undefined){
-                            total += $scope.evaluation[cri.id] * cri.weight;
-                            //denominador += cri.weight;
-                            criWeight += cri.weight;
-                        }
+                    if((cri.sid == section.id) && ($scope.evaluation[cri.id] != undefined) && !Number.isNaN($scope.evaluation[cri.id])){
+                        total += $scope.evaluation[cri.id] * cri.weight;
                     }
-                    //console.log(cri);
                 }
-
-                if (section.weight > 0) {
-                    return total;
-                } else {
-                    return total / criWeight;
-                }
+                return total;
             };
 
             $scope.total = function(){
@@ -288,6 +278,19 @@
             $scope.max = function(){
                 var total = 0;
                 var totalWeight = 0;
+                var na = $scope.evaluation.na ?? [];
+                
+                if($scope.data.sections.length == 1){
+                    for(var i in $scope.data.criteria){
+                        var cri = $scope.data.criteria[i];
+                        if(Object.keys(na) > 0 && na[cri.id]){
+                            continue;
+                        }
+                        total += cri.max * cri.weight;
+                        totalWeight += cri.weight;
+                    }
+                    return (total / totalWeight).toFixed(2);
+                };
 
                 for(var sec in $scope.data.sections){
                     var section = $scope.data.sections[sec];

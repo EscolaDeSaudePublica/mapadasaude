@@ -176,7 +176,6 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             }
 
             $result['evaluation'] = $sections['evaluation'];
-//            $result['evaluation']->color = $get_next_color(true);
 
 
             // adiciona coluna do parecer técnico
@@ -294,6 +293,20 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
         $qtdWeightTotal = 0;
         
         $category = $evaluation->registration->category;
+
+        if(count($cfg->sections) == 1){
+            foreach($cfg->criteria as $cri){
+                if(isset($evaluation->evaluationData->na) && array_key_exists($cri->id, $evaluation->evaluationData->na)){
+                    continue;
+                }
+                $key = $cri->id;
+                $total += $evaluation->evaluationData->$key * $cri->weight;
+                $qtdWeightTotal += $cri->weight;
+            }
+
+            return $total / $qtdWeightTotal;
+        }
+
         foreach ($cfg->sections as $section) {
             if ($category && !in_array($category, $section->categories ?? [])) {
                 continue;
@@ -301,13 +314,17 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
 
             $qtdWeightTotal += $section->weight;
             $totalSection = 0.00;
-            foreach($cfg->criteria as $cri) {
+            foreach($cfg->criteria as $cri) {;
                 if ($section->id == $cri->sid) {
                     $key = $cri->id;
-                    $somaPesos += $cri->weight;
                     if(!isset($evaluation->evaluationData->$key)){
+                        if (isset($evaluation->evaluationData->na) && array_key_exists($cri->id, $evaluation->evaluationData->na)){
+                            continue;
+                        }
                         return null;
-                    } else {
+                    }
+                    else {
+                        $somaPesos += $cri->weight;
                         $val = floatval($evaluation->evaluationData->$key);
                         $totalSection += is_numeric($val) ? floatval($cri->weight) * floatval($val) : 0;
                     }
@@ -317,14 +334,10 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             if ($section->weight) {
                 $total  += floatval($totalSection) * floatval($section->weight);
             } else {
-                //$total += floatval($totalSection);
                 $total = $totalSection/$somaPesos;
             }
-            
-            //dump($totalSection/$somaPesos);die;
-            
         }
-        
+
         if ($qtdWeightTotal) {
             $total = $total / $qtdWeightTotal;
         }
@@ -332,7 +345,6 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
         return $total;
     }
     
-
     public function valueToString($value) {
         if(is_null($value)){
             return i::__('Avaliação incompleta');
