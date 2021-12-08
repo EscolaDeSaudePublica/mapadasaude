@@ -4,6 +4,7 @@ namespace MapasCulturais\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\Traits;
+use \MapasCulturais\App;
 
 /**
  * Seal
