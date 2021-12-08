@@ -171,35 +171,33 @@
                 registrationCategory: MapasCulturais.entity.object.category,
                 empty: true
             };
-  
+            
             if(MapasCulturais.evaluation){
                 $scope.evaluation =  MapasCulturais.evaluation.evaluationData;
+                $scope.na = $scope.evaluation.na;
                 $scope.data.empty = false;
             } else {
                 $scope.evaluation =  {};
+                $scope.na = [];
             }
             
-            //Condição que verifica se há campos, cadastrados no banco de dados, marcados como não se aplica.
-            if($scope.evaluation.na != undefined){
-                //Trecho de código que traz os campos que estão cadastrados no banco de dados como não se aplica.
-                Object.keys($scope.evaluation.na).forEach(function (r,i) {
-                //console.log($scope.data.criteria);
-                setTimeout(() => {
-                    document.getElementById(r).readonly = true;
-                }, 2000);
-                //console.log(r);
-                })
-            }
+            // //Condição que verifica se há campos, cadastrados no banco de dados, marcados como não se aplica.
+            // if($scope.evaluation.na != undefined){
+            //     //Trecho de código que traz os campos que estão cadastrados no banco de dados como não se aplica.
+            //     Object.keys($scope.evaluation.na).forEach(function (r,i) {
+            //     //console.log($scope.data.criteria);
+            //     setTimeout(() => {
+            //         document.getElementById(r).readonly = true;
+            //     }, 2000);
+            //     //console.log(r);
+            //     })
+            // }
 
             //Função criada para o sistema deixar os campos disabled quando o avaliador marcar os critérios como não se aplica.
-            $scope.disabledNa = function(v){
-                if(v.checked){
-                    $scope.evaluation[v.id] = 0;
-                    document.getElementById(v.id).disabled = true;
-                }else{
-                    $scope.evaluation[v.id] = 0;
-                    document.getElementById(v.id).disabled = false;
-                }
+            $scope.disabledNa = function(cri){
+                $scope.evaluation[cri.id] = null;
+                var checked = $("#checkedCri-"+cri.id).is(':checked');
+                $("#" + cri.id).attr('readonly', checked);
             }
             
             $scope.maxSection = function(section){
@@ -223,8 +221,9 @@
 
             $scope.subtotalSection = function(section){
                 var total = 0;
-                var na = $scope.evaluation.na ?? [];
+                var na = $scope.na ?? [];
                 var totalWeight = 0;
+
                 if($scope.data.sections.length == 1){
                     for(var i in $scope.data.criteria){
                         var cri = $scope.data.criteria[i];
@@ -237,6 +236,7 @@
                     
                     return total / totalWeight;
                 };
+
                 for(var i in $scope.data.criteria){
                     var cri = $scope.data.criteria[i];
                     if((cri.sid == section.id) && ($scope.evaluation[cri.id] != undefined) && !Number.isNaN($scope.evaluation[cri.id])){

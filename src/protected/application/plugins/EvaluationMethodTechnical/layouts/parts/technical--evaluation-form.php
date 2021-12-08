@@ -38,10 +38,8 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
                 
                 <td><label for="{{cri.id}}">{{cri.title}}:</label></td>
                 <td>
-                    
                     <input id="{{cri.id}}" name="data[{{cri.id}}]" type="number" step="<?php echo $plugin->step ?>" <?php echo $disabled; ?> min="{{cri.min}}" max="{{cri.max}}" ng-model="evaluation[cri.id]" class="hltip" title="Configurações: min: {{cri.min}}<br>max: {{cri.max}}<br>peso: {{cri.weight}}">
-                    <input type="checkbox" ng-model="cri.checked" id="checkedCri-{{cri.id}}" name="data[na][{{cri.id}}]" ng-checked="{{ evaluation.na[cri.id] }}" ng-click="disabledNa(cri)" value="true"> Não se aplica
-                    
+                    <input type="checkbox" ng-model="na[cri.id]" id="checkedCri-{{cri.id}}" name="data[na][{{cri.id}}]" ng-checked="{{ na[cri.id] }}" value="true" ng-click="disabledNa(cri)"> Não se aplica
                 </td>
             </tr>
             <tr class="subtotal">

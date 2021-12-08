@@ -300,11 +300,19 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                     continue;
                 }
                 $key = $cri->id;
-                $total += $evaluation->evaluationData->$key * $cri->weight;
-                $qtdWeightTotal += $cri->weight;
+                if (is_numeric($evaluation->evaluationData->$key)) {
+                    $total += $evaluation->evaluationData->$key * $cri->weight;
+                    $qtdWeightTotal += $cri->weight;
+                }
             }
 
-            return $total / $qtdWeightTotal;
+            if ($qtdWeightTotal > 0) {
+                return $total / $qtdWeightTotal;
+            } else {
+                return $total;
+            }
+
+            
         }
 
         foreach ($cfg->sections as $section) {
