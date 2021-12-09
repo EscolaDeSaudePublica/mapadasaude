@@ -4,6 +4,7 @@ namespace MapasCulturais\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\Traits;
+use \MapasCulturais\App;
 
 /**
  * Seal
@@ -27,6 +28,8 @@ class Seal extends \MapasCulturais\Entity
         Traits\EntityOriginSubsite,
         Traits\EntityArchive,
         Traits\EntitySealRelation;
+        
+    protected $__enableMagicGetterHook = true;
 
     const STATUS_RELATED = -1;
 
@@ -157,7 +160,8 @@ class Seal extends \MapasCulturais\Entity
     protected $subsite;
 
     static function getValidations() {
-        return [
+        $app = App::i();
+        $validations = [
             'name' => [
                 'required' => \MapasCulturais\i::__('O nome do selo é obrigatório')
             ],
@@ -170,6 +174,11 @@ class Seal extends \MapasCulturais\Entity
                 'v::allOf(v::min(0),v::intVal())' => \MapasCulturais\i::__('Validade do selo deve ser um número inteiro.')
             ]
         ];
+
+        $prefix = self::getHookPrefix();
+        $app->applyHook("{$prefix}.validations", [&$validations]);
+
+        return $validations;
     }
 
 
