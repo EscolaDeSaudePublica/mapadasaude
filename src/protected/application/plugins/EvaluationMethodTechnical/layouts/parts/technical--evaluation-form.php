@@ -45,7 +45,7 @@ $this->applyTemplateHook('evaluationForm.technical', 'before', $params); ?>
             <tr class="subtotal">
                 <td><?php i::_e('Subtotal')?></td>
                 <td>
-                {{subtotalSection(section) == 'NaN' ? '---' : subtotalSection(section)}}
+                {{subtotalSection(section) != 'undefined' ? subtotalSection(section):'---'}}
                 </td>
             </tr>
         </table>

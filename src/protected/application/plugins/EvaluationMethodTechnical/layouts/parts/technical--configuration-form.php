@@ -8,7 +8,7 @@ use MapasCulturais\i;
         <header>
             <input ng-model="section.name" placeholder="<?php i::_e('informe o nome da seção') ?>" class="section-name edit" ng-change="save({sections: data.sections})">
             <input ng-model="section.weight" type="number" placeholder="<?php i::_e('informe o peso da secão') ?>" class="section-name edit" ng-change="save({sections: data.sections})">
-            <p ng-if="data.registrationCategories.length > 1">
+            <p ng-if="data.registrationCategories.length > 0">
                 <small><?php i::_e("Selecione em quais categorias a seção será utilizada");?>:</small><br>
                 <label ng-repeat="category in data.registrationCategories">
                     <input type="checkbox" checklist-model="section.categories" checklist-value="category" ng-click="save({sections: data.sections})"> {{category}} 

@@ -181,17 +181,6 @@
                 $scope.na = [];
             }
             
-            // //Condição que verifica se há campos, cadastrados no banco de dados, marcados como não se aplica.
-            // if($scope.evaluation.na != undefined){
-            //     //Trecho de código que traz os campos que estão cadastrados no banco de dados como não se aplica.
-            //     Object.keys($scope.evaluation.na).forEach(function (r,i) {
-            //     //console.log($scope.data.criteria);
-            //     setTimeout(() => {
-            //         document.getElementById(r).readonly = true;
-            //     }, 2000);
-            //     //console.log(r);
-            //     })
-            // }
 
             //Função criada para o sistema deixar os campos disabled quando o avaliador marcar os critérios como não se aplica.
             $scope.disabledNa = function(cri){
@@ -233,8 +222,8 @@
                         total += $scope.evaluation[cri.id] * cri.weight;
                         totalWeight += cri.weight;
                     }
-                    
-                    return total / totalWeight;
+                    var notaTotal = total / totalWeight;
+                    return Number.isNaN(notaTotal) ? 0: notaTotal.toFixed(2);
                 };
 
                 for(var i in $scope.data.criteria){
@@ -243,7 +232,7 @@
                         total += $scope.evaluation[cri.id] * cri.weight;
                     }
                 }
-                return total;
+                return Number.isNaN(total) ? 0: total;
             };
 
             $scope.total = function(){
