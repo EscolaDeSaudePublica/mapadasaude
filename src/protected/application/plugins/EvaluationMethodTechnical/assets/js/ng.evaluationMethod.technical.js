@@ -300,8 +300,6 @@
                     total += subtotal;
                 }
 
-                
-
                 if (totalWeight > 0) {
                     total = total / totalWeight;
                 }                
@@ -324,8 +322,6 @@
 
                     return label;
                 }
-            }
-
-            
+            }     
         }]);
 })(angular);

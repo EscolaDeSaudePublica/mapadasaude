@@ -219,6 +219,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             } else if($key === 'obs' && !trim($val)) {
                 $empty = true;
             } else if($key !== 'obs' && $key !== 'viability' && $key !== 'na' && !is_numeric($val)){
+                $data['na'] = isset($data['na']) ? $data['na']: [];
                 if (count($data['na'])) {
                     if (isset($data['na'][$key])) {
                         if ($data['na'][$key]){
@@ -228,10 +229,6 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 }
                 $empty = true;
             }
-        }
-        //Verifica se tem pelo menos um critério a ser avaliado. O Candidato precisa ser avaliado pelo menos por um critério.
-        if(count($data) == 2){
-            $errors[] = i::__('É necessário avaliar pelo menos um critério do candidato');
         }
 
         if($empty){
@@ -252,7 +249,6 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
                 }
             }
         }
-
 
         return $errors;
     }
@@ -307,22 +303,23 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             }
 
             if ($qtdWeightTotal > 0) {
-                return $total / $qtdWeightTotal;
-            } else {
-                return $total;
+                 $total = $total/ $qtdWeightTotal;
             }
 
-            
+            return number_format($total, 2); 
         }
 
         foreach ($cfg->sections as $section) {
+            
             if ($category && !in_array($category, $section->categories ?? [])) {
                 continue;
             }
 
             $qtdWeightTotal += $section->weight;
+
             $totalSection = 0.00;
-            foreach($cfg->criteria as $cri) {;
+
+            foreach($cfg->criteria as $cri) {
                 if ($section->id == $cri->sid) {
                     $key = $cri->id;
                     if(!isset($evaluation->evaluationData->$key)){
@@ -340,7 +337,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             }
 
             if ($section->weight) {
-                $total  += floatval($totalSection) * floatval($section->weight);
+                $total += floatval($totalSection) * floatval($section->weight);
             } else {
                 $total = $totalSection/$somaPesos;
             }
@@ -350,7 +347,7 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
             $total = $total / $qtdWeightTotal;
         }
         
-        return $total;
+        return number_format($total, 2);
     }
     
     public function valueToString($value) {
@@ -371,7 +368,6 @@ class Plugin extends \MapasCulturais\EvaluationMethod {
 
             return $this->viability_status[$viability];
         }
-
         return '';
     }
 
