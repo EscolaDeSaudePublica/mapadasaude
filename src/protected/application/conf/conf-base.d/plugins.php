@@ -6,6 +6,7 @@ return [
         'EvaluationMethodSimple' => ['namespace' => 'EvaluationMethodSimple'],
         'EvaluationMethodDocumentary' => ['namespace' => 'EvaluationMethodDocumentary'],
         'EvaluationMethodHomolog' => ['namespace' => 'EvaluationMethodHomolog'],
+        'EvaluationMethodTechnicalNa' => ['namespace' => 'EvaluationMethodTechnicalNa', 'config' => ['step' => 0.1]],
         //PLUGIN DESENVOLVIDO PELA ESP
         'LocationStateCity' => [
             'namespace' => 'LocationStateCity'
