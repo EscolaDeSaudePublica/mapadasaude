@@ -6,7 +6,15 @@
 </div>
 <?php endif; ?>
 
-<h3 class="registration-header"><?php \MapasCulturais\i::_e("Formulário de Inscrição");?></h3>
+<?php $this->applyTemplateHook('registration-single-header','before'); ?>
+<h3 class="registration-header">
+    <?php $this->applyTemplateHook('registration-single-header', 'begin'); ?>
+    <?php \MapasCulturais\i::_e("Formulário de Inscrição");?>
+    <?php $this->applyTemplateHook('registration-single-header', 'end'); ?>
+</h3>
+<?php $this->applyTemplateHook('registration-single-header','after'); ?>
+
+
 
 <div class="registration-fieldset clearfix">
     <h4><?php \MapasCulturais\i::_e("Número da Inscrição");?></h4>
