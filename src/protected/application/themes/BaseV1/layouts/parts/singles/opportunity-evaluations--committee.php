@@ -49,28 +49,28 @@ $method = $entity->getEvaluationMethod();
 
 <script>
     $(document).ready(function () {
+        $("#metadata-registration-edit").editable();
         $("#div-registration-fieldset").hide();
         $("#select-registration-avaliator").change(function (e) { 
             e.preventDefault();
             var select = $("#select-registration-avaliator").val();
             if(select == 0) {
                 $("#div-registration-fieldset").show();
+                $("#metadata-registration-edit").editable('setValue' , 0);
             }else{
                 $("#div-registration-fieldset").hide();
+                $("#metadata-registration-edit").editable('setValue' , 1);
             }
         });
     });
 </script>
-<!-- Latest compiled and minified JavaScript -->
 
-
-
-<div class="agentes-relacionados">
+<div class="">
     <div id="opportunity-conf-avaliator" class="registration-fieldset">
        <label>Deseja habilitar edição para o Candidato?</label>
         <small ng-click="editbox.open('id-da-caixa', $event)" title="Click para mais informações"
         class="registration-help" style="cursor: pointer; border-bottom: #c3c3c3;">
-            <i class="fa fa-exclamation-circle"></i> saiba mais
+            <i class="fa fa-question-circle-o"></i>
         </small>
         <br>
         <select name="" id="select-registration-avaliator">
@@ -78,9 +78,15 @@ $method = $entity->getEvaluationMethod();
             <option value="1" selected >Sim</option>
             <option value="0">Não</option>
         </select>
-        <span class="js-editable" data-edit="select_edit_registration" data-original-title="Cor preferida" data-emptytext="Selecione">
+        <p style="display:none;">
+        <span class="js-editable editable-click"
+        id="metadata-registration-edit"
+        data-edit="select_edit_registration" data-original-title="Escolha uma opção"
+        data-value="<?php echo $entity->select_edit_registration; ?>"
+        data-emptytext="Selecione">
             <?php echo $entity->select_edit_registration; ?>
         </span>
+        </p>
         <edit-box 
             id="id-da-caixa" 
             position="right" 
