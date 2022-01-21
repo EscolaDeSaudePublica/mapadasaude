@@ -46,8 +46,54 @@ $method = $entity->getEvaluationMethod();
     }
 
 </style>
+
+<script>
+    $(document).ready(function () {
+        $("#div-registration-fieldset").hide();
+        $("#select-registration-avaliator").change(function (e) { 
+            e.preventDefault();
+            var select = $("#select-registration-avaliator").val();
+            if(select == 0) {
+                $("#div-registration-fieldset").show();
+            }else{
+                $("#div-registration-fieldset").hide();
+            }
+        });
+    });
+</script>
+<!-- Latest compiled and minified JavaScript -->
+
+
+
 <div class="agentes-relacionados">
-    <div class="registration-fieldset">
+    <div id="opportunity-conf-avaliator" class="registration-fieldset">
+       <label>Deseja habilitar edição para o Candidato?</label>
+        <small ng-click="editbox.open('id-da-caixa', $event)" title="Click para mais informações"
+        class="registration-help" style="cursor: pointer; border-bottom: #c3c3c3;">
+            <i class="fa fa-exclamation-circle"></i> saiba mais
+        </small>
+        <br>
+        <select name="" id="select-registration-avaliator">
+            <option value="">--Selecione--</option>
+            <option value="1" selected >Sim</option>
+            <option value="0">Não</option>
+        </select>
+        <span class="js-editable" data-edit="select_edit_registration" data-original-title="Cor preferida" data-emptytext="Selecione">
+            <?php echo $entity->select_edit_registration; ?>
+        </span>
+        <edit-box 
+            id="id-da-caixa" 
+            position="right" 
+            title="Habilitar edição" 
+            spinner-condition="data.processando"
+            cancel-label="Fechar" 
+            close-on-cancel='true'>
+            <p>
+                Ao habilitar edição para o usuário. O Administrador não poderá incluir um avaliador antes do prazo final da inscrição.
+            </p>
+        </edit-box>
+    </div>
+    <div class="registration-fieldset" id="div-registration-fieldset">
         <h4><?php i::_e('Comissão de Avaliação'); ?></h4>
         <?php if($method->fetchRegistrations()): ?>
             <div id='status-info' class="alert info">
