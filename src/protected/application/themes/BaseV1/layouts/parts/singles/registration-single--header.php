@@ -1,6 +1,7 @@
 <?php 
 $sentDate = $entity->sentTimestamp; 
 $hoje = new DateTime('now');
+
 $canEdit = $this->getEndDateopportunity($entity->opportunity->registrationTo);
 
 ?>
@@ -24,7 +25,8 @@ $canEdit = $this->getEndDateopportunity($entity->opportunity->registrationTo);
         <?php echo $entity->number ?>
     </div>
     <div class="registration-btn-edit">
-        <?php if(!$canEdit) : ?>
+        <?php 
+        if($canEdit) : ?>
         <a href="#" class="btn btn-success" data-remodal-target="modal-edit-registration">
             Editar Inscrição
         </a>

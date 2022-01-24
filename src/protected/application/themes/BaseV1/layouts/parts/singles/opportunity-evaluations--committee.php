@@ -4,9 +4,8 @@ use MapasCulturais\i;
 
 $this->addOpportunityEvaluationCommitteeToJs($entity);
 
-
 $method = $entity->getEvaluationMethod();
-
+//VERIFICANDO AS DATAS
 $canEdit = $this->getEndDateopportunity($entity->registrationTo);
 ?>
 <style>
