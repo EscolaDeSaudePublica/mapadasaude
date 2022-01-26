@@ -15,7 +15,7 @@ $canEdit = $this->getEndDateopportunity($entity->opportunity->registrationTo);
 <?php $this->applyTemplateHook('registration-single-header', 'before'); ?>
 <h3 class="registration-header">
     <?php $this->applyTemplateHook('registration-single-header', 'begin'); ?>
-    <?php \MapasCulturais\i::_e("Formulário de Inscrição"); ?>
+    <?php \MapasCulturais\i::_e("Comprovante de Inscrição"); ?>
     <?php $this->applyTemplateHook('registration-single-header', 'end'); ?>
 </h3>
 <div class="registration-fieldset clearfix registration-div-info">
@@ -34,15 +34,19 @@ $canEdit = $this->getEndDateopportunity($entity->opportunity->registrationTo);
 
         <div class="remodal modal-border" data-remodal-id="modal-edit-registration">
             <button data-remodal-action="close" class="remodal-close"></button>
-            <h3>Você irá Editar sua inscrição</h3>
-            <div>
+            <div style="display: flex;">
+            
+                <h3 class="remodal-title" style="float: left;">Você editará sua inscrição</h3>
+            
+            </div>
+            <div style="display: flex;">
                 <h4 style="color: #F26822; font-weight: bold;">
                     Todas as alterações feitas serão automaticamente salvas 
                 </h4>
             </div>
             <div>
-                <p>
-                    Ao confirmar essa ação, você irá alterar uma inscrição já enviada. Você conseguirá editar novamente os dados desta inscrição se fizer isso durante o período de incrições.
+                <p style="text-align: left;">
+                    Ao confirmar essa ação, <strong>você irá alterar uma inscrição já enviada. </strong> Você conseguirá editar novamente os dados desta inscrição se fizer isso durante o período de incrições.
                 </p>
 
             </div>
