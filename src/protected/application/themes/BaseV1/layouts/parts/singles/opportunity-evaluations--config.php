@@ -3,8 +3,8 @@ use MapasCulturais\i;
 
 $configuration = $entity->evaluationMethodConfiguration;
 $definition = $configuration->definition;
+dump($entity);
 ?>
-
 <div id="evaluations-config" class="aba-content" ng-controller="EvaluationMethodConfigurationController">
 
     <?php

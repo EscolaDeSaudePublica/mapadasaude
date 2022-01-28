@@ -1,6 +1,5 @@
 <?php
 use MapasCulturais\i;
-
 $this->addOpportunityEvaluationCommitteeToJs($entity);
 
 $method = $entity->getEvaluationMethod();

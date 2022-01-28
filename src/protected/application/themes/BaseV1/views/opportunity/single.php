@@ -12,7 +12,6 @@ $this->jsObject['angularAppDependencies'][] = 'ui.sortable';
 $this->addEntityToJs($entity);
 
 $this->addOpportunityToJs($entity);
-
 $this->addOpportunitySelectFieldsToJs($entity);
 
 if($this->isEditable()){
@@ -72,9 +71,9 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
         <?php $this->part('singles/opportunity-about', ['entity' => $entity]) ?>
 
-        <?php if($this->isEditable()): ?>
+        <?php if($this->isEditable()):?>
             <?php $this->part('singles/opportunity-registrations--config', ['entity' => $entity]) ?>
-            <?php if(!$entity->isNew()): ?>
+            <?php if(!$entity->isNew()):?>
                 <?php $this->part('singles/opportunity-evaluations--config', ['entity' => $entity]) ?>
             <?php endif; ?>
 
