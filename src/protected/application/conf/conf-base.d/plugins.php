@@ -21,6 +21,6 @@ return [
                 'logo-site' => 'img/logo-saude.png' 
             ] 
         ],
-        'EditRegistration' => ['namespace' => 'EditRegistration' ],
+        'EditRegistration' => ['namespace' => 'EditRegistration' ]
     ]
 ];
