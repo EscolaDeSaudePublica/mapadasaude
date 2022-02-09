@@ -2746,6 +2746,15 @@ class App extends \Slim\Slim{
             return false;
         }
 
+        if (!is_null($this->_config['mailer.streamOptionsDisabledVerifyPeer'])) {
+            $transport->setStreamOptions([
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ]
+            ]);
+        }
+
         $instance = \Swift_Mailer::newInstance($transport);
 
         return $instance;
