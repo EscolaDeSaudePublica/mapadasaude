@@ -9,6 +9,7 @@ return [
     'mailer.port'       => env('MAILER_PORT', '465'),
     'mailer.from'       => env('MAILER_FROM', 'suporte@mapasculturais.org'),
     'mailer.alwaysTo'   => env('MAILER_ALWAYSTO', false),
+    'mailer.streamOptionsDisabledVerifyPeer' => env('MAILER_STREAMOPTIONS_DISABLED_VERIFYPEER', null),
 
     'mailer.templates' => [
         'welcome' => [

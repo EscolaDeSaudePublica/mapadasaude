@@ -7,11 +7,11 @@ return [
     // 'auth.config' => [],
 
     // LOG
-    'slim.log.level'        => \Slim\Log::EMERGENCY,
-    'slim.log.enabled'      => false,
+    'slim.log.level'        => \Slim\Log::DEBUG,
+    'slim.log.enabled'      => true,
 
     // 'app.log.query'         => true,
-       'app.log.hook'          => false,
+       'app.log.hook'          => 'form',
     // 'app.log.requestData'   => true,
     // 'app.log.translations'  => true,
     // 'app.log.apiCache'      => true,
