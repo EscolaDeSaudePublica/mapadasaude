@@ -70,7 +70,7 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             $app->redirect($this->createUrl('keycloak'));
         });
         $app->hook('<<GET|POST>>(auth.keycloak)', function () use($opauth, $config){
-//            $_POST['openid_url'] = $config['login_url'];
+        // $_POST['openid_url'] = $config['login_url'];
             $opauth->run();
         });
         $app->hook('GET(auth.response)', function () use($app){
@@ -93,7 +93,9 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
     public function _cleanUserSession() {
         unset($_SESSION['opauth']);
     }
-    private function getUriHttpReferer() {
+
+    private function getUriHttpReferer()
+    {
         $app = App::i();
         $caminho = $app->request()->cookies('mapasculturais_user_nav_url');
         if(($_SERVER['HTTP_REFERER']==$app->createUrl('site', 'search')) and (isset($caminho))){
@@ -103,6 +105,7 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         }
         return $path;
     }
+
     public function _requireAuthentication() {
         $app = App::i();
         if($app->request->isAjax()){
@@ -215,7 +218,6 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
                 $response = $this->_getResponse();
                 $user = $this->createUser($response);
 
-                
                 $this->lastRedirectPath();
             }
             $this->_setAuthenticatedUser($user);
@@ -227,8 +229,6 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             return false;
         }
     }
-
-
     //Método que pega a última URL antes de criar o login ou do usuário logar no mapa da saúde
     public function lastRedirectPath(){
         $path = $this->_setRedirectPath($_SESSION['UriHttpReferer']);
@@ -236,8 +236,6 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
     }
 
     protected function _createUser($response) {
-        
-    
         $app = App::i();
 
         $app->disableAccessControl();
@@ -247,15 +245,6 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         $user->authProvider = $response['auth']['provider'];
         $user->authUid = $response['auth']['uid'];
         $user->email = $response['auth']['raw']['email'];
-        
-        if (!empty($response['auth']['raw']['CPF'])) {
-            $user->cpf = $response['auth']['raw']['CPF'];
-        }
-
-        if (!empty($response['auth']['raw']['TELEFONE'])) {
-            $user->telefone = $response['auth']['raw']['TELEFONE'];
-        }
-        
         $app->em->persist($user);
         // cria um agente do tipo user profile para o usuário criado acima
         $agent = new Entities\Agent($user);
@@ -265,21 +254,17 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             $agent->name = $response['auth']['raw']['name'] . ' ' . $response['auth']['raw']['surname'];
             $agent->nomeCompleto = $response['auth']['raw']['name'] . ' ' . $response['auth']['raw']['surname'];
         }else if(isset($response['auth']['raw']['name'])){
-            $agent->name            = $response['auth']['raw']['name'];
+            $agent->name = $response['auth']['raw']['name'];
             $agent->nomeCompleto    = $response['auth']['raw']['name'];
         }else{
-            $agent->name        = '';
-            $agent->nomeCompleto= '';
+            $agent->name = '';
+            $agent->nomeCompleto = '';
         }
 
         $agent->emailPrivado = $user->email;
 
-        if (isset($user->cpf)) {
-            $agent->documento = $user->cpf;
-        }
-
-        if (isset($user->telefone)) {
-            $agent->telefone1 = $user->telefone;
+        if (!empty($response['auth']['raw']['preferred_username'])) {
+            $agent->documento = $response['auth']['raw']['preferred_username'];
         }
         
         $agent->save();
@@ -294,6 +279,5 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         $this->_setRedirectPath($this->onCreateRedirectUrl ? $this->onCreateRedirectUrl : $agent->editUrl);
 
         return $user;
-        
     }
 }
