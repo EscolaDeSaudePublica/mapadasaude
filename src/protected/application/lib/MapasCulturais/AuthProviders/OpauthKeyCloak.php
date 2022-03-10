@@ -97,12 +97,18 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
     private function getUriHttpReferer()
     {
         $app = App::i();
-        $caminho = $app->request()->cookies('mapasculturais_user_nav_url');
-        if(($_SERVER['HTTP_REFERER']==$app->createUrl('site', 'search')) and (isset($caminho))){
-            $path = $app->request()->cookies('mapasculturais_user_nav_url');
-        }else{
-            $path = $_SERVER['HTTP_REFERER'];
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $caminho = $app->request()->cookies('mapasculturais_user_nav_url');
+            if (($_SERVER['HTTP_REFERER']==$app->createUrl('site', 'search')) && isset($caminho)) {
+                $path = $caminho;
+            } else {
+                $path = $_SERVER['HTTP_REFERER'];
+            }
+        } else {
+            $path = $app->auth->getRedirectPath();
         }
+       
         return $path;
     }
 
