@@ -350,7 +350,7 @@
                     }
                 }
 
-                return total;
+                return !isNaN(total) ? total : 0;
             };
 
             $scope.total = function(){
