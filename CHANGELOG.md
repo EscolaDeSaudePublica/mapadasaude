@@ -4,6 +4,22 @@ Todas as mudanças notáveis no projeto serão documentadas neste arquivo.
 O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto adere ao [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.3.30] - 2022-10-06
+- ### Melhorias
+- Instala LIB league/csv
+## [5.3.29] - 2022-10-05
+- ### Correções
+- Corrige erro que permite o agente excluir um selo associado a ele
+## [5.3.28] - 2022-09-13
+- ### Correções
+- Corrige db-update que faz a correção de eros nas inscrições entre fases
+- Faz com que os fields sejam registrados recursivamente ao reconsolidar as avaliações
+## [5.3.27] - 2022-09-09
+- ### Correções
+- Corrige busca recursiva dos fields nos casos de oportunidades multifases
+## [5.3.26] - 2022-08-19
+- ### Melhorias
+- Cria dp-update que define permissão em todos os campos nas permissões dos avaliadores para oportunidades legadas 
 ## [5.3.25] - 2022-08-16
 - ### Correções
 - Corrige objeto Module para a chamada do método getChartsColors
