@@ -20,7 +20,7 @@ $(function () {
                         $this.trigger('blur')
                     }, 10);
                 },
-                disableMobile: true,
+                disableMobile: "true",
             });
 
             setTimeout(function () { 
