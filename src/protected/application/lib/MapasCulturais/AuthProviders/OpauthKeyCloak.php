@@ -3,6 +3,7 @@ namespace MapasCulturais\AuthProviders;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\AuthProviders\JWT;
+use MapasCulturais\Entities\User;
 
 class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
     protected $opauth;
@@ -271,6 +272,15 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         
         $app->em->persist($user);
         // cria um agente do tipo user profile para o usuário criado acima
+        $documento = $response['auth']['raw']['preferred_username'];
+        $cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $documento);
+        $agent_meta = $app->repo('AgentMeta')->findOneBy(['value' => $cpf]);
+
+        if ($agent_meta && $agent_meta->owner->user->status === User::STATUS_ENABLED) {
+            $app->em->remove($agent_meta);
+            $app->em->flush();
+        }
+
         $agent = new Entities\Agent($user);
         $agent->status = 1;
 
@@ -287,9 +297,8 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
 
         $agent->emailPrivado = $user->email;
         
-        $documento = $response['auth']['raw']['preferred_username'];
         if (!empty($documento) && strlen($documento) === 11) {
-            $agent->documento = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $documento);
+            $agent->documento = $cpf;
         }
 
         $agent->save();
