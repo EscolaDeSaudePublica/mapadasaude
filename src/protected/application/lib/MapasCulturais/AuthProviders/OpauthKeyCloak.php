@@ -271,7 +271,12 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         }
         
         $app->em->persist($user);
-        // cria um agente do tipo user profile para o usuário criado acima
+
+        /**
+         * Verifica se CPF está vinculado a outro agente no momento da inscrição
+         * Remove CPF do agente que tem um email como Username no Keycloak
+         * Deixa o CPF somente no novo usuário, que tem o CPF como Username no Keycloak
+         */
         $documento = $response['auth']['raw']['preferred_username'];
         $cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $documento);
         $agent_meta = $app->repo('AgentMeta')->findOneBy(['value' => $cpf]);
@@ -281,6 +286,7 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
             $app->em->flush();
         }
 
+        // cria um agente do tipo user profile para o usuário criado acima
         $agent = new Entities\Agent($user);
         $agent->status = 1;
 
