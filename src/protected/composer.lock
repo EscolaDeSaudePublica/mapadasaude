@@ -2400,11 +2400,11 @@
         },
         {
             "name": "opauth/keycloak",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FeliciLab/opauth-keycloak.git",
-                "reference": "44cb900dbf1522931ca649fd44cb7f9c962f64f2"
+                "reference": "92ee93440181b1a2b9604e1f6b8d538c9b0b50b1"
             },
             "require": {
                 "firebase/php-jwt": "^4.0",
@@ -2434,7 +2434,7 @@
                 "authentication",
                 "keycloak"
             ],
-            "time": "2023-01-03T19:39:42+00:00"
+            "time": "2023-01-06T18:36:48+00:00"
         },
         {
             "name": "opauth/logincidadao",
