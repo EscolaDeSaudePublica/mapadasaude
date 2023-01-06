@@ -1,9 +1,9 @@
 <?php
+
 namespace MapasCulturais\AuthProviders;
+
 use MapasCulturais\App;
 use MapasCulturais\Entities;
-use MapasCulturais\AuthProviders\JWT;
-use MapasCulturais\Entities\User;
 
 class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
     protected $opauth;
@@ -273,17 +273,19 @@ class OpauthKeyCloak extends \MapasCulturais\AuthProvider{
         $app->em->persist($user);
 
         /**
-         * Verifica se CPF está vinculado a outro agente no momento da inscrição
+         * Verifica se CPF está vinculado a outra conta no momento do cadastro
          * Remove CPF do agente que tem um email como Username no Keycloak
          * Deixa o CPF somente no novo usuário, que tem o CPF como Username no Keycloak
          */
         $documento = $response['auth']['raw']['preferred_username'];
         $cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $documento);
-        $agent_meta = $app->repo('AgentMeta')->findOneBy(['value' => $cpf]);
+        $agent_metas = $app->repo('AgentMeta')->findBy(['value' => $cpf]);
 
-        if ($agent_meta && $agent_meta->owner->user->status === User::STATUS_ENABLED) {
-            $app->em->remove($agent_meta);
-            $app->em->flush();
+        if ($agent_metas) {
+            foreach ($agent_metas as $agent_meta) {
+                $app->em->remove($agent_meta);
+                $app->em->flush();
+            }
         }
 
         // cria um agente do tipo user profile para o usuário criado acima
