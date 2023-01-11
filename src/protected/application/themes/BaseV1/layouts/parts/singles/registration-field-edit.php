@@ -24,7 +24,7 @@ foreach ($definitions as $def) {
     </div>
     <ul ng-if="!field.multiple && field.file" class="widget-list js-downloads js-slimScroll">
         <li class="widget-list-item is-editable">
-            <a href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'><span>{{field.file.name}}</span></a>
+            <a href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'>{{field.file.name}}</a>
             <div class="botoes">
                 <a hltip ng-click="removeFile(field.file)" class="delete hltip" title="<?php \MapasCulturais\i::esc_attr_e("Excluir arquivo");?>"></a>
             </div>
@@ -33,7 +33,7 @@ foreach ($definitions as $def) {
 
     <ul ng-if="field.multiple" ng-repeat="file in field.file track by $index" class="widget-list js-downloads js-slimScroll">
         <li id="{{file.id}}" class="widget-list-item is-editable">
-            <a href="{{file.url}}" target="_blank" rel='noopener noreferrer'><span>{{file.description}} - {{file.name}}</span></a>
+            <a href="{{file.url}}" target="_blank" rel='noopener noreferrer'>{{file.description}} - {{file.name}}</a>
             <div class="botoes">
                 <a hltip ng-click="removeFile(file)" class="delete hltip" title="<?php \MapasCulturais\i::esc_attr_e("Excluir arquivo");?>"></a>
             </div>
