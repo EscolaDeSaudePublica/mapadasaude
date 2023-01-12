@@ -13,8 +13,9 @@ $data = $evaluation->evaluationData;
 
 $class = $evaluation->result == 1 ? 'evaluation-valid' : 'evaluation-invalid';
 ?>
+<?php $this->applyTemplateHook('documentary-evaluation-view','before'); ?>
 <div id="documentary-evaluation-view" class="widget documentary-evaluation-view <?php echo $class ?>">
-    
+    <?php $this->applyTemplateHook('documentary-evaluation-view','begin'); ?>
     <h3><?php i::_e('Avaliação Documental') ?></h3>
     <h4><?php echo $evaluation->resultString; ?></h4>
     
@@ -34,4 +35,6 @@ $class = $evaluation->result == 1 ? 'evaluation-valid' : 'evaluation-invalid';
             </li>
         <?php endif; ?>
     <?php endforeach; ?>
+    <?php $this->applyTemplateHook('documentary-evaluation-view','end'); ?>
 </div>
+<?php $this->applyTemplateHook('documentary-evaluation-view','after'); ?>
