@@ -48,7 +48,10 @@
         },
         {
             "type": "git",
-            "url": "https://github.com/EscolaDeSaudePublica/opauth-keycloak.git"
+            "url": "https://github.com/FeliciLab/opauth-keycloak.git"
+        },
+        {
+            "packagist": false
         }
     ]
 }
