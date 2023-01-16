@@ -40,7 +40,6 @@
     text-align: left; //to make sure it's always aligned to the left.
 
     @media screen and (max-width: $screen-tablet) {
-        display: block !important;
         position: absolute !important;
         left: 0;
         right: 0;
