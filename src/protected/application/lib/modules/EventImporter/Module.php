@@ -21,6 +21,7 @@ class Module extends \MapasCulturais\Module
                 i::__('uma vez') => 'once',
                 i::__('semanal') => 'weekly',
                 i::__('diariamente') => 'daily',
+                i::__('todos os dias') => 'daily',
                 'once' => 'once',
                 'weekly' => 'weekly',
                 'daily' => 'daily',
@@ -48,7 +49,7 @@ class Module extends \MapasCulturais\Module
                 'SUNDAY' => i::__('dom')
             ],
             'use_endson' => [i::__('semanal'),i::__('diariamente'),'weekly','daily'],
-            'clear_ocurrence_ref' => [i::__('apagar ocorrencias'), i::__('zerar ocorrencias'), i::__('apagar'), i::__('limpar'), 'clear'],
+            'clear_ocurrence_ref' => [i::__('limpar ocorrencias'),i::__('apagar ocorrencias'), i::__('zerar ocorrencias'), i::__('apagar'), i::__('limpar'), 'clear'],
             'use_week_days' => [i::__('semanal'), 'weekly'],
             'dic_months' => [
                 "January" => i::__("Janeiro"),
@@ -75,13 +76,15 @@ class Module extends \MapasCulturais\Module
                 'LINKS'
             ],
             "header_default" => [
+                'SEAL_ID' => [i::__('id_selo'),i::__('id_selos'),i::__('selo'),'seal','seal_id','id_seal'],
                 'EVENT_ID' => [i::__('id_evento') ,i::__('id evento') ,i::__('evento_id'), i::__('evento'),'id', 'event_id', 'event'],
                 'NAME' => [i::__('nome'),'name'],
-                'SUBTITLE' => ['subtitle', i::__('subtítulo')],
-                'SHORT_DESCRIPTION' => ['short_description', i::__('descrição curta'), i::__('descrição_curta')],
-                'LONG_DESCRIPTION' => ['long_description', i::__('descrição longa'), i::__('descrição_longa')],
+                'SUBTITLE' => [i::__('subtítulo'), 'subtitle'],
+                'SHORT_DESCRIPTION' => [i::__('descrição_curta'), 'short_description', i::__('descrição curta')],
+                'LONG_DESCRIPTION' => [i::__('descrição_longa'), 'long_description', i::__('descrição longa')],
                 'SITE' => ['site'],
-                'LIBRAS_TRANSLATION' => [i::__('libras_translation'), i::__('tradução libras'), i::__('tradução_libras')],
+                'LIBRAS_TRANSLATION' => [i::__('tradução_libras'), i::__('libras_translation'), i::__('tradução libras')],
+                'MORE_INFORMATION' => [i::__('mais_informações'), i::__('mais informações'), i::__('mais info'), 'more_information', i::__('info')],
                 'AUDIO_DESCRIPTION' => [i::__('audio_descricao'), i::__('audio descrição'), i::__('audio_descrição')],
                 'FACEBOOK' => ['facebook'],
                 'INSTAGRAM' => ['instagram'],
@@ -92,28 +95,28 @@ class Module extends \MapasCulturais\Module
                 'PINTEREST' => ['pinterest'],
                 'EVENT_ATTENDANCE' => [i::__('total_de_publico'), i::__('total de publico')],
                 'INSCRICOES' => [i::__('inscricoes'), i::__('inscrições')],
-                'CLASSIFICATION' => ['classification', 'rating',i::__('clasificação etária'), i::__('faixa etária'), i::__('classificação'),i::__('faixa_etária')],
+                'CLASSIFICATION' => [i::__('faixa etária'),'classification', 'rating',i::__('clasificação etária'), i::__('classificação'),i::__('faixa_etária'),i::__('todos os dias')],
                 'TAGS' => ['tags', 'tag'],
-                'LANGUAGE' => ['language',i::__('línguagem')],
-                'PROJECT' => ['project',i::__('projeto')],
-                'OWNER' => ['owner',i::__('proprietário')],
-                'SPACE' => ['space',i::__('espaço')],
-                'STARTS_ON' => ['starts_on', i::__('data inicial')],
-                'ENDS_ON' => ['ends_on',i::__('data final')],
-                'FREQUENCY' => ['frequency',i::__('frequência')],
-                'STARTS_AT' => ['starts_at',i::__('hora inicial')],
-                'ENDS_AT' => ['ends_at','hora final'],
-                'MODAY' => ['moday',i::__('segunda'),i::__('seg')],
-                'TUESDAY' => ['tuesday',i::__('terça'),i::__('ter')],
-                'WEDNESDAY' => ['wednesday',i::__('quarta'),i::__('qua')],
-                'THURSDAY' => ['thursday',i::__('quinta'),i::__('qui')],
-                'FRIDAY' => ['friday',i::__('sexta'),i::__('sex')],
-                'SATURDAY' => ['saturday',i::__('sábado'),i::__('sab')],
-                'SUNDAY' => ['sunday',i::__('domingo'),i::__('dom')],
-                'PRICE' => ['price',i::__('preço')],
+                'LANGUAGE' => [i::__('línguagem'), 'language'],
+                'PROJECT' => [i::__('projeto'), 'project'],
+                'OWNER' => [i::__('proprietário'),'owner'],
+                'SPACE' => [i::__('espaço'),'space'],
+                'STARTS_ON' => [i::__('data inicial'), 'starts_on'],
+                'ENDS_ON' => [i::__('data final'), 'ends_on'],
+                'FREQUENCY' => [i::__('frequência'), 'frequency'],
+                'STARTS_AT' => [i::__('hora_inicial'), i::__('hora inicial'), 'starts_at'],
+                'ENDS_AT' => [i::__('hora_final'),i::__('hora final'), 'ends_at'],
+                'MODAY' => [i::__('segunda'),'moday',i::__('seg')],
+                'TUESDAY' => [i::__('terça'),'tuesday',i::__('ter')],
+                'WEDNESDAY' => [i::__('quarta'),'wednesday',i::__('qua')],
+                'THURSDAY' => [i::__('quinta'),'thursday',i::__('qui')],
+                'FRIDAY' => [i::__('sexta'),'friday',i::__('sex')],
+                'SATURDAY' => [i::__('sábado'),'saturday',i::__('sab')],
+                'SUNDAY' => [i::__('domingo'),'sunday',i::__('dom')],
+                'PRICE' => [i::__('preço'), 'price'],
                 'AVATAR' => ['avatar'],
-                'HEADER' => ['header','banner'],
-                'GALLERY' => ['gallery', i::__('galeria')],
+                'HEADER' => ['banner', 'header'],
+                'GALLERY' => [i::__('galeria'), 'gallery'],
                 'DOWNLOADS' => ['downloads'],
                 'VIDEOS' => [i::__('videos')],
                 'LINKS' => ['links'],
@@ -138,6 +141,7 @@ class Module extends \MapasCulturais\Module
                     'PROJECT' => 'projectId' ,
                     'EVENT_ATTENDANCE' => 'event_attendanc',
                     'LIBRAS_TRANSLATION' => 'traducaoLibra',
+                    'MORE_INFORMATION' => 'telefonePublico',
                     'AUDIO_DESCRIPTION' => 'descricaoSonora' ,
                     'OWNER' => "owner",
                     'SPACE' => "space",
@@ -146,6 +150,10 @@ class Module extends \MapasCulturais\Module
                 ]
             ],
             "header_example" => [
+                i::__('SEAL ID') => [
+                    i::__('PREENCHER O ID DO SELO, CASO QUEIRA APLICAR UM SELO NO EVENTO - garantir que o selo esteja cadastrado'),
+                    i::__('1')
+                ],
                 i::__('ID_EVENTO') => [
                     i::__('PREENCHER SOMENTE CASO QUEIRA EDITAR UM EVENTO EXISTENTE - Informar ID do evento'),
                     i::__('1')
@@ -173,6 +181,10 @@ class Module extends \MapasCulturais\Module
                 i::__('TRADUCAO_LIBRAS') => [
                     i::__('Informar se o evento conta com tradução por libras usando SIM ou NÃO'),
                     i::__('Sim')
+                ],
+                i::__('MAIS_INFORMACOES') => [
+                    i::__('Informar número de telefone para mais informações'),
+                    i::__('99 99999-9999')
                 ],
                 i::__('AUDIO_DESCRICAO')=> [
                     i::__('informar se o evento conta com descrição por audio usando SIM ou NÂO'),
@@ -247,7 +259,7 @@ class Module extends \MapasCulturais\Module
                     i::__('13:00')
                 ],
                 i::__('FREQUENCIA') => [
-                    i::__('PREENCHIMENTO OBRIGATÓRIO CASO INFORME A CALUNA ESPAÇO - Informar a frequência que o evento irá acontecer usando as opções diariamente, semanal ou uma vez'),
+                    i::__('PREENCHIMENTO OBRIGATÓRIO CASO INFORME A CALUNA ESPAÇO - Informar a frequência que o evento irá acontecer usando as opções todos os dias, semanal ou uma vez'),
                     i::__('semanal')
                 ],
                 i::__('DATA_INICIAL') => [
