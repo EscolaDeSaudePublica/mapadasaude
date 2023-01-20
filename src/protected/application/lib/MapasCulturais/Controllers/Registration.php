@@ -87,6 +87,8 @@ class Registration extends EntityController {
                 'application/zip'
 
             ];
+
+            $app->applyHookBoundTo($this, 'upload-registration-file', [&$mime_types]);
     
             foreach($registration->opportunity->registrationFileConfigurations as $rfc){
                 $fileGroup = new Definitions\FileGroup($rfc->fileGroupName, $mime_types, \MapasCulturais\i::__('O arquivo enviado não é um documento válido.'),  !$rfc->multiple, null, true);
